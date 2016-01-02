@@ -131,14 +131,14 @@
 ;; \Tree[option]{繰り返し数}
 ;;% options:angle=開き角,length=初期枝長さ,
 ;;%         leftretio=左枝比,rightretio=右枝比
-(defun YaTeX:Tree ()
-  (concat (if (y-or-n-p "オプションを設定しますか？")
-	      (let* ((emop (emath-setoption "" "angle" "開き角(20)"))
-		     (emop (emath-setoption emop "length" "初期の枝の長さ(3)"))
-		     (emop (emath-setoption emop "leftretio" "左枝の比(.75)"))
-		     (emop (emath-setoption emop "rightretio" "右枝の比(.75)")))
-		(if (string= emop "") "" (concat "[" emop "]"))) "")
-	  "{" (read-string "繰り返し数: ") "}"))
+;;(defun YaTeX:Tree ()
+;;  (concat (if (y-or-n-p "オプションを設定しますか？")
+;;	      (let* ((emop (emath-setoption "" "angle" "開き角(20)"))
+;;		     (emop (emath-setoption emop "length" "初期の枝の長さ(3)"))
+;;		     (emop (emath-setoption emop "leftretio" "左枝の比(.75)"))
+;;		     (emop (emath-setoption emop "rightretio" "右枝の比(.75)")))
+;;		(if (string= emop "") "" (concat "[" emop "]"))) "")
+;;	  "{" (read-string "繰り返し数: ") "}"))
 (defun YaTeX:Mark ()
   (let* ((prerefstrings (mapconcat 'concat
 				   (split-string (file-name-sans-extension
@@ -272,31 +272,31 @@
 ;;   などと指定する
 ;;   \tikzset{MTAstyle/.default={line width=.4pt}}である
 ;; オプション2:fillなどTikZのオプションをいれる．
-(defun YaTeX:mytikzarc ()
-  (let ((option (emath-setoption "" "number of line segment" "等弧記号の個数(0)")))
-    (concat (if (y-or-n-p "弧と中心を結び扇形にしますか?: ")
-		"*" "")
-	    (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "中心: ") "}"
-	    "{" (read-string "半径: ") "}"
-	    "{" (read-string "開始角: ") "}"
-	    "{" (read-string "終了角: ") "}%\n"
-	    "%\t[#2]には弧に対するオプションを指定できる\n"
-	    "%\t等弧記号の設定は\\tikzset{MTAstyle={red}}などとする")))
+;;(defun YaTeX:mytikzarc ()
+;;  (let ((option (emath-setoption "" "number of line segment" "等弧記号の個数(0)")))
+;;    (concat (if (y-or-n-p "弧と中心を結び扇形にしますか?: ")
+;;		"*" "")
+;;	    (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (read-string "中心: ") "}"
+;;	    "{" (read-string "半径: ") "}"
+;;	    "{" (read-string "開始角: ") "}"
+;;	    "{" (read-string "終了角: ") "}%\n"
+;;	    "%\t[#2]には弧に対するオプションを指定できる\n"
+;;	    "%\t等弧記号の設定は\\tikzset{MTAstyle={red}}などとする")))
 ;; \mytikzbunten<オプション1>[オプション2]{端点1端点2}{分割数}
 ;; 2点{端点1}{端点2}を結ぶ線分を<分割数>等分しこの線分と垂直な線分を各点に配置する
 ;; オプション1
 ;;  length:配置する線分の長さ
 ;;  both ends:両端にも線分を配置する
-(defun YaTeX:mytikzbunten ()
-  (let* ((endsflag (if (y-or-n-p "[option] 両端にも線分を配置しますか?: ") 1 0))
-	 (option (if (= endsflag 1) "both ends" ""))
-	 (option (emath-setoption option "length" "配置する線分の長さ")))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">"))
-	    "{" (read-string "2端点の指定: ") "}"
-	    "{" (read-string "分割数: ") "}%\n")))
+;;(defun YaTeX:mytikzbunten ()
+;;  (let* ((endsflag (if (y-or-n-p "[option] 両端にも線分を配置しますか?: ") 1 0))
+;;	 (option (if (= endsflag 1) "both ends" ""))
+;;	 (option (emath-setoption option "length" "配置する線分の長さ")))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">"))
+;;	    "{" (read-string "2端点の指定: ") "}"
+;;	    "{" (read-string "分割数: ") "}%\n")))
 ;; \mytikztouhenkigou<オプション1>[オプション2]{線分列}
 ;; オプション1
 ;;  space:複数の線分の間隔default=3pt
@@ -304,46 +304,46 @@
 ;;  number of line segment:配置する線分の個数defalut=2
 ;; オプション2:TikZのオプション
 ;; 線分列は(端点1)(端点2)を;で区切る
-(defun YaTeX:mytikztouhenkigou ()
-  (let* ((option (emath-setoption "" "number of line segment" "等辺記号の個数(2)"))
-	 (option (emath-setoption option "length" "等辺記号の長さ(4pt)"))
-	 (option (emath-setoption option "space" "等辺記号間の距離(3pt)")))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (emath-tenretu-loop ";" "線分の指定(Enterで終了)") "}%\n"
-	    "%\t[#2]は等辺記号の色などの設定")))
+;;(defun YaTeX:mytikztouhenkigou ()
+;;  (let* ((option (emath-setoption "" "number of line segment" "等辺記号の個数(2)"))
+;;	 (option (emath-setoption option "length" "等辺記号の長さ(4pt)"))
+;;	 (option (emath-setoption option "space" "等辺記号間の距離(3pt)")))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (emath-tenretu-loop ";" "線分の指定(Enterで終了)") "}%\n"
+;;	    "%\t[#2]は等辺記号の色などの設定")))
 ;; \mytikzkakukigouput<オプション1>[オプション2]{座標1座標2座標3}{配置文字列}
 ;; オプション1
 ;;  radius:半径
 ;;  fontsize:配置文字列のサイズdefault=\scriptsize
 ;;  arc:弧も描画する
-(defun YaTeX:mytikzkakukigou ()
-  (let* ((arcflag (if (y-or-n-p "弧も描画しますか?: ") 1 0))
-	 (option (if (= arcflag 1) "arc" ""))
-	 (option (emath-setoption option "arc radius" "弧に対する半径(7.5pt)"))
-	 (option (emath-setoption option "string radius" "文字列に対する半径(7.5pt)"))
-	 (option (emath-setoption option "fontsize" "配置文字列の文字サイズ(\\scriptsize)")))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "角を表す点列: ") "}"
-	    "{" (read-string "配置文字列: ") "}%\n"
-	    "%\t[#2]オプションはarcを指定したときの弧に対するオプション")))
+;;(defun YaTeX:mytikzkakukigou ()
+;;  (let* ((arcflag (if (y-or-n-p "弧も描画しますか?: ") 1 0))
+;;	 (option (if (= arcflag 1) "arc" ""))
+;;	 (option (emath-setoption option "arc radius" "弧に対する半径(7.5pt)"))
+;;	 (option (emath-setoption option "string radius" "文字列に対する半径(7.5pt)"))
+;;	 (option (emath-setoption option "fontsize" "配置文字列の文字サイズ(\\scriptsize)")))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (read-string "角を表す点列: ") "}"
+;;	    "{" (read-string "配置文字列: ") "}%\n"
+;;	    "%\t[#2]オプションはarcを指定したときの弧に対するオプション")))
 ;; \mytikztoukakukigou<オプション1>[オプション2]{座標1座標2座標3}{配置文字列}
 ;; オプション1
 ;;  radius:半径
 ;;  fontsize:配置文字列のサイズdefault=\scriptsize
 ;;  arc:弧も描画する
-(defun YaTeX:mytikztoukakukigou ()
-  (let* ((arcflag (if (y-or-n-p "弧も描画しますか?: ") 1 0))
-	 (option (if (= arcflag 1) "arc" ""))
-	 (option (emath-setoption option "arc radius" "弧に対する半径(7.5pt)"))
-	 (option (emath-setoption option "string radius" "文字列に対する半径(15pt)"))
-	 (option (emath-setoption option "fontsize" "配置文字列の文字サイズ(\\scriptsize)")))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (emath-tenretu-loop ";" "角を表す点列の指定(Enterで終了)") "}"
-	    "{" (read-string "配置文字列: ") "}%\n"
-	    "%\t[#2]オプションはarcを指定したときの弧に対するオプション")))
+;;(defun YaTeX:mytikztoukakukigou ()
+;;  (let* ((arcflag (if (y-or-n-p "弧も描画しますか?: ") 1 0))
+;;	 (option (if (= arcflag 1) "arc" ""))
+;;	 (option (emath-setoption option "arc radius" "弧に対する半径(7.5pt)"))
+;;	 (option (emath-setoption option "string radius" "文字列に対する半径(15pt)"))
+;;	 (option (emath-setoption option "fontsize" "配置文字列の文字サイズ(\\scriptsize)")))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (emath-tenretu-loop ";" "角を表す点列の指定(Enterで終了)") "}"
+;;	    "{" (read-string "配置文字列: ") "}%\n"
+;;	    "%\t[#2]オプションはarcを指定したときの弧に対するオプション")))
 ;; \mytikzhenko<オプション1>[オプション2]{端点1端点2}{配置文字列}
 ;; オプション1
 ;;  distance:辺と配置文字列との距離default=10pt
@@ -357,20 +357,20 @@
 ;;   -1:弦と平行(文字列の並びは端点2から端点1へ)
 ;;  \tikzset{MTHstyle={line width=1pt,dash pattern=on 1pt off 1pt}}
 ;;   のように波線を変更することもできる．
-(defun YaTeX:mytikzhenko ()
-  (let* ((option (emath-setoption "" "distance" "辺と配置文字列との距離(10pt)"))
-;	 (option (emath-setoption option "angle" "辺から出る弧の角度(20)"))
-;	 (option (emath-setoption option "ratio" "配置文字列の位置の調整(.5)"))
-	 (option (emath-setoption option "inner sep" "配置文字列と白塗り背景の間隔(1pt)"))
-	 (option (emath-setoption option "fontsize" "配置文字列の文字サイズ(\\scriptsize)"))
-	 (option (emath-setoption option "rotate" "配置文字列の回転[0:回転なし 1:弦と平行(端点1から端点2) -1:弦と平行(端点2から端点1)](0)")))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "辺の2端点: ") "}"
-	    "{" (read-string "配置文字列: ") "}%\n"
-	    "%\t[#2]は\\drawに対するオプション\n"
-	    "%\t破線の形状は\tikzset{MTHstyle/.default={line width=.4pt,dash pattern=on 2pt off 2pt}}で%\n"
-	    "%\tグローバルに設定されている")))
+;;(defun YaTeX:mytikzhenko ()
+;;  (let* ((option (emath-setoption "" "distance" "辺と配置文字列との距離(10pt)"))
+;;;	 (option (emath-setoption option "angle" "辺から出る弧の角度(20)"))
+;;;	 (option (emath-setoption option "ratio" "配置文字列の位置の調整(.5)"))
+;;	 (option (emath-setoption option "inner sep" "配置文字列と白塗り背景の間隔(1pt)"))
+;;	 (option (emath-setoption option "fontsize" "配置文字列の文字サイズ(\\scriptsize)"))
+;;	 (option (emath-setoption option "rotate" "配置文字列の回転[0:回転なし 1:弦と平行(端点1から端点2) -1:弦と平行(端点2から端点1)](0)")))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (read-string "辺の2端点: ") "}"
+;;	    "{" (read-string "配置文字列: ") "}%\n"
+;;	    "%\t[#2]は\\drawに対するオプション\n"
+;;	    "%\t破線の形状は\tikzset{MTHstyle/.default={line width=.4pt,dash pattern=on 2pt off 2pt}}で%\n"
+;;	    "%\tグローバルに設定されている")))
 ; \mytikztyokkakukigou<#1>[#2]#3
 ;  #1:オプション1
 ;   size:記号の１辺の長さdefalut=5pt
@@ -378,12 +378,12 @@
 ;   tikzのオプション
 ;  #3:記号を置く角の列';'で区切って並べる
 ;; 角#3を共有する1辺がsizeの菱形を描く
-(defun YaTeX:mytikztyokkakukigou ()
-  (let* ((option (emath-setoption "" "size" "直角記号のサイズ(5pt)")))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (emath-tenretu-loop ";" "角を表す点列の指定(Enterで終了)") "}%\n"
-	    "%\t[#2]オプションで塗りつぶしたり色を付けたりできる")))
+;;(defun YaTeX:mytikztyokkakukigou ()
+;;  (let* ((option (emath-setoption "" "size" "直角記号のサイズ(5pt)")))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (emath-tenretu-loop ";" "角を表す点列の指定(Enterで終了)") "}%\n"
+;;	    "%\t[#2]オプションで塗りつぶしたり色を付けたりできる")))
 ;; \mytikzmaru(*)<#1>[#2]{#3};
 ;;  #1:オプション1
 ;;   radius=丸の半径default=2.5pt
@@ -410,19 +410,19 @@
 ;; \mytikzsetintersection*<#1>[#2]#3#4#5で交点とその名前が表示される
 ;; また，#5Xi，#5Xii，...にはそれぞれ(#5-1)，(#5-2)，...のx座標が
 ;; #5Yi，#5Yii，...にはそれぞれ(#5-1)，(#5-2)，...のy座標が格納される
-(defun YaTeX:mytikzsetintersections ()
-  (let* ((option (emath-setoption "" "sort" "どちらのpathでソートするか決める(最初のpath)")))
-    (concat (if (y-or-n-p "交点とその名前を表示させますか?: ") "*" "")
-	    (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "path1: ") "}"
-	    "{" (read-string "path2: ") "}"
-	    "{" (read-string "交点の名前の前置文字列: ") "}%\n"
-	    "%\t\\mytikzsetintersection{line1}{line2}{P}とすると\n"
-	    "%\t交点の名前がP-1,P-2,...と設定され\n"
-	    "%\tそれぞれのx座標が\\PXi,\\PXii,...\n"
-	    "%\ty座標が\\PYi,\\PYii,...に格納される\n"
-	    "%\t交点の個数が\\MTSImaxnumに格納されている")))
+;;(defun YaTeX:mytikzsetintersections ()
+;;  (let* ((option (emath-setoption "" "sort" "どちらのpathでソートするか決める(最初のpath)")))
+;;    (concat (if (y-or-n-p "交点とその名前を表示させますか?: ") "*" "")
+;;	    (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (read-string "path1: ") "}"
+;;	    "{" (read-string "path2: ") "}"
+;;	    "{" (read-string "交点の名前の前置文字列: ") "}%\n"
+;;	    "%\t\\mytikzsetintersection{line1}{line2}{P}とすると\n"
+;;	    "%\t交点の名前がP-1,P-2,...と設定され\n"
+;;	    "%\tそれぞれのx座標が\\PXi,\\PXii,...\n"
+;;	    "%\ty座標が\\PYi,\\PYii,...に格納される\n"
+;;	    "%\t交点の個数が\\MTSImaxnumに格納されている")))
 ;; mytikzfunction<#1>[#2]#3#4#5
 ;; #1:オプション1
 ;;  leftP:左端点(x or y座標が最小)の名前default=leftP
@@ -457,30 +457,30 @@
 ;; #6，#7:塗りつぶす領域の定義域を指定
 ;; 関数1は#6->#7の方向で塗りつぶされ，
 ;; 関数2は#7->#6の方向で塗りつぶされる
-(defun YaTeX:mytikzfillFandF ()
-  (concat "{" (read-string "関数1: " "\\x,{\\Fx}") "}"
-	  "{" (read-string "関数2: " "\\x,{\\Gx}") "}"
-	  "{" (read-string "定義域の最小値: ") "}"
-	  "{" (read-string "定義域の最大値: ") "}%\n"
-	  "%\t<#1>塗りつぶしなどの設定\n"
-	  "%\t[#2]関数1のplotのオプション(smooth,samples,domainなど)\n"
-	  "%\t|#3|関数2のplotのオプション(smooth,samples,domainなど)\n"
-	  "%\tplotのオプションでdomainが指定されると#6,#7の定義域が無視される\n"
-	  "%\t関数1は#6->#7，関数2は#7->#6の向きにパスが設定される"))
+;;(defun YaTeX:mytikzfillFandF ()
+;;  (concat "{" (read-string "関数1: " "\\x,{\\Fx}") "}"
+;;	  "{" (read-string "関数2: " "\\x,{\\Gx}") "}"
+;;	  "{" (read-string "定義域の最小値: ") "}"
+;;	  "{" (read-string "定義域の最大値: ") "}%\n"
+;;	  "%\t<#1>塗りつぶしなどの設定\n"
+;;	  "%\t[#2]関数1のplotのオプション(smooth,samples,domainなど)\n"
+;;	  "%\t|#3|関数2のplotのオプション(smooth,samples,domainなど)\n"
+;;	  "%\tplotのオプションでdomainが指定されると#6,#7の定義域が無視される\n"
+;;	  "%\t関数1は#6->#7，関数2は#7->#6の向きにパスが設定される"))
 ;; \mytikzteisei<#1>[#2]#3
 ;; #1:オプション1
 ;;  right up:右上がりの斜線(default)
 ;;  right down:右下がりの斜線
 ;; #2:\drawのオプション(線の太さ・色・破線などを設定)
 ;; #3:斜線を引きアイテム
-(defun YaTeX:mytikzteisei ()
-  (let* ((num (emath-get-number-from-list "[option] 斜線の設定" `("right up(default)" "right down")))
-	 (option (cond ((= num 1) (concat "right up"))
-		       ((= num 2) (concat "right down"))
-		       (t ""))))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">"))
-	    "{" (read-string "斜線を引くアイテム: ") "}")))
+;;(defun YaTeX:mytikzteisei ()
+;;  (let* ((num (emath-get-number-from-list "[option] 斜線の設定" `("right up(default)" "right down")))
+;;	 (option (cond ((= num 1) (concat "right up"))
+;;		       ((= num 2) (concat "right down"))
+;;		       (t ""))))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">"))
+;;	    "{" (read-string "斜線を引くアイテム: ") "}")))
 ;; \mytikzputsyaei<#1>[#2]#3
 ;; #1:オプション1
 ;;  x direction:x軸と配置文字列との距離
@@ -491,20 +491,20 @@
 ;; #2:オプション2
 ;;  \drawに対するオプション
 ;; #3:点の指定
-(defun YaTeX:mytikzputsyaei ()
-  (let* ((posnum (emath-get-number-from-list "[option]軸への垂線の設定" `("x軸のみ" "y軸のみ" "xy軸両方(default)")))
-	 (option (cond ((or (= posnum 0) (= posnum 3)) "")
-;		       ((= posnum 3) "")
-		       (t (concat "syaei=" (number-to-string posnum))))))
-    (progn (if (or (= posnum 0) (= posnum 1) (= posnum 3))
-	       (setq option (emath-setoption option "x string" "x軸に配置する文字列")
-		     option (emath-setoption option "x direction" "x軸と文字列との距離(.2)")) "")
-	   (if (or (= posnum 0) (= posnum 2) (= posnum 3))
-	       (setq option (emath-setoption option "y string" "y軸に配置する文字列")
-		     option (emath-setoption option "y direction" "y軸と文字列との距離(.2)")) "")
-	   (concat (if (> (length option) 0)
-		       (concat "<" option ">") "")
-		   "{" (read-string "点の指定: ") "}"))))
+;;(defun YaTeX:mytikzputsyaei ()
+;;  (let* ((posnum (emath-get-number-from-list "[option]軸への垂線の設定" `("x軸のみ" "y軸のみ" "xy軸両方(default)")))
+;;	 (option (cond ((or (= posnum 0) (= posnum 3)) "")
+;;;		       ((= posnum 3) "")
+;;		       (t (concat "syaei=" (number-to-string posnum))))))
+;;    (progn (if (or (= posnum 0) (= posnum 1) (= posnum 3))
+;;	       (setq option (emath-setoption option "x string" "x軸に配置する文字列")
+;;		     option (emath-setoption option "x direction" "x軸と文字列との距離(.2)")) "")
+;;	   (if (or (= posnum 0) (= posnum 2) (= posnum 3))
+;;	       (setq option (emath-setoption option "y string" "y軸に配置する文字列")
+;;		     option (emath-setoption option "y direction" "y軸と文字列との距離(.2)")) "")
+;;	   (concat (if (> (length option) 0)
+;;		       (concat "<" option ">") "")
+;;		   "{" (read-string "点の指定: ") "}"))))
 ;; \mytikzfuncval<#1>#2#3#4#5
 ;;  #1:オプション
 ;;   precision:小数点以下第何位まで表示するか設定するdefault=2
@@ -512,14 +512,14 @@
 ;;  #3:y座標を求めるためのx座標
 ;;  #4:y座標を格納するための制御綴
 ;;  #5:求めた点の名前
-(defun YaTeX:mytikzfuncval ()
-  (let* ((option (emath-setoption "" "precision" "小数第何位まで表示するかの設定(2)")))
-    (concat (if (> (length option) 0)
-		(concat "<" option ">"))
-	    "{" (read-string "plotのy座標を表す関数: " "\\Fx") "}"
-	    "{" (read-string "x座標: ") "}"
-	    (read-string "y座標を格納するための制御綴: ")
-	    "{" (read-string "求めた点の名前: ") "}%")))
+;;(defun YaTeX:mytikzfuncval ()
+;;  (let* ((option (emath-setoption "" "precision" "小数第何位まで表示するかの設定(2)")))
+;;    (concat (if (> (length option) 0)
+;;		(concat "<" option ">"))
+;;	    "{" (read-string "plotのy座標を表す関数: " "\\Fx") "}"
+;;	    "{" (read-string "x座標: ") "}"
+;;	    (read-string "y座標を格納するための制御綴: ")
+;;	    "{" (read-string "求めた点の名前: ") "}%")))
 ;; \mytikztoukokigou<#1>[#2]#3#4
 ;; #1:等弧記号のオプション
 ;;  width:等弧記号を描画する幅
@@ -529,35 +529,35 @@
 ;; #3:円の中心
 ;; #4:弧を表す端点(時計回りに指定)
 ;;    ;で区切って複数指定可能
-(defun YaTeX:mytikztoukokigou ()
- (let* ((option (emath-setoption "" "num" "等弧記号の個数(2)"))
-	(option (emath-setoption option "width" "等弧記号を描画する幅(2pt)"))
-	(option (emath-setoption option "length" "等弧記号の長さ(5pt)")))
-   (concat (if (> (length option) 0)
-	       (concat "<" option ">") "")
-	   "{" (read-string "円弧の中心: ") "}"
-	   "{" (emath-tenretu-loop ";" "弧の端点の指定[反時計回りに2点ずつ指定する](Enterで終了)") "}")))
+;;(defun YaTeX:mytikztoukokigou ()
+;; (let* ((option (emath-setoption "" "num" "等弧記号の個数(2)"))
+;;	(option (emath-setoption option "width" "等弧記号を描画する幅(2pt)"))
+;;	(option (emath-setoption option "length" "等弧記号の長さ(5pt)")))
+;;   (concat (if (> (length option) 0)
+;;	       (concat "<" option ">") "")
+;;	   "{" (read-string "円弧の中心: ") "}"
+;;	   "{" (emath-tenretu-loop ";" "弧の端点の指定[反時計回りに2点ずつ指定する](Enterで終了)") "}")))
 ;; \mytikzHenko*<#1>[#2]{#3}{#4};
 ;; *:弧を表示しないときに指定する
 ;; #1:オプション1
 ;;   angle:弦から出る角度の指定
 ;;   fboxsep:表示文字列の周りのマージン
 ;;   rotate:文字列の回転指定(0:回転させない，1:始点から終点，-1:終点から始点)
-(defun YaTeX:mytikzHenko ()
-  (let* ((num (emath-get-number-from-list "[option]文字列の回転指定"
-					  '("回転させない[default]" "弦と平行[始点から終点へ]" "弦と平行[終点から始点へ]")))
-	 (option (cond ((= num 2) "rotate=1")
-		       ((= num 3) "rotate=-1")
-		       (t "")))
-	 (option (emath-setoption option "angle" "弦から出る角度の指定"))
-	 (option (emath-setoption option "fboxsep" "文字列の周りのマージン(1pt)"))
-	 (option (emath-setoption option "pos" "文字列の配置位置(.5)")))
-    (concat (if (y-or-n-p "文字列だけ表示しますか？: ")
-		"*" "")
-	    (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "弦を表す2点: ") "}"
-	    "{" (read-string "表示文字列: ") "}%")))
+;;(defun YaTeX:mytikzHenko ()
+;;  (let* ((num (emath-get-number-from-list "[option]文字列の回転指定"
+;;					  '("回転させない[default]" "弦と平行[始点から終点へ]" "弦と平行[終点から始点へ]")))
+;;	 (option (cond ((= num 2) "rotate=1")
+;;		       ((= num 3) "rotate=-1")
+;;		       (t "")))
+;;	 (option (emath-setoption option "angle" "弦から出る角度の指定"))
+;;	 (option (emath-setoption option "fboxsep" "文字列の周りのマージン(1pt)"))
+;;	 (option (emath-setoption option "pos" "文字列の配置位置(.5)")))
+;;    (concat (if (y-or-n-p "文字列だけ表示しますか？: ")
+;;		"*" "")
+;;	    (if (> (length option) 0)
+;;		(concat "<" option ">") "")
+;;	    "{" (read-string "弦を表す2点: ") "}"
+;;	    "{" (read-string "表示文字列: ") "}%")))
 ;; \ASector<#1>[#2]{#3}{#4}%
 ;; A(ngle)Sector:開始点と終了点の角度を指定する扇形
 ;; ex:\ASector{O}{2}{30,90}%
@@ -848,27 +848,27 @@
 	    "{" (read-string "円の半径: ") "}"
 	    "{" (read-string "接点の指定(2点をカンマ区切りで): ") "}")))
 ;; Attention環境
-(defun YaTeX:Attention ()
-  (let* ((op1 (emath-setoption "" "fill" "[Title]塗りつぶし色(red!30)"))
-	 (op1 (emath-setoption op1 "rounded corners" "[Title]コーナー(5pt)"))
-	 (op2 (emath-setoption "" "userdefinedwidth" "[環境]幅の指定(\\linewidth)"))
-	 (op2 (emath-setoption op2 "skipabove" "[環境]上部マージン(0pt)"))
-	 (op2 (emath-setoption op2 "skipbelow" "[環境]下部マージン(0pt)"))
-	 (op2 (emath-setoption op2 "leftmargin" "[環境]右マージン(0pt)"))
-	 (op2 (emath-setoption op2 "rightmargin" "[環境]左マージン(0pt)"))
-	 (op2 (emath-setoption op2 "innertopmargin" "[環境]上部パディング(0pt)"))
-	 (op2 (emath-setoption op2 "innerbottommargin" "[環境]下部パディング(0pt)"))
-	 (op2 (emath-setoption op2 "innerleftmargin" "[環境]左パディング(5pt)"))
-	 (op2 (emath-setoption op2 "innerrightmargin" "[環境]右パディング(5pt)"))
-	 (op2 (emath-setoption op2 "linewidth" "[環境]囲み線の幅(2pt)"))
-	 (op2 (emath-setoption op2 "linecolor" "[環境]囲み線の色(red!30)"))
-	 (op2 (emath-setoption op2 "roundcorner" "[環境]囲み線のコーナー(10pt)"))
-	 (op2 (emath-setoption op2 "backgroundcolor" "[環境]背景色(red!5)")))
-    (concat (if (> (length op1) 0)
-		(concat "<" op1 ">") "")
-	    (if (> (length op2) 0)
-		(concat "[" op2 "]") "")
-	    "\n\\small\\parindent=1zw\\quad")))
+;;(defun YaTeX:Attention ()
+;;  (let* ((op1 (emath-setoption "" "fill" "[Title]塗りつぶし色(red!30)"))
+;;	 (op1 (emath-setoption op1 "rounded corners" "[Title]コーナー(5pt)"))
+;;	 (op2 (emath-setoption "" "userdefinedwidth" "[環境]幅の指定(\\linewidth)"))
+;;	 (op2 (emath-setoption op2 "skipabove" "[環境]上部マージン(0pt)"))
+;;	 (op2 (emath-setoption op2 "skipbelow" "[環境]下部マージン(0pt)"))
+;;	 (op2 (emath-setoption op2 "leftmargin" "[環境]右マージン(0pt)"))
+;;	 (op2 (emath-setoption op2 "rightmargin" "[環境]左マージン(0pt)"))
+;;	 (op2 (emath-setoption op2 "innertopmargin" "[環境]上部パディング(0pt)"))
+;;	 (op2 (emath-setoption op2 "innerbottommargin" "[環境]下部パディング(0pt)"))
+;;	 (op2 (emath-setoption op2 "innerleftmargin" "[環境]左パディング(5pt)"))
+;;	 (op2 (emath-setoption op2 "innerrightmargin" "[環境]右パディング(5pt)"))
+;;	 (op2 (emath-setoption op2 "linewidth" "[環境]囲み線の幅(2pt)"))
+;;	 (op2 (emath-setoption op2 "linecolor" "[環境]囲み線の色(red!30)"))
+;;	 (op2 (emath-setoption op2 "roundcorner" "[環境]囲み線のコーナー(10pt)"))
+;;	 (op2 (emath-setoption op2 "backgroundcolor" "[環境]背景色(red!5)")))
+;;    (concat (if (> (length op1) 0)
+;;		(concat "<" op1 ">") "")
+;;	    (if (> (length op2) 0)
+;;		(concat "[" op2 "]") "")
+;;	    "\n\\small\\parindent=1zw\\quad")))
 ;; \GetMin{#1}{#2}{#3}
 ;; #1:カンマ区切りの数字の列
 ;; #2:最小値を格納する命令
