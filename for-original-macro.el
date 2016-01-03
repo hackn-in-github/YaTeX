@@ -167,6 +167,8 @@
 					":")))
     (concat "{" (read-string "参照用ラベルの指定: " (concat default-refstrings "-")) "}")))
 (fset 'YaTeX:refMark* 'YaTeX:refMark)
+(fset 'YaTeX:RefMark 'YaTeX:refMark)
+(fset 'YaTeX:RefMark* 'YaTeX:refMark)
 (defun YaTeX:multicols ()
   (concat "{" (read-string "段数: ") "}"))
 (defun YaTeX:numcases ()
@@ -735,20 +737,28 @@
 ;;   leftP:左端点の名前を指定(leftP)
 ;;   rightP:右端点の名前を指定(rightP)
 ;;   noline:直線を引かない
+;;   left:半直線で通過点の左側のみ描画
+;;   right:半直線で通過点の右側のみ描画
 ;; #2:TikZオプション
 ;; #3:通過点
 ;; #4:方向ベクトル
 ;; #5:パスの名前
 (defun YaTeX:Vline ()
-  (let* ((option (if (y-or-n-p "直線を描画しますか？: ")
-		     "" "noline"))
+  (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
+		  (if (y-or-n-p "半直線にしますか？: ")
+		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+			  1 2) 0) 3))
+	 (option (cond ((= num 1) "left")
+		       ((= num 2) "right")
+		       ((= num 3) "noline")
+		       (t "")))
 	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
 	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
 		(concat "<" option ">") "")
 	    "{" (read-string "通過点: ") "}"
-	    "{" (read-string "方向ベクトル: ") "}"
-	    "{" (read-string "パスの名前: ") "}%")))
+	    "{" (read-string "方向ベクトル[ex. 1,2]: ") "}"
+	    "{" (read-string "直線の名前: ") "}")))
 ;; \Pline<#1>[#2]{#3}{#4}%
 ;; P(ector)line
 ;; ex:\Pline{A,B}{line1}%
@@ -756,12 +766,20 @@
 ;;   leftP:左端点の名前を指定(leftP)
 ;;   rightP:右端点の名前を指定(rightP)
 ;;   noline:直線を描画しない
+;;   left:半直線で通過点の左側のみ描画
+;;   right:半直線で通過点の右側のみ描画
 ;; #2:TikZオプション
 ;; #3:2つの通過点をカンマ区切りで指定
 ;; #4:パスの名前
 (defun YaTeX:Pline ()
-  (let* ((option (if (y-or-n-p "直線を描画しますか？: ")
-		     "" "noline"))
+  (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
+		  (if (y-or-n-p "半直線にしますか？: ")
+		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+			  1 2) 0) 3))
+	 (option (cond ((= num 1) "left")
+		       ((= num 2) "right")
+		       ((= num 3) "noline")
+		       (t "")))
 	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
 	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
@@ -774,13 +792,21 @@
 ;;   leftP:左端点の名前を指定(leftP)
 ;;   rightP:右端点の名前を指定(rightP)
 ;;   noline:直線を描画しない
+;;   left:半直線で通過点の左側のみ描画
+;;   right:半直線で通過点の右側のみ描画
 ;; #2:TikZオプション
 ;; #3:直線を通る1点を指定
 ;; #4:この直線の傾きを指定
 ;; #5:パスの名前
 (defun YaTeX:Sline ()
-  (let* ((option (if (y-or-n-p "直線を描画しますか？: ")
-		     "" "noline"))
+  (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
+		  (if (y-or-n-p "半直線にしますか？: ")
+		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+			  1 2) 0) 3))
+	 (option (cond ((= num 1) "left")
+		       ((= num 2) "right")
+		       ((= num 3) "noline")
+		       (t "")))
 	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
 	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
@@ -794,13 +820,21 @@
 ;;   leftP:左端点の名前を指定(leftP)
 ;;   rightP:右端点の名前を指定(rightP)
 ;;   noline:直線を描画しない
+;;   left:半直線で通過点の左側のみ描画
+;;   right:半直線で通過点の右側のみ描画
 ;; #2:TikZオプション
 ;; #3:直線を通る1点を指定
 ;; #4:x軸とのなす角度を指定(60分法)
 ;; #5:パスの名前
 (defun YaTeX:Aline ()
-  (let* ((option (if (y-or-n-p "直線を描画しますか？: ")
-		     "" "noline"))
+  (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
+		  (if (y-or-n-p "半直線にしますか？: ")
+		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+			  1 2) 0) 3))
+	 (option (cond ((= num 1) "left")
+		       ((= num 2) "right")
+		       ((= num 3) "noline")
+		       (t "")))
 	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
 	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
@@ -814,13 +848,21 @@
 ;;   leftP:左端点の名前を指定(leftP)
 ;;   rightP:右端点の名前を指定(rightP)
 ;;   noline:直線を描画しない
+;;   left:半直線で通過点の左側のみ描画
+;;   right:半直線で通過点の右側のみ描画
 ;; #2:TikZオプション
 ;; #3:直線を通る1点を指定
 ;; #4:法線ベクトルの成分を指定
 ;; #5:パスの名前
 (defun YaTeX:Nline ()
-  (let* ((option (if (y-or-n-p "直線を描画しますか？: ")
-		     "" "noline"))
+  (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
+		  (if (y-or-n-p "半直線にしますか？: ")
+		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+			  1 2) 0) 3))
+	 (option (cond ((= num 1) "left")
+		       ((= num 2) "right")
+		       ((= num 3) "noline")
+		       (t "")))
 	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
 	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
@@ -1012,4 +1054,11 @@
 		    "{"
 		    (emath-tenretu-loop ";" "多角形をつくる点列をカンマ(,)区切りで指定(Enterで終了)")
 		    "}%"))))
+(defun my-tex-mark-setting ()
+  (interactive)
+  (insert (concat "\\MarkReset\n"
+		  "\\HeadNumber\n"
+		  "\\SetPrePath{}%\n"
+		  "\\SetPath{}%\n"
+		  "\\PutMarkAsnwer{試験名}%")))
 (provide 'for-original-macro)
