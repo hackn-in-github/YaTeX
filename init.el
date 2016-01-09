@@ -86,7 +86,7 @@
 ;;		  (font-spec :family "M+ 2c regular")) ;; font
 ;;半角と全角の比を1:2にしたければ，
 (setq face-font-rescale-alist
-      '((".*Sawarabi Gothic.*" . 1.2)))
+      '((".*Sawarabi Gothic.*" . 1.1)))
 ;;(setq face-font-rescale-alist
 ;;      '((".*TakaoExゴシック.*" . 1.1)
 ;;	(".*Liberation Mono.*" . 1.1)))
@@ -126,8 +126,10 @@
       (substring fname-or-url 7)
     fname-or-url))
 
+;; TeX Wiki の関数の fname へのファイル名代入において
+;; file に(decode-coding-string (url-unhex-string ) 'utf-8)を噛ませる
 (defun evince-inverse-search (file linecol &rest ignored)
-  (let* ((fname (un-urlify file))
+  (let* ((fname (decode-coding-string (url-unhex-string (un-urlify file)) 'utf-8))
          (buf (find-file fname))
          (line (car linecol))
          (col (cadr linecol)))
@@ -143,13 +145,67 @@
  "org.gnome.evince.Window" "SyncSource"
  'evince-inverse-search)
 
+;; forward-serach は YaTeX で対応:平文においてC-c C-g
+;; 01/08/2016 広瀬さん御本人が YaTeX-preview-junp-line を訂正してくださる．
+;; 訂正内容:yatexprc.elの
+;;         (cf (file-relative-name (buffer-file-name) pdir))を
+;;         (cf (buffer-file-name))に
+;; これにより以下の関数などが不要に
+;; ~/.emacs.d/site-lisp/synctex-for-evince-yatex 以下も不要に
 ;;forward-serach
+;;(require 'synctex-for-evince-yatex)
+;;(synctex-for-evince-dbus-initialize)
+;;(add-hook 'yatex-mode-hook
+;;	  '(lambda ()
+;;	     (YaTeX-define-key "f" 'synctex-for-evince-yatex-forward-search)))
 
-(require 'synctex-for-evince-yatex)
-(synctex-for-evince-dbus-initialize)
-(add-hook 'yatex-mode-hook
-	  '(lambda ()
-	     (YaTeX-define-key "f" 'synctex-for-evince-yatex-forward-search)))
+(eval-after-load 'yatexprc
+  '(progn
+     (defun YaTeX-preview-jump-line ()
+       "Call jump-line function of various previewer on current main file"
+       (interactive)
+       (save-excursion
+	 (save-restriction
+	   (widen)
+	   (let*((pf (or YaTeX-parent-file
+			 (save-excursion (YaTeX-visit-main t) (buffer-file-name))))
+		 (pdir (file-name-directory pf))
+		 (bnr (substring pf 0 (string-match "\\....$" pf)))
+;;	      (cf (file-relative-name (buffer-file-name) pdir))
+		 (cf (buffer-file-name))
+		 (buffer (get-buffer-create " *preview-jump-line*"))
+		 (line (count-lines (point-min) (point-end-of-line)))
+		 (previewer (YaTeX-preview-default-previewer))
+		 (cmd (cond
+		       ((string-match "xdvi" previewer)
+			(format "%s -nofork -sourceposition '%d %s' %s.dvi"
+				YaTeX-xdvi-remote-program
+				line cf bnr))
+		       ((string-match "Skim" previewer)
+			(format "%s %d '%s.pdf' '%s'"
+				YaTeX-cmd-displayline line bnr cf))
+		       ((string-match "evince" previewer)
+			(format "%s '%s.pdf' %d '%s'"
+				"fwdevince" bnr line cf))
+		  ;;
+		  ;; These lines below for other PDF viewer is not confirmed
+		  ;; yet. If you find correct command line, PLEASE TELL
+		  ;; IT TO THE AUTHOR before publishing patch on the web.
+		  ;; ..PLEASE PLEASE PLEASE PLEASE PLEASE PLEASE PLEASE..
+		       ((string-match "sumatra" previewer)	;;??
+			(format "%s \"%s.pdf\" -forward-search \"%s\" %d"
+				;;Send patch to the author, please
+				previewer bnr cf line))
+		       ((string-match "qpdfview" previewer)	;;??
+			(format "%s '%s.pdf#src:%s:%d:0'"
+				;;Send patch to the author, please
+				previewer bnr cf line))
+		       ((string-match "okular" previewer)	;;??
+			(format "%s '%s.pdf#src:%d' '%s'"
+				;;Send patch to the author, please
+				previewer bnr line cf))
+		       )))
+	     (YaTeX-system cmd "jump-line" 'noask pdir)))))))
 
 ;; YaTeXの設定
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
@@ -166,6 +222,7 @@
 	tex-command "/usr/local/bin/platex"
 	dvi2-command "/usr/bin/evince"
 	tex-pdfview-command "evince"
+	YaTeX-dvi2-command-ext-alist '(("TeXworks\\|texworks\\|texstudio\\|mupdf\\|SumatraPDF\\|Preview\\|Skim\\|TeXShop\\|evince\\|okular\\|zathura\\|qpdfview\\|Firefox\\|firefox\\|chrome\\|chromium\\|Adobe\\|Acrobat\\|AcroRd32\\|acroread\\|pdfopen\\|xdg-open\\|open\\|start" . ".pdf"))
 ;;	dvi2-command "/usr/local/bin/xdvi"
 ;;	dvi2-command "c:/dviout/dviout -1 dvifilename \"# lineno *\""
 ;;	yatexhks.elで実装した
@@ -331,7 +388,7 @@
 ;; 記述の問題 include
 (defun my-tex-kijutsu-insert-include ()
   (interactive)
-  (let ((termno (read-number "0:前期 1:中期 2:後期 ? "))
+  (let ((term (read-string "ターム等: " "前期"))
 	(preposition (read-string "前置詞: "))
 	(max (read-number "問題数: "))
 	(no 0))
@@ -341,9 +398,10 @@
 			     (if (= no 1)
 				 "*")
 			     "\n\\include{"
-			     (cond ((= termno 1) "中期/")
-				   ((= termno 2) "後期/")
-				   (t "前期/"))
+			     term "/"
+;;			     (cond ((= termno 1) "中期/")
+;;				   ((= termno 2) "後期/")
+;;				   (t "前期/"))
 ;;			     (if (> (length preposition) 0)
 ;;				 (concat preposition "-"))
 			     preposition
@@ -936,6 +994,7 @@
 	("FDA" "Food and Drug Administration" "食品医薬品局")
 	("FMS" "foreign military sales" "対外有償軍事援助")
 	("FRB" "Federal Reserve Board" "米連邦準備制度理事会")
+	("FRP" "Fiber Reinforced Plastics" "繊維強化プラスチック")
 	("FTA" "free trade agreement" "自由貿易協定")
 	("FTAAP" "Free Trade Area of the Asia Pacific" "アジア太平洋自由貿易圏")
 	("G7" "The Conference of Ministers and Governors of the Group of Seven" "主要7ヶ国財務相・中央銀行総裁会議")
@@ -976,6 +1035,7 @@
 	("ISR" "intelligence, surveillance and reconnaissance" "情報・監視・偵察")
 	("ISS" "International Space Station" "国際宇宙ステーション")
 	("IT" "Infomation Technology" "情報技術")
+	("ITLOS" "International Tribunal for the Law of the Sea" "国際海洋法裁判所")
 	("ITU" "International Telecommunication Union" "国際電気通信連合")
 	("IWC" "International Whaling Commission" "国際捕鯨委員会")
 	("JA" "Japan Agricultural Cooperatives")
