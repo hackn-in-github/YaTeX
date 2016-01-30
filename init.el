@@ -10,6 +10,39 @@
 (add-to-load-path "/site-lisp")
 ;;; 日本語環境設定
 (set-language-environment "utf-8")
+;; melpa の設定
+(require 'package)
+;; MELPAを追加
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;; MELPA-stableを追加
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+;; Marmaladeを追加
+(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/") t)
+;; Orgを追加
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+;; 初期化
+(package-initialize)
+;; 絵文字使用可に
+(require 'emoji-fontset)
+(emoji-fontset-enable "Symbola")
+;; auto-compleat-emoji
+(require 'auto-complete)
+(require 'auto-complete-config)
+(ac-config-default)
+(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
+(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
+(add-to-list 'ac-modes 'org-mode)
+(add-to-list 'ac-modes 'yatex-mode)
+(ac-set-trigger-key "TAB")
+(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
+(setq ac-use-fuzzy t)          ;; 曖昧マッチ
+(global-auto-complete-mode t)
+(add-hook 'yatex-mode-hook 'auto-compleat-emoji)
+;;(add-hook 'markdown-mode-hook 'ac-emoji-setup)
+;;(add-hook 'git-commit-mode-hook 'ac-emoji-setup)
+(set-fontset-font
+ t 'symbol
+ (font-spec :family "Symbola") nil 'prepend)
 ;;;; メニューを日本語化する
 ;(require 'menu-tree)
 ;(dolist (x (list global-map vc-menu-map menu-bar-bookmark-map
