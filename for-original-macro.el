@@ -961,17 +961,19 @@
 		    (if (> (length op3) 0)
 			(concat "(" op3 ")"))
 		    "{" (emath-tenretu-loop "," "データの入力(Enterで終了)") "}"))))
-;; \SetAngles<#1>[#2]{#3}{#4}%
-;; #1:オリジナルオプション(今のところなし)
-;; #2:picのオプション
+;; \SetAngles<#1>[#2]{#3}[#4]{#5}%
+;; #1:オリジナルオプション
+;;  strings only:弧を描かない
+;; #2:#3に対するオプション
 ;; #3:角におくテキスト
-;; #4:「始点,中心,終点」のセットを ; 区切りで記述
+;; #4:picのオプション
+;; #5:「始点,中心,終点」のセットを ; 区切りで記述
 (defun YaTeX:SetAngles ()
   (let* ((picop (emath-setoption "" "angle radius" "弧の半径(5mm)"))
 	 (picop (emath-setoption picop "angle eccentricity" "テキストの位置[0で中心1で弧上](.6)")))
-    (insert (concat (if (> (length picop) 0)
+    (insert (concat "{" (read-string "テキスト: ") "}"
+		    (if (> (length picop) 0)
 			(concat "[" picop "]"))
-		    "{" (read-string "テキスト: ") "}"
 		    "{" (emath-tenretu-loop ";" "始点,中心,終点を入力(Enterで終了)") "}%"))))
 ;; Framebox 環境 (枠で囲む，ページで分割可能)
 ;; \begin{Framebox}<#1>(#2)[#3]{#4}
