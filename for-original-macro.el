@@ -160,6 +160,8 @@
 			    (concat "[" sublabel "]") "")) "")
 	    "{" answer "}")))
 (fset 'YaTeX:Mark* 'YaTeX:Mark)
+(fset 'YaTeX:MarkBox 'YaTeX:Mark)
+(fset 'YaTeX:MarkBox* 'YaTeX:Mark)
 (defun YaTeX:refMark ()
   (let* ((default-refstrings (mapconcat 'concat
 					(split-string (file-name-sans-extension
@@ -1063,4 +1065,6 @@
 		  "\\SetPrePath{}%\n"
 		  "\\SetPath{}%\n"
 		  "\\PutMarkAsnwer{試験名}%")))
+(defun YaTeX:scope ()
+  (concat "\n\t\\clip(LB)rectangle(RT);"))
 (provide 'for-original-macro)
