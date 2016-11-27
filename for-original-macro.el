@@ -1067,4 +1067,20 @@
 		  "\\PutMarkAsnwer{試験名}%")))
 (defun YaTeX:scope ()
   (concat "\n\t\\clip(LB)rectangle(RT);"))
+(defun YaTeX:EqualSidesMarks ()
+  (let*((num (read-string "等辺記号の数(2): ")))
+    (insert (concat (if (> (length num) 0)
+			(concat "<" num ">"))
+		    "{"
+		    (emath-tenretu-loop ";" "記号を置く線分をカンマ(,)区切りで指定(Enterで終了)")
+		    "}%"))))
+(defun YaTeX:EqualArcsMarks ()
+  (let*((num (read-string "等弧記号の数(2): ")))
+    (insert (concat (if (> (length num) 0)
+			(concat "<" num ">"))
+		    "{"
+		    (read-string "円弧の中心: ")
+		    "}{"
+		    (emath-tenretu-loop ";" "記号を置く円弧をカンマ(,)区切りで指定[偏角が小さい順](Enterで終了)")
+		    "}%"))))
 (provide 'for-original-macro)
