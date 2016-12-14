@@ -23,21 +23,21 @@
 ;; 初期化
 (package-initialize)
 ;; 絵文字使用可に
-(require 'emoji-fontset)
-(emoji-fontset-enable "Symbola")
+;;(require 'emoji-fontset)
+;;(emoji-fontset-enable "Symbola")
 ;; auto-compleat-emoji
-(require 'auto-complete)
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
-(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
-(add-to-list 'ac-modes 'org-mode)
-(add-to-list 'ac-modes 'yatex-mode)
-(ac-set-trigger-key "TAB")
-(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
-(setq ac-use-fuzzy t)          ;; 曖昧マッチ
-(global-auto-complete-mode t)
-(add-hook 'yatex-mode-hook 'auto-compleat-emoji)
+;;(require 'auto-complete)
+;;(require 'auto-complete-config)
+;;(ac-config-default)
+;;(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
+;;(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
+;;(add-to-list 'ac-modes 'org-mode)
+;;(add-to-list 'ac-modes 'yatex-mode)
+;;(ac-set-trigger-key "TAB")
+;;(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
+;;(setq ac-use-fuzzy t)          ;; 曖昧マッチ
+;;(global-auto-complete-mode t)
+;;(add-hook 'yatex-mode-hook 'auto-compleat-emoji)
 ;;(add-hook 'markdown-mode-hook 'ac-emoji-setup)
 ;;(add-hook 'git-commit-mode-hook 'ac-emoji-setup)
 (set-fontset-font
@@ -260,12 +260,12 @@
 ;;	dvi2-command "c:/dviout/dviout -1 dvifilename \"# lineno *\""
 ;;	yatexhks.elで実装した
 	YaTeX-inhibit-prefix-letter t;動く？
-	YaTeX-template-file "~/iijima/template/template.tex"
+	YaTeX-template-file "~/テンプレート/template.tex"
 	YaTeX-kanji-code 4;; 1:sjis 2:jis 3:euc 4:utf-8
 ;;	latex-message-kanji-code 4;;
 	YaTeX-latex-message-code 'utf-8
 	YaTeX-no-begend-shortcut t;;`[prefix] b ??' のショートカットを使わず、`[prefix] b' だけで補完入力に入る (`nil')
-	YaTeX-fill-prefix "	"
+	YaTeX-fill-prefix ""
 	makeindex-command "mendex -g -s mystyle.ist "
 	YaTeX-item-regexp "\\\\\\(eda\\)*item";;-->\\\(eda\)*item
 ;;itemの桁揃えの時に用いる、itemの正規表現 (`"\\\\(sub\\)*item"') <--嘘つきwww
@@ -274,6 +274,8 @@
 ;;	YaTeX-ref-default-label-string (buffer-file-name)
 	YaTeX-use-AMS-LaTeX t;align環境が数式モードのになるはず
 	)
+(fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
+(fset 'YaTeX-intelligent-newline-centerenum* 'YaTeX-intelligent-newline-itemize)
 (setq
  YaTeX-math-sign-alist-private
  '(
@@ -301,22 +303,24 @@
       yahtml-kanji-code 4;;1:sjis 2:jis 3:euc
 ;;改行位置の設定
       fill-column 100);;default70以下[反映されず]
-;;(eval-after-load "holidays"
-;;  '(progn
-(require 'japanese-holidays)
-(setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
-      (append japanese-holidays local-holidays other-holidays)
-      mark-holidays-in-calendar t); 祝日をカレンダーに表示
-;; 土曜日・日曜日を祝日として表示する場合、以下の設定を追加します。
-;; デフォルトで設定済み
-(setq japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
-      japanese-holiday-weekend-marker     ; 土曜日を水色で表示
-      '(holiday nil nil nil nil nil japanese-holiday-saturday))
-(add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
-(add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
-(add-hook 'calendar-today-visible-hook 'calendar-mark-today)
-;;“きょう”をマークするには以下の設定を追加します。
-;;))
+
+;;(require 'japanese-holidays)
+ (eval-after-load "holidays"
+   '(progn
+      (require 'japanese-holidays)
+      (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
+            (append japanese-holidays holiday-local-holidays holiday-other-holidays))
+      (setq mark-holidays-in-calendar t) ; 祝日をカレンダーに表示
+      ;; 土曜日・日曜日を祝日として表示する場合、以下の設定を追加します。
+      ;; 変数はデフォルトで設定済み
+      (setq japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
+            japanese-holiday-weekend-marker     ; 土曜日を水色で表示
+            '(holiday nil nil nil nil nil japanese-holiday-saturday))
+      (add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
+      (add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
+      ;; “きょう”をマークするには以下の設定を追加します。
+      (add-hook 'calendar-today-visible-hook 'calendar-mark-today)))
+
 ;; diaryの設定
 (add-hook 'list-diary-entries-hook 'include-other-diary-files)
 (add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
@@ -411,7 +415,7 @@
 (defun my-tex-filename-replace ()
   (interactive)
   (progn (goto-char 0)
-	 (insert-file-contents "~/iijima/template/template.tex")
+	 (insert-file-contents "~/テンプレート/template.tex")
 	 (goto-char 0)
 	 (perform-replace "filename"
 			  (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
