@@ -260,7 +260,7 @@
 ;;	dvi2-command "c:/dviout/dviout -1 dvifilename \"# lineno *\""
 ;;	yatexhks.elで実装した
 	YaTeX-inhibit-prefix-letter t;動く？
-	YaTeX-template-file "~/テンプレート/template.tex"
+;;	YaTeX-template-file "~/テンプレート/template.tex"
 	YaTeX-kanji-code 4;; 1:sjis 2:jis 3:euc 4:utf-8
 ;;	latex-message-kanji-code 4;;
 	YaTeX-latex-message-code 'utf-8
@@ -661,13 +661,15 @@
   (interactive "r")
   (let ((figfile (read-string "figファイル名: " (file-name-sans-extension (buffer-name)))))
     (progn (if (= beg end)
-	       (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
+;;	       (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
+	       (insert (concat "\t\\IncludePDF{" figfile ".pdf}%\n"
 			       "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n"
 			       "\t\\endpgfgraphicnamed\n"))
 	     (progn (goto-char (if (> beg end) beg end))
 		    (insert "\t\\endpgfgraphicnamed\n")
 		    (goto-char (if (> beg end) end beg))
-		    (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
+;;		    (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
+		    (insert (concat "\t\\IncludePDF{" figfile ".pdf}%\n"
 				    "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n")))))))
 
 ;; TikZ の scope 環境を clip 付きで挿入する
