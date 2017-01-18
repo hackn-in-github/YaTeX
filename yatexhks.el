@@ -1,8 +1,8 @@
-;; -*- Emacs-Lisp -*-
+;;; -*- Emacs-Lisp -*-
 ;;; Hooks for YaTeX
 
-;;; é‡é³¥ã«é–¢é€£ã™ã‚‹è¨˜è¿°(ãŸã¨ãˆã°ã‚¢ãƒ‰ã‚¤ãƒ³é–¢æ•°)ã¯ yatexhks.el ã¨ã„ã†åå‰ã®
-;;; ãƒ•ã‚¡ã‚¤ãƒ«ã«å…¥ã‚Œã¦ãã ã•ã„ã€‚èµ·å‹•æ™‚ã«è‡ªå‹•çš„ã«ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™ã€‚
+;;; –ì’¹‚ÉŠÖ˜A‚·‚é‹Lq(‚½‚Æ‚¦‚ÎƒAƒhƒCƒ“ŠÖ”)‚Í yatexhks.el ‚Æ‚¢‚¤–¼‘O‚Ì
+;;; ƒtƒ@ƒCƒ‹‚É“ü‚ê‚Ä‚­‚¾‚³‚¢B‹N“®‚É©“®“I‚Éƒ[ƒh‚µ‚Ü‚·B
 
 ;;; All the private definitions for YaTeX can be stuffed into the file
 ;;; named `yatexhks.el'.  The file `yatexhks.el' will be automatically
@@ -13,34 +13,58 @@
 ;;97/1/27
 (define-key YaTeX-user-extensional-map "v" 'YaTeX-section-overview)
 ;;initial version
-(define-key YaTeX-user-extensional-map "0"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "part")))
-(define-key YaTeX-user-extensional-map "1"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "chapter")))
-(define-key YaTeX-user-extensional-map "2"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "section")))
-(define-key YaTeX-user-extensional-map "3"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "subsection")))
-(define-key YaTeX-user-extensional-map "4"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "subsubsection")))
-(define-key YaTeX-user-extensional-map "5"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "paragraph")))
-(define-key YaTeX-user-extensional-map "6"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "subparagraph")))
-(define-key YaTeX-user-extensional-map "r"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "ref")))
-(define-key YaTeX-user-extensional-map "i"
-  '(lambda () (interactive) (YaTeX-make-singlecmd "item")))
-(define-key YaTeX-user-extensional-map "\C-b"
-  '(lambda () (interactive) (YaTeX-make-singlecmd "leftarrow")))
-(define-key YaTeX-user-extensional-map "l"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "label")))
-(define-key YaTeX-user-extensional-map "f"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "frac")))
-(define-key YaTeX-user-extensional-map "S"
-  '(lambda () (interactive) (YaTeX-make-section nil nil nil "setlength")))
-(define-key YaTeX-user-extensional-map "b"
-  '(lambda () (interactive) (YaTeX-make-fontsize nil "bf")))
+(let ((map YaTeX-user-extensional-map))
+  (define-key map "0"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "part"))))
+  (define-key map "1"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "chapter"))))
+  (define-key map "2"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "section"))))
+  (define-key map "3"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "subsection"))))
+  (define-key map "4"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "subsubsection"))))
+  (define-key map "5"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "paragraph"))))
+  (define-key map "6"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "subparagraph"))))
+  (define-key map "r"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "ref"))))
+  (define-key map "i"
+    (function (lambda () (interactive)
+		(YaTeX-make-singlecmd "item"))))
+  (define-key map "\C-b"
+    (function (lambda () (interactive)
+		(YaTeX-make-singlecmd "leftarrow"))))
+  (define-key map "l"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "label"))))
+  (define-key map "f"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "frac"))))
+  (define-key map "S"
+    (function (lambda () (interactive)
+		(YaTeX-make-section nil nil nil "setlength"))))
+  (define-key map "b"
+    (function (lambda () (interactive)
+		(YaTeX-make-fontsize nil "bf"))))
+  (define-key map "I" 'YaTeX-browse-info))
+
+(defun YaTeX-browse-info ()
+ "Browse YaTeX's info"
+ (interactive)
+ (require 'info)
+ (Info-goto-node (if YaTeX-japan "(yatexj)Top" "(yatexe)Top")))
+
+
 
 (require 'for-emath-macro)
 (require 'for-original-macro)
@@ -49,32 +73,32 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; YaTeX:read-position "htbp" --> [ht] ãªã©ã‚’ä½œæˆ
-;; YaTeX:read-coordinates "(x,y) x,yã¨ã‚‚å˜ä½ä»˜ãæ•°å€¤ --> (1pt,2pt) ãªã©ã‚’ä½œæˆ"
-;; (YaTeX:func arg) --> argã‚’å¼•æ•°ã«ã—ã¦YaTeX:func ã‚’å‘¼ã³å‡ºã™
-;; (apply 'YaTeX:func arg) --> argã‚’å¼•æ•°ã«ã—ã¦YaTeX:func ã‚’å‘¼ã³å‡ºã™ãŸã ã—ä¸€ç•ªæœ€å¾Œã®å¼•æ•°ã¯listã§ãªã‘ã‚Œã°ã„ã‘ãªã„
-;; (fset 'func1 'func2) --> func1 ã‚’ func2 ã¨åŒã˜è¨­å®šã«ã™ã‚‹
+;; YaTeX:read-position "htbp" --> [ht] ‚È‚Ç‚ğì¬
+;; YaTeX:read-coordinates "(x,y) x,y‚Æ‚à’PˆÊ•t‚«”’l --> (1pt,2pt) ‚È‚Ç‚ğì¬"
+;; (YaTeX:func arg) --> arg‚ğˆø”‚É‚µ‚ÄYaTeX:func ‚ğŒÄ‚Ño‚·
+;; (apply 'YaTeX:func arg) --> arg‚ğˆø”‚É‚µ‚ÄYaTeX:func ‚ğŒÄ‚Ño‚·‚½‚¾‚µˆê”ÔÅŒã‚Ìˆø”‚Ílist‚Å‚È‚¯‚ê‚Î‚¢‚¯‚È‚¢
+;; (fset 'func1 'func2) --> func1 ‚ğ func2 ‚Æ“¯‚¶İ’è‚É‚·‚é
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; YaTeX-my-dviout-search-and-jump
 ;;;
-;;; dviout ã®ã‚¸ãƒ£ãƒ³ãƒ—æ©Ÿèƒ½ã‚’ Meadow ã‹ã‚‰ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹è©¦ã¿ï¼
+;;; dviout ‚ÌƒWƒƒƒ“ƒv‹@”\‚ğ Meadow ‚©‚çg‚¦‚é‚æ‚¤‚É‚·‚é‚İD
 ;;;
-;;; [prefix] j ã§ä½¿ç”¨ã™ã‚‹ `j' ã¯jumpã®æ„ï¼YaTeX-define-keyã‚’ä½¿ã£ã¦å„ã€…ã®ç’°å¢ƒã«å¿œã˜ã¦å¤‰æ›´å¯èƒ½ï¼
-;;; ãƒã‚¤ãƒ³ãƒˆã®å´ã®æ–‡å­—åˆ—`strings'ã¨ãã®æ–‡å­—åˆ—ãŒã‚ã‚‹è¡Œã®ãƒ•ã‚¡ã‚¤ãƒ«å…ˆé ­ã‹ã‚‰ã®è¡Œæ•°`lineno'ãŠã‚ˆã³
-;;; å…¥åŠ›ã—ã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å`texfile'ã¨ãã®dviãƒ•ã‚¡ã‚¤ãƒ«å`dvifile'ã‚’
-;;; ``dvi2-command'' ã«2ã¤ã®å¼•æ•° ``dvifile'' ``# lineno/strings texfile'' ã‚’æ¸¡ã™ï¼
-;;; `dvi2-command'ã¯YaTeXã®å¤‰æ•°ã§å„ã€…ã®ç’°å¢ƒã«åˆã‚ã›ã¦è¨­å®šã™ã‚‹ï¼é€šå¸¸ã¯``c:/dviout/dviout''ãªã©ã¨ãªã£ã¦ã„ã‚‹ï¼
-;;; ã“ã‚Œã¯dvioutã«ãƒ‘ã‚¹ãŒé€šã£ã¦ã„ã‚Œã°``dviout''ã§æ§‹ã‚ãªã„ã¯ãšã§ã‚ã‚‹ï¼
+;;; [prefix] j ‚Åg—p‚·‚é `j' ‚Íjump‚ÌˆÓDYaTeX-define-key‚ğg‚Á‚ÄŠeX‚ÌŠÂ‹«‚É‰‚¶‚Ä•ÏX‰Â”\D
+;;; ƒ|ƒCƒ“ƒg‚Ì‘¤‚Ì•¶š—ñ`strings'‚Æ‚»‚Ì•¶š—ñ‚ª‚ ‚és‚Ìƒtƒ@ƒCƒ‹æ“ª‚©‚ç‚Ìs”`lineno'‚¨‚æ‚Ñ
+;;; “ü—Í‚µ‚Ä‚¢‚éƒtƒ@ƒCƒ‹–¼`texfile'‚Æ‚»‚Ìdviƒtƒ@ƒCƒ‹–¼`dvifile'‚ğ
+;;; ``dvi2-command'' ‚É2‚Â‚Ìˆø” ``dvifile'' ``# lineno/strings texfile'' ‚ğ“n‚·D
+;;; `dvi2-command'‚ÍYaTeX‚Ì•Ï”‚ÅŠeX‚ÌŠÂ‹«‚É‡‚í‚¹‚Äİ’è‚·‚éD’Êí‚Í``c:/dviout/dviout''‚È‚Ç‚Æ‚È‚Á‚Ä‚¢‚éD
+;;; ‚±‚ê‚Ídviout‚ÉƒpƒX‚ª’Ê‚Á‚Ä‚¢‚ê‚Î``dviout''‚Å\‚í‚È‚¢‚Í‚¸‚Å‚ ‚éD
 ;;;
-;;; é€šå¸¸ã¯`dvifile'ï¼Œ`texfile'ã¯ã‚«ãƒ¬ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã«é–¢ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã§ã‚ã‚‹ãŒï¼Œ
-;;; `YaTeX-my-dvifile'ã‚„`YaTeX-my-sourcefile'ãŒ`nil'ä»¥å¤–ã®ã¨ãã¯ãã‚Œã«å¾“ã†ï¼
-;;; ä¾‹ãˆã°ï¼Œã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãŒ`main.tex'ã¨ãã“ã‹ã‚‰èª­ã¿è¾¼ã¾ã‚Œã‚‹`sub.tex'ã®ã¨ãã¯ï¼Œ`sub.tex'ç·¨é›†ä¸­ã«
-;;; ``dviout sub.dvi "# lineno/search_strings sub.tex"''ã¨dvioutã‚’èµ·å‹•ã—ã¦ã‚‚æ€ã†ã‚ˆã†ãªçµæœã«ãªã‚‰ãªã„ï¼
-;;; ``dviout main.tex "# lineno/search_strings ./sub.tex"''ã¨ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ãŒï¼Œ
-;;; ãã®éš›ã«`YaTeX-my-dvifile'ã«`main.dvi'ï¼Œ`YaTeX-my-sourcefile'ã«`./sub.tex'ã‚’ã‚»ãƒƒãƒˆã—ã¦ãŠãã¨
-;;; å¾Œè€…ã®ã‚ˆã†ã«dvioutã«å¼•æ•°ãŒé€ã‚‰ã‚Œã‚‹ï¼è©³ã—ãã¯YaTeX-my-menuã®èª¬æ˜ã§...
-;;; ã“ã®æ–‡å­—åˆ—ã®ã‚»ãƒƒãƒˆã¯YaTeX-my-menuã§è¡Œãªã†ï¼
+;;; ’Êí‚Í`dvifile'C`texfile'‚ÍƒJƒŒƒ“ƒgƒoƒbƒtƒ@‚ÉŠÖ‚·‚éƒtƒ@ƒCƒ‹–¼‚Å‚ ‚é‚ªC
+;;; `YaTeX-my-dvifile'‚â`YaTeX-my-sourcefile'‚ª`nil'ˆÈŠO‚Ì‚Æ‚«‚Í‚»‚ê‚É]‚¤D
+;;; —á‚¦‚ÎCƒ\[ƒXƒtƒ@ƒCƒ‹‚ª`main.tex'‚Æ‚»‚±‚©‚ç“Ç‚İ‚Ü‚ê‚é`sub.tex'‚Ì‚Æ‚«‚ÍC`sub.tex'•ÒW’†‚É
+;;; ``dviout sub.dvi "# lineno/search_strings sub.tex"''‚Ædviout‚ğ‹N“®‚µ‚Ä‚àv‚¤‚æ‚¤‚ÈŒ‹‰Ê‚É‚È‚ç‚È‚¢D
+;;; ``dviout main.tex "# lineno/search_strings ./sub.tex"''‚Æ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚ªC
+;;; ‚»‚ÌÛ‚É`YaTeX-my-dvifile'‚É`main.dvi'C`YaTeX-my-sourcefile'‚É`./sub.tex'‚ğƒZƒbƒg‚µ‚Ä‚¨‚­‚Æ
+;;; ŒãÒ‚Ì‚æ‚¤‚Édviout‚Éˆø”‚ª‘—‚ç‚ê‚éDÚ‚µ‚­‚ÍYaTeX-my-menu‚Ìà–¾‚Å...
+;;; ‚±‚Ì•¶š—ñ‚ÌƒZƒbƒg‚ÍYaTeX-my-menu‚Ås‚È‚¤D
 (defvar YaTeX-my-dvifile nil)
 (defvar YaTeX-my-sourcefile nil)
 (YaTeX-define-key "j" 'YaTeX-my-dviout-tq)
@@ -94,16 +118,16 @@ send the condition to dviout and open a dvifile to the page that agree with the 
       (progn (set-terminal-coding-system 'japanese-shift-jis)
 	     (start-process "my-preview" "*search-and-jump*" dvi2-command dvifile
 			    (format "# %d/%s %s" lineno searchstring texfile))))))
-;; cmd ä¸Šã§ã¯ ``c:/dviout/dviout dvifilename "# lineno/search_strings texfilename"'' ã§ã‚ã‚‹ãŒ
-;; start-process ã§ã¯ ``c:/dviout/dviout'' ã« ``dvifilename'' ã¨ ``# lineno/search_strings texfilename''
-;; ã‚’æ¸¡ã—ã¦ã„ã‚‹ï¼ã“ã‚Œã¯ ``"dvifilename"'' ã¨ ``"# lineno/search_strings texfilename"'' ã‚’æ¸¡ã—ã¦ã„ã‚‹ã®ã‹ãªï¼Ÿ
-;; ã“ã‚Œã§å‹•ä½œã™ã‚‹ã®ã ã‹ã‚‰ç–‘å•ã«æ€ã‚ãªã„ã“ã¨ã«ã™ã‚‹:-)
-;; æš«å®šãƒãƒ¼ã‚¯ãƒ¢ãƒ¼ãƒ‰ã‹å¦ã‹ã§å‹•ä½œã¾ãŸã¯ä½¿ç”¨ã™ã‚‹é–¢æ•°ã‚’å¤‰æ›´ã™ã‚‹ï¼Ÿ
-;; å–ã‚Šæ•¢ãˆãšï¼Œæš«å®šãƒãƒ¼ã‚¯ãƒ¢ãƒ¼ãƒ‰ã‹ã¤ region ãŒå­˜åœ¨ã™ã‚‹ã¨ãã ã‘ region ã‚’åˆ©ç”¨ã—ã¦ï¼Œ
-;; ãã‚Œä»¥å¤–ã®ã¨ãã¯ thing-at-point ã‚’åˆ©ç”¨ã™ã‚‹ã“ã¨ã«ã™ã‚‹ï¼
-;; æ€ã„åˆ‡ã£ã¦ï¼Œthing-at-point ã‚’ä½¿ã‚ãšã« (interactive "r") ã«ã—ãŸæ–¹ãŒä½¿ã„å‹æ‰‹ãŒã„ã„ã®ã‹ãªï¼Ÿ
-;; ãã‚Œã¨ã‚‚ï¼Œå¸¸ã« region ã‚’è¨­å®šã—ã¦ã‹ã‚‰ dviout ã‚’èµ·å‹•ã™ã‚‹ã®ã¯æ‰‹é–“ã‹ãªï¼Ÿ
-;; é€†ã«ï¼Œå¸¸ã« thing-at-point ã«ã—ã¡ã‚ƒã†ï¼Ÿ
+;; cmd ã‚Å‚Í ``c:/dviout/dviout dvifilename "# lineno/search_strings texfilename"'' ‚Å‚ ‚é‚ª
+;; start-process ‚Å‚Í ``c:/dviout/dviout'' ‚É ``dvifilename'' ‚Æ ``# lineno/search_strings texfilename''
+;; ‚ğ“n‚µ‚Ä‚¢‚éD‚±‚ê‚Í ``"dvifilename"'' ‚Æ ``"# lineno/search_strings texfilename"'' ‚ğ“n‚µ‚Ä‚¢‚é‚Ì‚©‚ÈH
+;; ‚±‚ê‚Å“®ì‚·‚é‚Ì‚¾‚©‚ç‹^–â‚Év‚í‚È‚¢‚±‚Æ‚É‚·‚é:-)
+;; b’èƒ}[ƒNƒ‚[ƒh‚©”Û‚©‚Å“®ì‚Ü‚½‚Íg—p‚·‚éŠÖ”‚ğ•ÏX‚·‚éH
+;; æ‚èŠ¸‚¦‚¸Cb’èƒ}[ƒNƒ‚[ƒh‚©‚Â region ‚ª‘¶İ‚·‚é‚Æ‚«‚¾‚¯ region ‚ğ—˜—p‚µ‚ÄC
+;; ‚»‚êˆÈŠO‚Ì‚Æ‚«‚Í thing-at-point ‚ğ—˜—p‚·‚é‚±‚Æ‚É‚·‚éD
+;; v‚¢Ø‚Á‚ÄCthing-at-point ‚ğg‚í‚¸‚É (interactive "r") ‚É‚µ‚½•û‚ªg‚¢Ÿè‚ª‚¢‚¢‚Ì‚©‚ÈH
+;; ‚»‚ê‚Æ‚àCí‚É region ‚ğİ’è‚µ‚Ä‚©‚ç dviout ‚ğ‹N“®‚·‚é‚Ì‚ÍèŠÔ‚©‚ÈH
+;; ‹t‚ÉCí‚É thing-at-point ‚É‚µ‚¿‚á‚¤H
 (defun my-tq-ans (x y)
   `(let ((x y))
     x))
@@ -116,7 +140,7 @@ send the condition to dviout and open a dvifile to the page that agree with the 
 ;;	   (message "mes:%s/%s" tq-ans hoge)
 ;;	   (tq-close my-queue)
 )))
-;; å‚™å¿˜éŒ²
+;; ”õ–Y˜^
 ;;  (elt (member 'shift_jis (coding-system-list)) 1)
 ;;  set-terminal-coding-system CODING-SYSTEM
 ;;  encode-coding-string STRING CODING-SYSTEM
@@ -125,23 +149,23 @@ send the condition to dviout and open a dvifile to the page that agree with the 
 ;;  shell-quote-argument
 ;;  file-name-nondirectory
 ;;  file-name-sans-extension
-;;  dvi2-command ã¯ .emacs ã«ã¦å®šç¾©æ¸ˆã¿ "c:/dviout/dviout"
-;;  texputã«ã¯å¯¾å¿œã—ã¦ã„ãªã„...ã¨ã„ã†ã‹å¯¾å¿œã™ã‚‹å¿…è¦ã¯ãªã„ã‚ˆã­
+;;  dvi2-command ‚Í .emacs ‚É‚Ä’è‹`Ï‚İ "c:/dviout/dviout"
+;;  texput‚É‚Í‘Î‰‚µ‚Ä‚¢‚È‚¢...‚Æ‚¢‚¤‚©‘Î‰‚·‚é•K—v‚Í‚È‚¢‚æ‚Ë
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; YaTeX-my-insert-paren
 ;;;
-;;; regionã‚’æ‹¬å¼§ã§å›²ã‚€
-;;; æ‹¬å¼§ã¨ã„ãˆã°\left,\rightã ã‚ˆã­
-;;; ã¤ã„ã§ã«æ•°å¼ç’°å¢ƒã‚‚ã§ãã‚‹ã‚ˆã†ã«ã—ãŸã‘ã©...
-;;; YaTeX-insert-parens ã ã¨ YaTeX ã®é–¢æ•°ã¨è¡çªã—ã¦ã„ãŸå±ãªã„å±ãªã„^^;
-;;; ã¨ã„ã†ã“ã¨ã§ my ã‚’ä»˜åŠ 
+;;; region‚ğŠ‡ŒÊ‚ÅˆÍ‚Ş
+;;; Š‡ŒÊ‚Æ‚¢‚¦‚Î\left,\right‚¾‚æ‚Ë
+;;; ‚Â‚¢‚Å‚É”®ŠÂ‹«‚à‚Å‚«‚é‚æ‚¤‚É‚µ‚½‚¯‚Ç...
+;;; YaTeX-insert-parens ‚¾‚Æ YaTeX ‚ÌŠÖ”‚ÆÕ“Ë‚µ‚Ä‚¢‚½Šë‚È‚¢Šë‚È‚¢^^;
+;;; ‚Æ‚¢‚¤‚±‚Æ‚Å my ‚ğ•t‰Á
 (YaTeX-define-key "p" 'YaTeX-my-insert-paren)
 (defun YaTeX-my-insert-paren (beg end)
   (interactive "r")
   (message (concat "(g)rouping:`{}' (b)race:`\\{\\}' (p)aren:`()' b(r)acket:`[]' less (t)han:`<>'\n"
 		   "(m)ath:`$$' (d)isplay:`\\[\\]' (l)eft:`\\left\\right' "
-		   "(s)elf:è‡ªåˆ†ã§è¨­å®š æ‹¬å¼§é¡ã¯å¤§æ–‡å­—ã§\\left\\rightä»˜åŠ "))
+		   "(s)elf:©•ª‚Åİ’è Š‡ŒÊ—Ş‚Í‘å•¶š‚Å\\left\\right•t‰Á"))
   (let* ((emchar (read-char))
 	 (emleft (cond ((= emchar ?g) "{")
 		       ((= emchar ?b) "\\{")
@@ -155,7 +179,7 @@ send the condition to dviout and open a dvifile to the page that agree with the 
 		       ((= emchar ?m) "$")
 		       ((= emchar ?d) "\\[")
 		       ((= emchar ?l) "\\left")
-		       ((= emchar ?s) (read-string "å·¦æ‹¬å¼§ã‚’æŒ‡å®š: "))
+		       ((= emchar ?s) (read-string "¶Š‡ŒÊ‚ğw’è: "))
 		       (t "")))
 	 (emright (cond ((= emchar ?g) "}")
 			((= emchar ?b) "\\}")
@@ -169,7 +193,7 @@ send the condition to dviout and open a dvifile to the page that agree with the 
 			((= emchar ?m) "$")
 			((= emchar ?d) "\\]")
 			((= emchar ?l) "\\right")
-			((= emchar ?s) (read-string "å³æ‹¬å¼§ã‚’æŒ‡å®š: "))
+			((= emchar ?s) (read-string "‰EŠ‡ŒÊ‚ğw’è: "))
 			(t ""))))
     (if (or (> (length emleft) 0)(> (length emright) 0))
 	(progn (goto-char (if (> beg end) beg end))
@@ -180,51 +204,51 @@ send the condition to dviout and open a dvifile to the page that agree with the 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; YaTeX-my-menu
 ;;;
-;;; p ã§ YaTeX-my-insert-paren ã‚’å‘¼ã³å‡ºã™(regionã‚’è¨­å®šã—ã¦ã„ãªã‘ã‚Œã°ãªã‚‰ãªã„)ï¼
-;;; j ã§ YaTeX-my-dviout-search-and-jump ã‚’å‘¼ã³å‡ºã™ï¼
-;;; t ã§ åŒã˜ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ã‚ã‚‹ texput.tex ã‚’é–‹ã %#!ã®è¡Œæœ«ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ texput ã«ç½®ãæ›ãˆã‚‹ï¼
-;;;   ã“ã‚Œã¯BEGIN-ENDã®å›ºå®šé ˜åŸŸã®ã‚¿ã‚¤ãƒ—ã‚»ãƒƒãƒˆã‚’è¡Œãªã†ã¨ãï¼Œãã®é ˜åŸŸå†…ã«Perlã®å‘¼ã³å‡ºã—ã«é–¢ã‚ã‚‹
-;;;   ãƒã‚¯ãƒ­ãŒã‚ã‚‹ã¨æ€ã†ã‚ˆã†ãªè¡¨ç¤ºãŒã•ã‚Œãªã„ãŸã‚ï¼Œtexput.texã«ä¸€æ™‚çš„ã«ç§»å‹•ã—ã¦
-;;;   ãƒ•ã‚¡ã‚¤ãƒ«åã‚’`texput.tex'ã¨ç·¨é›†ã—2åº¦ã»ã©ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚’è¡Œãªã£ã¦ã‹ã‚‰å…ƒã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã«æˆ»ã‚‹ã¨
-;;;   ã†ã¾ã„ã“ã¨å›ºå®šé ˜åŸŸã®ã‚¿ã‚¤ãƒ—ã‚»ãƒƒãƒˆã‚’ç¶šã‘ã‚‰ã‚Œã‚‹ã®ã§ï¼Œãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ›¸ãæ›ãˆã‚‹ã®ã‚’è‡ªå‹•åŒ–ã—ãŸã‚‚ã®ï¼
-;;;   å¤‰æ›´ã—ãŸããªã„ã¨ãã¯`q'ã§æŠœã‘ã‚Œã°ã‚ˆã„ï¼
-;;; s ã§ ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«å†…ã§\includeã¾ãŸã¯\inputã•ã‚Œã¦ã„ã‚‹ã‚½ãƒ¼ã‚¹ã‚’ç·¨é›†ã™ã‚‹éš›ã«
-;;;   \includeã‚„\inputã®ã‚ã‚‹è¡Œã«ãƒã‚¤ãƒ³ãƒˆã‚’ç½®ãã“ã‚Œã‚’å®Ÿè¡Œã—ã¦ãŠãï¼
-;;;   ãŸã ã—ï¼Œ\includeã‚„\inputã¯1è¡Œã«1ã¤ã‹ã¤ã“ã®ã‚³ãƒãƒ³ãƒ‰ã—ã‹æ›¸ã‹ã‚Œã¦ã„ãªã„ã‚‚ã®ã¨ã™ã‚‹ï¼
-;;;   main.texã®\include{./sub.tex}ã«ãŠã„ã¦ã“ã‚Œã‚’å®Ÿè¡Œã™ã‚‹ã¨ï¼Œ
-;;;   å¤‰æ•°`YaTeX-my-dvifile'ã«`main.dvi'ï¼Œå¤‰æ•°`YaTeX-my-sourcefile'ã«`./sub.tex'ãŒä»£å…¥ã•ã‚Œï¼Œ
-;;;   YaTeX-my-dviout-search-and-jumpã‚’å®Ÿè¡Œã™ã‚‹ã¨dvioutã«
-;;;   ``main.dvi "# lineno/search_strings ./sub.tex"''ãŒæ¸¡ã•ã‚Œã‚‹ï¼
-;;;   ã¾ãŸï¼Œ\include{./hoge/sub.tex}ã®å ´åˆã«ã¯`YaTeX-my-dvifile'ã«`../main.dvi'ï¼Œ
-;;;   `YaTeX-my-sourcefile'ã«`./hoge/sub.tex'ãŒä»£å…¥ã•ã‚Œï¼Œdvioutã«
-;;;   ``../main.dvi "# lineno/search_strings ./hoge/sub.tex"''ãŒæ¸¡ã•ã‚Œã‚‹ï¼
-;;;   ã“ã‚Œã¯`./hoge/sub.tex'ç·¨é›†ä¸­ã«`main.dvi'ã‚’å‘¼ã³å‡ºã™ã¨ãã‚’è€ƒãˆã‚‹ã¨ï¼Œ
-;;;   ã“ã®ã¨ãã®ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯`./hoge/'ã§ã‚ã‚Šã“ã“ã‹ã‚‰`./main.dvi'ã‚’
-;;;   å‘¼ã³å‡ºãã†ã¨ã™ã‚‹ã¨ä¸€ã¤ä¸Šã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®`main.dvi'ã‚’å‘¼ã³å‡ºã™ã“ã¨ã«ãªã‚‹ã®ã§dvioutã«ã¯
-;;;   ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª`./hoge/'ã‹ã‚‰`../main.dvi'ã‚’èª­ã¿è¾¼ã‚ã¨å‘½ä»¤ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ï¼
-;;;   ã•ã‚‰ã«ï¼Œãã®`./main.dvi'ã‹ã‚‰ã¿ã‚‹ã¨ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã¯`./hoge/sub.tex'ã§ã‚ã‚‹ã‹ã‚‰ã‚µãƒ¼ãƒ&ã‚¸ãƒ£ãƒ³ãƒ—ã®éš›ã¯
-;;;   TeXãƒ•ã‚¡ã‚¤ãƒ«åã¨ã—ã¦`./hoge/sub.tex'ã‚’æ¸¡ã™å¿…è¦ãŒã‚ã‚‹ã‹ã‚‰ã§ã‚ã‚‹ï¼
-;;;   ã¾ãŸï¼Œ\includeï¼Œ\inputã®å¼•æ•°ã¯ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¡¨ã™`./'ãŒå…ˆé ­ã«å¿…ãšã‚ã‚‹ã‚‚ã®ã¨ã—ã¦ã„ã‚‹ï¼
-;;;   å…ˆé ­ã«\include{sub.tex}ã®ã‚ˆã†ã«`./'ãŒãªã„å ´åˆã¯ï¼Œ"`YaTeX-my-sourcefile'ã®è¨­å®š: sub.tex"
-;;;   ã¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’`sub.tex'ã¨ã—ã¦è¨­å®šã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã‚’èã„ã¦ãã‚‹ã®ã§ï¼Œ
-;;;   å…ˆé ­ã«`./'ã‚’ä»˜åŠ ã—ã¦`./sub.tex'ã¨ã—ã¦å…¥åŠ›ã‚’ã™ã‚‹ï¼
-;;; i ã§ s ã§è¨­å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«åã‚’ã™ã¹ã¦nilã«ã™ã‚‹ï¼
+;;; p ‚Å YaTeX-my-insert-paren ‚ğŒÄ‚Ño‚·(region‚ğİ’è‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢)D
+;;; j ‚Å YaTeX-my-dviout-search-and-jump ‚ğŒÄ‚Ño‚·D
+;;; t ‚Å “¯‚¶ƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚é texput.tex ‚ğŠJ‚« %#!‚Ìs––‚Ìƒtƒ@ƒCƒ‹–¼‚ğ texput ‚É’u‚«Š·‚¦‚éD
+;;;   ‚±‚ê‚ÍBEGIN-END‚ÌŒÅ’è—Ìˆæ‚Ìƒ^ƒCƒvƒZƒbƒg‚ğs‚È‚¤‚Æ‚«C‚»‚Ì—Ìˆæ“à‚ÉPerl‚ÌŒÄ‚Ño‚µ‚ÉŠÖ‚í‚é
+;;;   ƒ}ƒNƒ‚ª‚ ‚é‚Æv‚¤‚æ‚¤‚È•\¦‚ª‚³‚ê‚È‚¢‚½‚ßCtexput.tex‚Éˆê“I‚ÉˆÚ“®‚µ‚Ä
+;;;   ƒtƒ@ƒCƒ‹–¼‚ğ`texput.tex'‚Æ•ÒW‚µ2“x‚Ù‚ÇƒRƒ“ƒpƒCƒ‹‚ğs‚È‚Á‚Ä‚©‚çŒ³‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚É–ß‚é‚Æ
+;;;   ‚¤‚Ü‚¢‚±‚ÆŒÅ’è—Ìˆæ‚Ìƒ^ƒCƒvƒZƒbƒg‚ğ‘±‚¯‚ç‚ê‚é‚Ì‚ÅCƒtƒ@ƒCƒ‹–¼‚ğ‘‚«Š·‚¦‚é‚Ì‚ğ©“®‰»‚µ‚½‚à‚ÌD
+;;;   •ÏX‚µ‚½‚­‚È‚¢‚Æ‚«‚Í`q'‚Å”²‚¯‚ê‚Î‚æ‚¢D
+;;; s ‚Å ƒ\[ƒXƒtƒ@ƒCƒ‹“à‚Å\include‚Ü‚½‚Í\input‚³‚ê‚Ä‚¢‚éƒ\[ƒX‚ğ•ÒW‚·‚éÛ‚É
+;;;   \include‚â\input‚Ì‚ ‚és‚Éƒ|ƒCƒ“ƒg‚ğ’u‚«‚±‚ê‚ğÀs‚µ‚Ä‚¨‚­D
+;;;   ‚½‚¾‚µC\include‚â\input‚Í1s‚É1‚Â‚©‚Â‚±‚ÌƒRƒ}ƒ“ƒh‚µ‚©‘‚©‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚Æ‚·‚éD
+;;;   main.tex‚Ì\include{./sub.tex}‚É‚¨‚¢‚Ä‚±‚ê‚ğÀs‚·‚é‚ÆC
+;;;   •Ï”`YaTeX-my-dvifile'‚É`main.dvi'C•Ï”`YaTeX-my-sourcefile'‚É`./sub.tex'‚ª‘ã“ü‚³‚êC
+;;;   YaTeX-my-dviout-search-and-jump‚ğÀs‚·‚é‚Ædviout‚É
+;;;   ``main.dvi "# lineno/search_strings ./sub.tex"''‚ª“n‚³‚ê‚éD
+;;;   ‚Ü‚½C\include{./hoge/sub.tex}‚Ìê‡‚É‚Í`YaTeX-my-dvifile'‚É`../main.dvi'C
+;;;   `YaTeX-my-sourcefile'‚É`./hoge/sub.tex'‚ª‘ã“ü‚³‚êCdviout‚É
+;;;   ``../main.dvi "# lineno/search_strings ./hoge/sub.tex"''‚ª“n‚³‚ê‚éD
+;;;   ‚±‚ê‚Í`./hoge/sub.tex'•ÒW’†‚É`main.dvi'‚ğŒÄ‚Ño‚·‚Æ‚«‚ğl‚¦‚é‚ÆC
+;;;   ‚±‚Ì‚Æ‚«‚ÌƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚Í`./hoge/'‚Å‚ ‚è‚±‚±‚©‚ç`./main.dvi'‚ğ
+;;;   ŒÄ‚Ño‚»‚¤‚Æ‚·‚é‚Æˆê‚Âã‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ì`main.dvi'‚ğŒÄ‚Ño‚·‚±‚Æ‚É‚È‚é‚Ì‚Ådviout‚É‚Í
+;;;   ƒfƒBƒŒƒNƒgƒŠ`./hoge/'‚©‚ç`../main.dvi'‚ğ“Ç‚İ‚ß‚Æ–½—ß‚·‚é•K—v‚ª‚ ‚éD
+;;;   ‚³‚ç‚ÉC‚»‚Ì`./main.dvi'‚©‚ç‚İ‚é‚Æƒ\[ƒXƒtƒ@ƒCƒ‹‚Í`./hoge/sub.tex'‚Å‚ ‚é‚©‚çƒT[ƒ`&ƒWƒƒƒ“ƒv‚ÌÛ‚Í
+;;;   TeXƒtƒ@ƒCƒ‹–¼‚Æ‚µ‚Ä`./hoge/sub.tex'‚ğ“n‚·•K—v‚ª‚ ‚é‚©‚ç‚Å‚ ‚éD
+;;;   ‚Ü‚½C\includeC\input‚Ìˆø”‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğ•\‚·`./'‚ªæ“ª‚É•K‚¸‚ ‚é‚à‚Ì‚Æ‚µ‚Ä‚¢‚éD
+;;;   æ“ª‚É\include{sub.tex}‚Ì‚æ‚¤‚É`./'‚ª‚È‚¢ê‡‚ÍC"`YaTeX-my-sourcefile'‚Ìİ’è: sub.tex"
+;;;   ‚ÆƒfƒtƒHƒ‹ƒg’l‚ğ`sub.tex'‚Æ‚µ‚Äİ’è‚·‚éƒtƒ@ƒCƒ‹–¼‚ğ•·‚¢‚Ä‚­‚é‚Ì‚ÅC
+;;;   æ“ª‚É`./'‚ğ•t‰Á‚µ‚Ä`./sub.tex'‚Æ‚µ‚Ä“ü—Í‚ğ‚·‚éD
+;;; i ‚Å s ‚Åİ’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚ğ‚·‚×‚Änil‚É‚·‚éD
 (YaTeX-define-key "r" 'YaTeX-my-menu)
 (defun YaTeX-my-menu ()
   (interactive)
-  (message (concat "p)æ‹¬å¼§ä»˜åŠ  j)dvioutã¸ã®æ–‡å­—åˆ—ã‚µãƒ¼ãƒ&ã‚¸ãƒ£ãƒ³ãƒ— t)texput.texã¸ç§»å‹•\n"
-		   "s)`YaTeX-my-dvifile'ãŠã‚ˆã³`YaTeX-my-sourcefile'ã®è¨­å®š "
-		   "i)`YaTeX-my-dvifile'ãŠã‚ˆã³`YaTeX-my-sourcefile'ã®åˆæœŸåŒ–"))
+  (message (concat "p)Š‡ŒÊ•t‰Á j)dviout‚Ö‚Ì•¶š—ñƒT[ƒ`&ƒWƒƒƒ“ƒv t)texput.tex‚ÖˆÚ“®\n"
+		   "s)`YaTeX-my-dvifile'‚¨‚æ‚Ñ`YaTeX-my-sourcefile'‚Ìİ’è "
+		   "i)`YaTeX-my-dvifile'‚¨‚æ‚Ñ`YaTeX-my-sourcefile'‚Ì‰Šú‰»"))
   (let* ((emchar (read-char)))
     (cond ((= emchar ?p)(YaTeX-my-insert-paren (region-beginning) (region-end)))
 	  ((= emchar ?j)(YaTeX-my-dviout-search-and-jump))
 	  ((= emchar ?t)(progn (find-file "./texput.tex")
 			       (perform-replace "[-0-9a-zA-Z]+$" "texput" t t nil)))
-	  ((= emchar ?s)(save-excursion;;cond ã‚’ save-excursion ã§ãã‚‹ã‚€ã¨ insert-paren çµ‚äº†å¾Œã®ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚‚å…ƒã«æˆ»ã‚‹
+	  ((= emchar ?s)(save-excursion;;cond ‚ğ save-excursion ‚Å‚­‚é‚Ş‚Æ insert-paren I—¹Œã‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚àŒ³‚É–ß‚é
 			  (setq-default
 			   YaTeX-my-dvifile
 			   (read-string
-			    (format "%s: " "`YaTeX-my-dvifile'ã®è¨­å®š")
+			    (format "%s: " "`YaTeX-my-dvifile'‚Ìİ’è")
 			    (concat
 			     (mapconcat
 			      'concat
@@ -237,13 +261,16 @@ send the condition to dviout and open a dvifile to the page that agree with the 
 			     (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
 			     ".dvi"))
 			   YaTeX-my-sourcefile
-			   (read-string (format "%s: " "`YaTeX-my-sourcefile'ã®è¨­å®š")
+			   (read-string (format "%s: " "`YaTeX-my-sourcefile'‚Ìİ’è")
 					(concat (buffer-substring-no-properties
 						 (- (re-search-forward "\\(}\\| \\|$\\)") 1)
 						 (+ (re-search-backward "\\({\\| \\)") 1))
 						".tex")))))
 	  ((= emchar ?i)(setq-default YaTeX-my-dvifile nil
 				      YaTeX-my-sourcefile nil)))))
+;
+;;; End of yatexhks.el
+(provide 'yatexhks)
 ;
 ;;; End of yatexhks.el
 (provide 'yatexhks)
