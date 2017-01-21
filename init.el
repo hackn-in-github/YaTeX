@@ -240,11 +240,11 @@
 		       )))
 	     (YaTeX-system cmd "jump-line" 'noask pdir)))))))
 ;; c-c c-s ref 時に\label配置場所一覧に(sub)?numcases環境を追加
-(setq YaTeX::ref-mathenv-regexp (concat YaTeX::ref-mathenv-regexp "\\|\\(sub\\)?numcases"))
 ;; c-c c-s ref 時に自動生成するラベルの再定義
 (eval-after-load 'yatexadd
   `(progn
-     (setq YaTeX-ref-generate-label-function 'my-yatex-generate-label)
+     (setq YaTeX::ref-mathenv-regexp (concat YaTeX::ref-mathenv-regexp "\\|\\(sub\\)?numcases")
+	   YaTeX-ref-generate-label-function 'my-yatex-generate-label)
      (defun my-yatex-generate-label (command value)
        (and (string= command "caption")
 	    (re-search-backward "\\\\begin{\\(figure\\|table\\)}" nil t)
@@ -365,7 +365,6 @@
 ;;(add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
 ;;装飾日誌表示
 (add-hook 'diary-display-hook 'fancy-diary-display)
-(put 'narrow-to-region 'disabled nil)
 ;; 全角変換 M-x japanese-zenkaku-region
 ;; 半角変換 M-x japanese-hankaku-region
 (custom-set-variables
@@ -1227,3 +1226,4 @@
 	("WMO" "World Meteorological Organization" "世界気象機関")
 	("WTO" "World Trade Organization" "世界貿易機関")
 	))
+(put 'narrow-to-region 'disabled nil)
