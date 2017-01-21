@@ -257,15 +257,20 @@
 		      ("equation" . "eq")
 		      ("eqnarray" . "eq")
 		      ("numcases" . "eq")
-		      ("item" . "enu"))))
+		      ("item" . "enu")))
+	     (labelname (replace-regexp-in-string
+			 "\\(：\\|-\\)" ":"
+			 (concat (if (> (length YaTeX-parent-file) 0)
+				     (concat (file-name-sans-extension
+					      (file-name-nondirectory
+					       YaTeX-parent-file)) ":"))
+				 (file-name-sans-extension
+				  (file-name-nondirectory
+				   (buffer-name)))))))
 	 (if (setq command (cdr (assoc command alist)))
 	     (concat command ":"
-		     (if (> (length YaTeX-parent-file) 0)
-			 (concat (file-name-sans-extension
-				  (file-name-nondirectory
-				   (replace-regexp-in-string "：" ":" YaTeX-parent-file))) ":"))
-		     (file-name-sans-extension (file-name-nondirectory (buffer-name)))
-		     ":" (read-string "ユニークな番号などを入力してください: " value))
+		     (read-string "ユニークな番号などを入力してください: "
+				  (concat labelname ":" value)))
 	   (YaTeX::ref-generate-label nil nil))))
      ))
 
