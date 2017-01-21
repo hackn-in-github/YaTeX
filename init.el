@@ -239,6 +239,33 @@
 				previewer bnr line cf))
 		       )))
 	     (YaTeX-system cmd "jump-line" 'noask pdir)))))))
+(eval-after-load 'yatexadd
+  `(progn
+     (setq YaTeX-ref-generate-label-function 'my-yatex-generate-label)
+     (defun my-yatex-generate-label (command value)
+       (and (string= command "caption")
+	    (re-search-backward "\\\\begin{\\(figure\\|table\\)}" nil t)
+	    (setq command (match-string 1)))
+       (let ((alist '(("chapter" . "chap")
+		      ("section" . "sec")
+		      ("subsection" . "subsec")
+		      ("figure" . "fig")
+		      ("table" . "tbl")
+		      ("align" . "eq")
+		      ("gather" . "eq")
+		      ("numcases" . "eq")
+		      ("equation" . "eq")
+		      ("eqnarray" . "eq")
+		      ("numcases" . "eq")
+		      ("item" . "enu"))))
+	 (if (setq command (cdr (assoc command alist)))
+	     (concat command ":"
+		     (if (> (length YaTeX-parent-file) 0)
+			 (concat (replace-regexp-in-string "：" ":" YaTeX-parent-file) ":"))
+		     (file-name-sans-extension (file-name-nondirectory (buffer-name)))
+		     ":" value)
+	   (YaTeX::ref-generate-label nil nil))))
+     ))
 
 ;; YaTeXの設定
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
