@@ -261,7 +261,9 @@
 	 (if (setq command (cdr (assoc command alist)))
 	     (concat command ":"
 		     (if (> (length YaTeX-parent-file) 0)
-			 (concat (replace-regexp-in-string "：" ":" YaTeX-parent-file) ":"))
+			 (concat (file-name-sans-extension
+				  (file-name-nondirectory
+				   (replace-regexp-in-string "：" ":" YaTeX-parent-file))) ":"))
 		     (file-name-sans-extension (file-name-nondirectory (buffer-name)))
 		     ":" value)
 	   (YaTeX::ref-generate-label nil nil))))
