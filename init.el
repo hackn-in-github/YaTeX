@@ -265,7 +265,7 @@
 				  (file-name-nondirectory
 				   (replace-regexp-in-string "：" ":" YaTeX-parent-file))) ":"))
 		     (file-name-sans-extension (file-name-nondirectory (buffer-name)))
-		     ":" value)
+		     ":" (read-string "ユニークな番号などを入力してください: " value))
 	   (YaTeX::ref-generate-label nil nil))))
      ))
 
