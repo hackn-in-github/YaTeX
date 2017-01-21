@@ -239,6 +239,9 @@
 				previewer bnr line cf))
 		       )))
 	     (YaTeX-system cmd "jump-line" 'noask pdir)))))))
+;; c-c c-s ref 時に\label配置場所一覧に(sub)?numcases環境を追加
+(setq YaTeX::ref-mathenv-regexp (concat YaTeX::ref-mathenv-regexp "\\|\\(sub\\)?numcases"))
+;; c-c c-s ref 時に自動生成するラベルの再定義
 (eval-after-load 'yatexadd
   `(progn
      (setq YaTeX-ref-generate-label-function 'my-yatex-generate-label)
@@ -254,9 +257,9 @@
 		      ("align" . "eq")
 		      ("gather" . "eq")
 		      ("numcases" . "eq")
+		      ("subnumcases" . "eq")
 		      ("equation" . "eq")
 		      ("eqnarray" . "eq")
-		      ("numcases" . "eq")
 		      ("item" . "enu")))
 	     (labelname (replace-regexp-in-string
 			 "\\(：\\|-\\)" ":"
@@ -286,7 +289,7 @@
 ;;(setq auto-mode-alist
 ;;      (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
 (setq	load-path (cons "~/.emacs.d/site-lisp/yatex" load-path)
-	tex-command "/usr/local/bin/platex"
+	tex-command "/usr/local/bin/ptex2pdf -l -u"
 	dvi2-command "/usr/bin/evince"
 	tex-pdfview-command "evince"
 	YaTeX-dvi2-command-ext-alist '(("TeXworks\\|texworks\\|texstudio\\|mupdf\\|SumatraPDF\\|Preview\\|Skim\\|TeXShop\\|evince\\|okular\\|zathura\\|qpdfview\\|Firefox\\|firefox\\|chrome\\|chromium\\|Adobe\\|Acrobat\\|AcroRd32\\|acroread\\|pdfopen\\|xdg-open\\|open\\|start" . ".pdf"))
