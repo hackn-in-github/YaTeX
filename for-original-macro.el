@@ -1093,4 +1093,6 @@
 		    "}{"
 		    (emath-tenretu-loop ";" "記号を置く円弧をカンマ(,)区切りで指定[偏角が小さい順](Enterで終了)")
 		    "}%"))))
+(defun YaTeX:tikzpicture ()
+  (concat "[font=\\scriptsize,scale=.5]"))
 (provide 'for-original-macro)
