@@ -1094,5 +1094,40 @@
 		    (emath-tenretu-loop ";" "記号を置く円弧をカンマ(,)区切りで指定[偏角が小さい順](Enterで終了)")
 		    "}%"))))
 (defun YaTeX:tikzpicture ()
-  (concat "[font=\\scriptsize,scale=.5]"))
+  (concat "[" "font=\\scriptsize,scale=.5"  "]"))
+(eval-after-load 'yatexadd
+  `(progn
+     (setq YaTeX::ref-mathenv-regexp (concat YaTeX::ref-mathenv-regexp "\\|\\(sub\\)?numcases")
+           YaTeX-ref-generate-label-function 'my-yatex-generate-label)
+     (defun my-yatex-generate-label (command value)
+       (and (string= command "caption")
+            (re-search-backward "\\\\begin{\\(figure\\|table\\)}" nil t)
+            (setq command (match-string 1)))
+       (let ((alist '(("chapter" . "chap")
+                      ("section" . "sec")
+                      ("subsection" . "subsec")
+                      ("figure" . "fig")
+                      ("table" . "tbl")
+                      ("align" . "eq")
+                      ("gather" . "eq")
+                      ("numcases" . "eq")
+                      ("subnumcases" . "eq")
+                      ("equation" . "eq")
+                      ("eqnarray" . "eq")
+                      ("item" . "enu")))
+             (labelname (replace-regexp-in-string
+                         "\\(：\\|-\\)" ":"
+                         (concat (if (> (length YaTeX-parent-file) 0)
+                                     (concat (file-name-sans-extension
+                                              (file-name-nondirectory
+                                               YaTeX-parent-file)) ">"))
+                                 (file-name-sans-extension
+                                  (file-name-nondirectory
+                                   (buffer-name)))))))
+         (if (setq command (cdr (assoc command alist)))
+             (concat command ":"
+                     (read-string "ユニークになるように番号などを入力してください: "
+                                  (concat labelname ":" value)))
+           (YaTeX::ref-generate-label nil nil))))
+     ))
 (provide 'for-original-macro)
