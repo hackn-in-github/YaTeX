@@ -58,7 +58,9 @@ values."
    dotspacemacs-additional-packages '(yatex
                                       info
 ;;                                      anything-config
-                                      dbus)
+                                      dbus
+                                      migemo
+                                      avy-migemo)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -352,6 +354,32 @@ you should place your code here."
   (set-face-background 'whitespace-tab "DarkSlateGray")
   (set-face-foreground 'whitespace-trailing "CornflowerBlue")
   (set-face-background 'whitespace-trailing "RoyalBlue")
+  ;; migemo
+  (require 'migemo)
+  (setq migemo-command "cmigemo")
+  (setq migemo-options '("-q" "--emacs" "-i" "\a"))
+  (cond
+   ((eq system-type 'darwin)
+    (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
+    )
+   ((eq system-type 'gnu/linux)
+    (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
+    )
+   ((eq system-type 'windows-nt)
+    (setq migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict")
+    ))
+  (setq migemo-user-dictionary nil)
+  (setq migemo-regex-dictionary nil)
+  (setq migemo-coding-system 'utf-8-unix)
+  ;; initialize migemo
+  (migemo-init)
+  ;;
+  (with-eval-after-load "helm"
+    (helm-migemo-mode +1)
+    )
+  ;; avy-migemo
+  (require 'avy-migemo)
+  (avy-migemo-mode 1)
   (setq hl-line-face 'underline)
   (global-hl-line-mode)
   (fset 'evil-visual-update-x-selection 'ignore)
@@ -367,24 +395,12 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-;; '(cal-tex-diary t)
-;; '(column-number-mode t)
-;; '(diary-list-include-blanks t)
-;; '(display-time-24hr-format t)
-;; '(display-time-mode t)
-;; '(inhibit-startup-screen t)
-;; '(line-number-mode t)
-;; '(make-backup-files nil)
-;; '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (mmm-mode markdown-toc markdown-mode gh-md yatex ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor package-build spacemacs-theme)))
-;; '(show-paren-mode t)
-;; '(tool-bar-mode nil)
- )
+    (avy-migemo migemo evil-nerd-commenter evil-mc evil-ediff dumb-jump aggressive-indent ace-window ace-link packed smartparens highlight evil helm helm-core async mmm-mode markdown-toc markdown-mode gh-md yatex ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor package-build spacemacs-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ )
