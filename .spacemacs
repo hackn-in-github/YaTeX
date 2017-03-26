@@ -317,6 +317,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (require 'my-setting)
+  (require 'migemo)
+  (require 'avy-migemo)
   (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -343,10 +345,49 @@ you should place your code here."
                         space-mark))
    '(whitespace-space-regexp "\\(\x3000+\\)")
    '(whitespace-trailing-regexp "\\([\x20\x3000\t]+\\)$")
-   '(whitespace-display-mappings
-     '((space-mark ?\x3000 [?\x2603])
-       (tab-mark ?\t [?\xBB?\t])))
+   '(whitespace-display-mappings '((space-mark ?\x3000 [?\x2603])
+                                   (tab-mark ?\t [?\xBB?\t])))
+   ;; migemo
+   '(migemo-command "cmigemo")
+   '(migemo-options '("-q" "--emacs" "-i" "\a"))
+   '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict");; system-type 'gnu/linux
+;;   '(migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict");; system-type 'darwin
+;;   '(migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict");; system-type 'windows-nt
+   '(migemo-user-dictionary nil)
+   '(migemo-regex-dictionary nil)
+   '(migemo-coding-system 'utf-8-unix)
    )
+  ;; ウィンドウの透け透け度 0-100 (0で透け透け)
+  (set-frame-parameter nil 'alpha 75)
+  ;; japanese-holidays の設定等
+  (eval-after-load "holidays"
+    '(progn
+       (require 'japanese-holidays)
+       (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
+             (append japanese-holidays holiday-local-holidays holiday-other-holidays))
+       (setq mark-holidays-in-calendar t) ; 祝日をカレンダーに表示
+       ;; 土曜日・日曜日を祝日として表示する場合、以下の設定を追加します。
+       ;; 変数はデフォルトで設定済み
+       (setq japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
+             japanese-holiday-weekend-marker     ; 土曜日を水色で表示
+             '(holiday nil nil nil nil nil japanese-holiday-saturday))
+       (add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
+       (add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
+       ;; “きょう”をマークするには以下の設定を追加します。
+       (add-hook 'calendar-today-visible-hook 'calendar-mark-today)))
+;; diaryの設定
+  (add-hook 'list-diary-entries-hook 'include-other-diary-files)
+  (add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
+;;装飾日誌表示
+  (add-hook 'diary-display-hook 'fancy-diary-display)
+  ;; Turn off the tildes in the fringe
+  (global-vi-tilde-fringe-mode -1)
+  ;; insert mode でのカーソル移動
+  (define-key evil-insert-state-map "\C-e" 'end-of-line)
+  (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
+  (define-key evil-insert-state-map "\C-n" 'next-line)
+  (define-key evil-insert-state-map "\C-p" 'previous-line)
+  ;; whitespace
   (global-whitespace-mode 1)
   (set-face-foreground 'whitespace-space "LightSlateGray")
   (set-face-background 'whitespace-space "DarkSlateGray")
@@ -354,31 +395,13 @@ you should place your code here."
   (set-face-background 'whitespace-tab "DarkSlateGray")
   (set-face-foreground 'whitespace-trailing "CornflowerBlue")
   (set-face-background 'whitespace-trailing "RoyalBlue")
-  ;; migemo
-  (require 'migemo)
-  (setq migemo-command "cmigemo")
-  (setq migemo-options '("-q" "--emacs" "-i" "\a"))
-  (cond
-   ((eq system-type 'darwin)
-    (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-    )
-   ((eq system-type 'gnu/linux)
-    (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
-    )
-   ((eq system-type 'windows-nt)
-    (setq migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict")
-    ))
-  (setq migemo-user-dictionary nil)
-  (setq migemo-regex-dictionary nil)
-  (setq migemo-coding-system 'utf-8-unix)
   ;; initialize migemo
   (migemo-init)
   ;;
   (with-eval-after-load "helm"
-    (helm-migemo-mode +1)
+    (helm-migemo-mode 1)
     )
   ;; avy-migemo
-  (require 'avy-migemo)
   (avy-migemo-mode 1)
   (setq hl-line-face 'underline)
   (global-hl-line-mode)

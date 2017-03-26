@@ -1,33 +1,3 @@
-;; ウィンドウの透け透け度 0-100 (0で透け透け)
-  (if window-system
-      (progn
-        (set-frame-parameter nil 'alpha 75)))
-;;; M-yでキルリングのリストを表示させる
-  (global-set-key (kbd "M-y") 'anything-show-kill-ring)
-;;; キルリングとクリップボードを同期させる
-  (setq x-select-enable-primary t)
-  (cond (window-system
-         (setq x-select-enable-clipboard t)))
-  (eval-after-load "holidays"
-    '(progn
-       (require 'japanese-holidays)
-       (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
-             (append japanese-holidays holiday-local-holidays holiday-other-holidays))
-       (setq mark-holidays-in-calendar t) ; 祝日をカレンダーに表示
-       ;; 土曜日・日曜日を祝日として表示する場合、以下の設定を追加します。
-       ;; 変数はデフォルトで設定済み
-       (setq japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
-             japanese-holiday-weekend-marker     ; 土曜日を水色で表示
-             '(holiday nil nil nil nil nil japanese-holiday-saturday))
-       (add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
-       (add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
-       ;; “きょう”をマークするには以下の設定を追加します。
-       (add-hook 'calendar-today-visible-hook 'calendar-mark-today)))
-;; diaryの設定
-  (add-hook 'list-diary-entries-hook 'include-other-diary-files)
-  (add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
-;;装飾日誌表示
-  (add-hook 'diary-display-hook 'fancy-diary-display)
 ;; 全角変換 M-x japanese-zenkaku-region
 ;; 半角変換 M-x japanese-hankaku-region
 ;; feedgeneratordで使用するmy-rss.pyの整形
@@ -594,10 +564,4 @@
           ("WMO" "World Meteorological Organization" "世界気象機関")
           ("WTO" "World Trade Organization" "世界貿易機関")
           ))
-;; Turn off the tildes in the fringe
-(global-vi-tilde-fringe-mode -1)
-(define-key evil-insert-state-map "\C-e" 'end-of-line)
-(define-key evil-insert-state-map "\C-a" 'beginning-of-line)
-(define-key evil-insert-state-map "\C-n" 'next-line)
-(define-key evil-insert-state-map "\C-p" 'previous-line)
 (provide 'my-setting)
