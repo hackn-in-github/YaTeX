@@ -28,7 +28,7 @@
 ;;	YaTeX-ref-default-label-string (buffer-file-name)
         YaTeX-use-AMS-LaTeX t;align環境が数式モードのになるはず
         YaTeX-electric-indent-mode t;emacs24.4以降に必要
-        YaTeX-japan t
+        YaTeX-japan nil
 ;;        YaTeX-help-file $doc-directory/../../site-lisp/YATEXHLP.ja
         )
   (fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
