@@ -406,6 +406,35 @@ you should place your code here."
   (setq hl-line-face 'underline)
   (global-hl-line-mode)
   (fset 'evil-visual-update-x-selection 'ignore)
+  ;; latex in org mode
+  (require 'ox-latex)
+  ;; pdf process = lualatex
+  (setq org-latex-pdf-process '("lualatex %f"))
+  ;; default class = jsarticle
+  (setq org-latex-default-class "bxjsreport")
+  ;; org-latex-classes
+  (add-to-list 'org-latex-classes
+               '("bxjsreport"
+                 "\\documentclass[a4j,lualatex,ja=standard,magstyle=nomag*]{bxjsreport}\n
+                [NO-DEFAULT-PACKAGES]
+                %\\setpagelayout{margin=20mm}\n
+                \\setmainjfont[BoldFont=SourceHanSerifJP-Bold]{SourceHanSerifJP-Ligth}\n
+                \\setsansjfont{SourceHanSansJP-Light}\n
+                \\setmonofont{SourceCodePro-Light}\n
+                \\usepackage{hyperref}\n
+                 [PACKAGES] [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
+                 ))
+  ;; org-export-latex-no-toc
+  (defun org-export-latex-no-toc (depth)
+    (when depth
+      (format "%% Org-mode is exporting headings to %s levels.\n"
+              depth)))
+  (setq org-export-latex-format-toc-function 'org-export-latex-no-toc)
 ;;  (and
 ;;   (require 'centered-cursor-mode)
 ;;   (global-centered-cursor-mode +1))
