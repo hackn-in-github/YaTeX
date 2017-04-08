@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     html
      markdown
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -418,7 +419,7 @@ you should place your code here."
                  "\\documentclass[a4j,lualatex,ja=standard,magstyle=nomag*]{bxjsreport}\n
                 [NO-DEFAULT-PACKAGES]
                 %\\setpagelayout{margin=20mm}\n
-                \\setmainjfont[BoldFont=SourceHanSerifJP-Bold]{SourceHanSerifJP-Ligth}\n
+                \\setmainjfont[BoldFont=SourceHanSerifJP-Bold]{SourceHanSerifJP-Light}\n
                 \\setsansjfont{SourceHanSansJP-Light}\n
                 \\setmonofont{SourceCodePro-Light}\n
                 \\usepackage{hyperref}\n
@@ -447,9 +448,30 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cal-tex-diary t)
+ '(column-number-mode t)
+ '(diary-list-include-blanks t)
+ '(display-time-24hr-format t)
+ '(display-time-mode t)
+ '(inhibit-startup-screen t)
+ '(line-number-mode t)
+ '(make-backup-files nil)
+ '(migemo-coding-system (quote utf-8-unix))
+ '(migemo-command "cmigemo")
+ '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
+ '(migemo-options (quote ("-q" "--emacs" "-i" "")))
+ '(migemo-regex-dictionary nil)
+ '(migemo-user-dictionary nil)
+ '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (avy-migemo migemo evil-nerd-commenter evil-mc evil-ediff dumb-jump aggressive-indent ace-window ace-link packed smartparens highlight evil helm helm-core async mmm-mode markdown-toc markdown-mode gh-md yatex ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor package-build spacemacs-theme))))
+    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode avy-migemo migemo evil-nerd-commenter evil-mc evil-ediff dumb-jump aggressive-indent ace-window ace-link packed smartparens highlight evil helm helm-core async mmm-mode markdown-toc markdown-mode gh-md yatex ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor package-build spacemacs-theme)))
+ '(show-paren-mode t)
+ '(tool-bar-mode nil)
+ '(whitespace-display-mappings (quote ((space-mark 12288 [9731]) (tab-mark 9 [187 9]))))
+ '(whitespace-space-regexp "\\(　+\\)")
+ '(whitespace-style (quote (face trailing tabs tab-mark spaces space-mark)))
+ '(whitespace-trailing-regexp "\\([ 　	]+\\)$"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
