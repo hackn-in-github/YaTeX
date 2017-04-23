@@ -442,6 +442,7 @@ you should place your code here."
 ;;  (and
 ;;   (require 'centered-cursor-mode)
 ;;   (global-centered-cursor-mode +1))
+  (setq magit-repository-directories '("~/ダウンロード/Github/"))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
