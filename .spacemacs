@@ -443,6 +443,7 @@ you should place your code here."
 ;;   (require 'centered-cursor-mode)
 ;;   (global-centered-cursor-mode +1))
   (setq magit-repository-directories '("~/ダウンロード/Github/"))
+  (define-key evil-motion-state-map (kbd "SPC h c") #'helm-calcul-expression)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
