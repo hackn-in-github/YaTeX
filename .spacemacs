@@ -58,7 +58,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
-                                      yatex
+;;                                      yatex
                                       info
 ;;                                      anything-config
                                       dbus
@@ -100,7 +100,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -308,6 +308,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
           (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
               (normal-top-level-add-subdirs-to-load-path))))))
   (add-to-load-path "/private/local")
+  (add-to-load-path "/site-lisp")
   (require 'tex-setting)
 ;;; 日本語環境設定
   (set-language-environment "utf-8")
@@ -470,7 +471,7 @@ you should place your code here."
  '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magithub magit-gh-pulls github-search github-clone magit magit-popup git-commit with-editor github-browse-file gist gh marshal logito pcache ht lua-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode avy-migemo migemo evil-nerd-commenter evil-mc evil-ediff dumb-jump aggressive-indent ace-window ace-link packed smartparens highlight evil helm helm-core async mmm-mode markdown-toc markdown-mode gh-md yatex ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor package-build spacemacs-theme)))
+    (winum evil-surround evil-search-highlight-persist evil-numbers evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu goto-chg undo-tree eval-sexp-fu elisp-slime-nav f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile dash adaptive-wrap ace-jump-helm-line avy popup smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magithub magit-gh-pulls github-search github-clone magit magit-popup git-commit with-editor github-browse-file gist gh marshal logito pcache ht lua-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode avy-migemo migemo evil-nerd-commenter evil-mc evil-ediff dumb-jump aggressive-indent ace-window ace-link packed smartparens highlight evil helm helm-core async mmm-mode markdown-toc markdown-mode gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor package-build spacemacs-theme)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(whitespace-display-mappings (quote ((space-mark 12288 [9731]) (tab-mark 9 [187 9]))))
