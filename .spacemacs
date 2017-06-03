@@ -31,9 +31,6 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     lua
-     html
-     markdown
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -45,6 +42,7 @@ values."
      emacs-lisp
      git
      github
+     markdown
      org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -52,15 +50,15 @@ values."
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     html
+     lua
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
-;;                                      yatex
                                       info
-;;                                      anything-config
                                       dbus
                                       migemo
                                       avy-migemo
@@ -256,10 +254,27 @@ values."
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
-   ;; derivatives. If set to `relative', also turns on relative line numbers.
+   ;; Control line numbers activation.
+   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
+   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; This variable can also be set to a property list for finer control:
+   ;; '(:relative t
+   ;;   :disabled-for-modes dired-mode
+   ;;                       doc-view-mode
+   ;;                       markdown-mode
+   ;;                       org-mode
+   ;;                       pdf-view-mode
+   ;;                       text-mode
+   ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers 'relative
+   dotspacemacs-line-numbers '(:relative t
+                               :disabled-for-modes dired-mode
+                               ;;doc-view-mode
+                               markdown-mode
+                               org-mode
+                               pdf-view-mode
+                               ;;text-mode
+                               :size-limit-kb 1000)
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -312,7 +327,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (require 'tex-setting)
 ;;; 日本語環境設定
   (set-language-environment "utf-8")
- )
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -325,42 +340,38 @@ you should place your code here."
   (require 'migemo)
   (require 'avy-migemo)
   (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
-;;   '(cal-tex-diary t)
-;;   '(column-number-mode t)
-;;   '(diary-list-include-blanks t)
-;;   '(display-time-24hr-format t)
-;;   '(display-time-mode t)
-;;   '(inhibit-startup-screen t)
-;;   '(line-number-mode t)
-;;   '(make-backup-files nil)
-;;   '(next-line-add-newlines nil)
-;;   '(show-paren-mode t)
-;;   '(tool-bar-mode nil)
+   '(cal-tex-diary t)
+   '(column-number-mode t)
+   '(diary-list-include-blanks t)
+   '(display-time-24hr-format t)
+   '(display-time-mode t)
+   '(inhibit-startup-screen t)
+   '(line-number-mode t)
+   '(make-backup-files nil)
+   '(next-line-add-newlines nil)
+   '(show-paren-mode t)
+   '(tool-bar-mode nil)
    ;; Emacs で全角スペース/タブ文字を可視化
    ;; http://weboo-returns.com/blog/emacs-shows-double-space-and-tab/
-;;   '(whitespace-style '(face
-;;                        trailing
-;;                        tabs
-;;                        tab-mark
-;;                        spaces
-;;                        space-mark))
-;;   '(whitespace-space-regexp "\\(\x3000+\\)")
-;;   '(whitespace-trailing-regexp "\\([\x20\x3000\t]+\\)$")
-;;   '(whitespace-display-mappings '((space-mark ?\x3000 [?\x2603])
-;;                                   (tab-mark ?\t [?\xBB?\t])))
+   '(whitespace-style '(face
+                        trailing
+                        tabs
+                        tab-mark
+                        spaces
+                        space-mark))
+   '(whitespace-space-regexp "\\(\x3000+\\)")
+   '(whitespace-trailing-regexp "\\([\x20\x3000\t]+\\)$")
+   '(whitespace-display-mappings '((space-mark ?\x3000 [?\x2603])
+                                   (tab-mark ?\t [?\xBB?\t])))
    ;; migemo
-;;   '(migemo-command "cmigemo")
-;;   '(migemo-options '("-q" "--emacs" "-i" "\a"))
-;;   '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict");; system-type 'gnu/linux
-;;   '(migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict");; system-type 'darwin
-;;   '(migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict");; system-type 'windows-nt
-;;   '(migemo-user-dictionary nil)
-;;   '(migemo-regex-dictionary nil)
-;;   '(migemo-coding-system 'utf-8-unix)
+   '(migemo-command "cmigemo")
+   '(migemo-options '("-q" "--emacs" "-i" "\a"))
+   '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict");; system-type 'gnu/linux
+   '(migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict");; system-type 'darwin
+   '(migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict");; system-type 'windows-nt
+   '(migemo-user-dictionary nil)
+   '(migemo-regex-dictionary nil)
+   '(migemo-coding-system 'utf-8-unix)
    )
   ;; ウィンドウの透け透け度 0-100 (0で透け透け)
   (set-frame-parameter nil 'alpha 75)
@@ -411,35 +422,35 @@ you should place your code here."
   (setq hl-line-face 'underline)
   (global-hl-line-mode)
   (fset 'evil-visual-update-x-selection 'ignore)
-  ;; latex in org mode
-  (require 'ox-latex)
-  ;; pdf process = lualatex
-  (setq org-latex-pdf-process '("lualatex %f"))
-  ;; default class = jsarticle
-  (setq org-latex-default-class "bxjsreport")
-  ;; org-latex-classes
-  (add-to-list 'org-latex-classes
-               '("bxjsreport"
-                 "\\documentclass[a4j,lualatex,ja=standard,magstyle=nomag*]{bxjsreport}\n
-                [NO-DEFAULT-PACKAGES]
-                %\\setpagelayout{margin=20mm}\n
-                \\setmainjfont[BoldFont=SourceHanSerifJP-Bold]{SourceHanSerifJP-Light}\n
-                \\setsansjfont{SourceHanSansJP-Light}\n
-                \\setmonofont{SourceCodePro-Light}\n
-                \\usepackage{hyperref}\n
-                 [PACKAGES] [EXTRA]"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
-                 ))
-  ;; org-export-latex-no-toc
-  (defun org-export-latex-no-toc (depth)
-    (when depth
-      (format "%% Org-mode is exporting headings to %s levels.\n"
-              depth)))
-  (setq org-export-latex-format-toc-function 'org-export-latex-no-toc)
+;;  ;; latex in org mode
+;;  (require 'ox-latex)
+;;  ;; pdf process = lualatex
+;;  (setq org-latex-pdf-process '("lualatex %f"))
+;;  ;; default class = jsarticle
+;;  (setq org-latex-default-class "bxjsreport")
+;;  ;; org-latex-classes
+;;  (add-to-list 'org-latex-classes
+;;               '("bxjsreport"
+;;                 "\\documentclass[a4j,lualatex,ja=standard,magstyle=nomag*]{bxjsreport}\n
+;;                [NO-DEFAULT-PACKAGES]
+;;                %\\setpagelayout{margin=20mm}\n
+;;                \\setmainjfont[BoldFont=SourceHanSerifJP-Bold]{SourceHanSerifJP-Light}\n
+;;                \\setsansjfont{SourceHanSansJP-Light}\n
+;;                \\setmonofont{SourceCodePro-Light}\n
+;;                \\usepackage{hyperref}\n
+;;                 [PACKAGES] [EXTRA]"
+;;                 ("\\section{%s}" . "\\section*{%s}")
+;;                 ("\\subsection{%s}" . "\\subsection*{%s}")
+;;                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+;;                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+;;                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
+;;                 ))
+;;  ;; org-export-latex-no-toc
+;;  (defun org-export-latex-no-toc (depth)
+;;    (when depth
+;;      (format "%% Org-mode is exporting headings to %s levels.\n"
+;;              depth)))
+;;  (setq org-export-latex-format-toc-function 'org-export-latex-no-toc)
 ;;  (and
 ;;   (require 'centered-cursor-mode)
 ;;   (global-centered-cursor-mode +1))
@@ -454,30 +465,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cal-tex-diary t)
- '(column-number-mode t)
- '(diary-list-include-blanks t)
- '(display-time-24hr-format t)
- '(display-time-mode t)
- '(inhibit-startup-screen t)
- '(line-number-mode t)
- '(make-backup-files nil)
- '(migemo-coding-system (quote utf-8-unix))
- '(migemo-command "cmigemo")
- '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
- '(migemo-options (quote ("-q" "--emacs")))
- '(migemo-regex-dictionary nil)
- '(migemo-user-dictionary nil)
- '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (winum evil-surround evil-search-highlight-persist evil-numbers evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu goto-chg undo-tree eval-sexp-fu elisp-slime-nav f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile dash adaptive-wrap ace-jump-helm-line avy popup smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magithub magit-gh-pulls github-search github-clone magit magit-popup git-commit with-editor github-browse-file gist gh marshal logito pcache ht lua-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode avy-migemo migemo evil-nerd-commenter evil-mc evil-ediff dumb-jump aggressive-indent ace-window ace-link packed smartparens highlight evil helm helm-core async mmm-mode markdown-toc markdown-mode gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor package-build spacemacs-theme)))
- '(show-paren-mode t)
- '(tool-bar-mode nil)
- '(whitespace-display-mappings (quote ((space-mark 12288 [9731]) (tab-mark 9 [187 9]))))
- '(whitespace-space-regexp "\\(　+\\)")
- '(whitespace-style (quote (face trailing tabs tab-mark spaces space-mark)))
- '(whitespace-trailing-regexp "\\([ 　	]+\\)$"))
+    (web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode less-css-mode htmlize helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit with-editor emmet-mode avy-migemo migemo ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery evil-unimpaired f s dash))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
