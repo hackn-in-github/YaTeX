@@ -367,8 +367,8 @@ you should place your code here."
    '(migemo-command "cmigemo")
    '(migemo-options '("-q" "--emacs" "-i" "\a"))
    '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict");; system-type 'gnu/linux
-   '(migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict");; system-type 'darwin
-   '(migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict");; system-type 'windows-nt
+;;   '(migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict");; system-type 'darwin
+;;   '(migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict");; system-type 'windows-nt
    '(migemo-user-dictionary nil)
    '(migemo-regex-dictionary nil)
    '(migemo-coding-system 'utf-8-unix)
@@ -456,6 +456,13 @@ you should place your code here."
 ;;   (global-centered-cursor-mode +1))
   (setq magit-repository-directories '("~/ダウンロード/Github/"))
   (define-key evil-motion-state-map (kbd "SPC h c") #'helm-calcul-expression)
+  (define-key evil-motion-state-map (kbd "SPC m t e m") #'my-tex-mark-setting)
+  (define-key evil-motion-state-map (kbd "SPC m t e f") #'my-tex-filename-replace)
+  (define-key evil-motion-state-map (kbd "SPC m t e k") #'my-tex-kijutsu-insert-include)
+  (define-key evil-motion-state-map (kbd "SPC m p g") #'my-pgf-graphic-named)
+  (define-key evil-motion-state-map (kbd "SPC m t i f p") #'my-tikz-fill-pattern)
+  (define-key evil-motion-state-map (kbd "SPC m t i f r") #'my-tikz-foreach-remember)
+  (define-key evil-motion-state-map (kbd "SPC m t i f e") #'my-tikz-foreach-evaluate)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
