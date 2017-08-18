@@ -28,7 +28,7 @@
 ;;	YaTeX-ref-default-label-string (buffer-file-name)
         YaTeX-use-AMS-LaTeX t;align環境が数式モードのになるはず
         YaTeX-electric-indent-mode t;emacs24.4以降に必要
-        YaTeX-japan nil
+        YaTeX-japan t
 ;;        YaTeX-help-file $doc-directory/../../site-lisp/YATEXHLP.ja
         )
   (fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
@@ -417,4 +417,11 @@
   (insert (concat "&\\phantom{\\mbox{}"
                   (if (y-or-n-p "\\Longleftrightarrow ですか?: ") "\\Longleftrightarrow" "=")
                   "\\mbox{}}")))
+
+;; node の概形を多角形にする
+(defun my-tikz-node-polygon ()
+  (interactive)
+  (let ((sides (read-string "多角形の辺の個数を入力: " "5"))
+        (minisize (read-string "外接円の直径を入力: " "12pt/.5")))
+    (insert (concat "regular polygon,regular polygon sides=" sides ",minimum size=" mimisize ",draw"))))
 (provide 'tex-setting)

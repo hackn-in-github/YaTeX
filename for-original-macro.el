@@ -1117,7 +1117,7 @@
                       ("item" . "enu")))
              (labelname (replace-regexp-in-string
                          "\\(：\\|-\\)" ":"
-                         (concat (read-string "問題の出題年度を入力してください :") ">"
+                         (concat (read-string "問題の出題年度を入力してください: ") ">"
                                   (if (> (length YaTeX-parent-file) 0)
                                      (concat (file-name-sans-extension
                                               (file-name-nondirectory
