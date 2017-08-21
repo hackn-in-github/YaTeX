@@ -422,6 +422,7 @@
 (defun my-tikz-node-polygon ()
   (interactive)
   (let ((sides (read-string "多角形の辺の個数を入力: " "5"))
-        (minisize (read-string "外接円の直径を入力: " "12pt/.5")))
-    (insert (concat "regular polygon,regular polygon sides=" sides ",minimum size=" mimisize ",draw"))))
+        (minisize (read-string "外接円の直径を入力: " "8pt")))
+    (insert (concat "regular polygon,regular polygon sides=" sides
+                    ",minimum size=" minisize ",draw,inner sep=0pt"))))
 (provide 'tex-setting)
