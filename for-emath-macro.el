@@ -3896,6 +3896,7 @@
 	 (emvec (cond ((= emnum 2) (YaTeX:read-coordinates "[option] 修正ベクトルの設定[要単位](dx,dy): " "dx" "dy"))
 		      (t "")))
 	 (emlength (read-string "図の横幅(省略可): ")))
+    (insert "\\prnind\n")
     (concat (if (string= emstopline "") ""
 	      (concat "<" emstopline ">"))
 	    (if (string= emallline "") ""
