@@ -5,19 +5,19 @@
 ;;      "*" "*"))
 (defun YaTeX:解説 ()
   (let* ((ast (if (y-or-n-p "解答・解説を表示状態にしますか？(今は常に`*'を付加する)")
-		  "*" "*"))
-	 (emnum (emath-get-number-from-list "表示文字列" `("解説" "解答"))))
+                  "*" "*"))
+         (emnum (emath-get-number-from-list "表示文字列" `("解説" "解答"))))
     (concat ast "\n\\noindent"
-	    (cond ((= emnum 1) "【解説】")
-		  ((= emnum 2) "【解答】")
-		  (()()))
-	    "\\par")))
+            (cond ((= emnum 1) "【解説】")
+                  ((= emnum 2) "【解答】")
+                  (()()))
+            "\\par")))
 (defun YaTeX:enumerate ()
   (setq enumop "")
   (if (y-or-n-p "レジュームオプションを利用しますか？")
       (if (y-or-n-p "固有名称を利用しますか？")
-	  (setq enumop (emath-setoption "" "resume" "固有名称の設定"))
-	(setq enumop "resume"))
+          (setq enumop (emath-setoption "" "resume" "固有名称の設定"))
+        (setq enumop "resume"))
     (setq enumop (emath-setoption "" "start" "番号の初期値")))
   (setq enumop (emath-setoption enumop "series" "固有名称の設定"))
   (if (> (length enumop) 0)
@@ -39,11 +39,11 @@
 (defun YaTeX:braces ()
   (if (y-or-n-p "オプションを設定しますか？")
       (let* ((emop (emath-setoption "" "braceupper" "括弧の上げ幅(0pt)"))
-	     (emop (emath-setoption emop "bracemag" "括弧の倍率(1)"))
-	     (emop (emath-setoption emop "display" "括弧の表示[rl]"))
-	     (emop (emath-setoption emop "upper" "全体の上げ幅(0pt)")))
-	(if (string= emop "") ""
-	  (concat "[" emop "]")))
+             (emop (emath-setoption emop "bracemag" "括弧の倍率(1)"))
+             (emop (emath-setoption emop "display" "括弧の表示[rl]"))
+             (emop (emath-setoption emop "upper" "全体の上げ幅(0pt)")))
+        (if (string= emop "") ""
+          (concat "[" emop "]")))
     ""))
 (fset 'YaTeX:parentheses 'YaTeX:braces)
 (fset 'YaTeX:brackets 'YaTeX:braces)
@@ -58,23 +58,23 @@
 (defun YaTeX:No ()
   (if (y-or-n-p "オプションを設定しますか？")
       (let* ((emop (emath-setoption "" "thickness" "罫線の太さ(1pt)"))
-	     (emop (emath-setoption emop "widthmag" "幅の倍率(1)"))
-	     (emop (emath-setoption emop "hyphenwidth" "ハイフンの長さ(2.5mm)"))
-	     (emop (emath-setoption emop "boxwidth" "章・問題番号の幅(1.375zw)")))
-	(if (string= emop "") ""
-	  (insert (concat "[" emop "]")))) "")
+             (emop (emath-setoption emop "widthmag" "幅の倍率(1)"))
+             (emop (emath-setoption emop "hyphenwidth" "ハイフンの長さ(2.5mm)"))
+             (emop (emath-setoption emop "boxwidth" "章・問題番号の幅(1.375zw)")))
+        (if (string= emop "") ""
+          (insert (concat "[" emop "]")))) "")
   (concat "{" (read-string "章番号: ") "}{"
-	  (read-string "問題番号: ") "}"))
+          (read-string "問題番号: ") "}"))
 ;; option は \No と同じ
 ;; Number は勝手にインクリメントして番号設定する
 (defun YaTeX:Number ()
   (if (y-or-n-p "オプションを設定しますか？")
       (let* ((emop (emath-setoption "" "thickness" "罫線の太さ(1pt)"))
-	     (emop (emath-setoption emop "widthmag" "幅の倍率(1)"))
-	     (emop (emath-setoption emop "hyphenwidth" "ハイフンの長さ(2.5mm)"))
-	     (emop (emath-setoption emop "boxwidth" "章・問題番号の幅(1.375zw)")))
-	(if (string= emop "") ""
-	  (concat "[" emop "]%"))) ""))
+             (emop (emath-setoption emop "widthmag" "幅の倍率(1)"))
+             (emop (emath-setoption emop "hyphenwidth" "ハイフンの長さ(2.5mm)"))
+             (emop (emath-setoption emop "boxwidth" "章・問題番号の幅(1.375zw)")))
+        (if (string= emop "") ""
+          (concat "[" emop "]%"))) ""))
 (fset 'YaTeX:Number* 'YaTeX:Number)
 ;; \Fbox[option]{}:section系コマンド
 ;; linewidth=線の幅(.4pt)
@@ -89,17 +89,17 @@
 (defun YaTeX:Fbox ()
   (if (y-or-n-p "オプションを設定しますか？")
       (let* ((emop (emath-setoption "" "linewidth" "線の太さ(.4pt)"))
-	     (emop (emath-setoption emop "xspc" "縦罫と本文との空白(2pt)"))
-	     (emop (emath-setoption emop "yspc" "横罫と本文との空白(2pt)"))
-	     (emop (emath-setoption emop "display" "縦罫の表示位置[lr]"))
-	     (emop (emath-setoption emop "width" "箱の横幅"))
-	     (emop (emath-setoption emop "pos" "文字列の配置[lcr]"))
-	     (emop (emath-setoption emop "strutheight" "支柱の高さ(0pt)"))
-	     (emop (emath-setoption emop "strutdepth" "支柱の深さ(0pt)"))
-	     (emop (emath-setoption emop "strutwidth" "支柱の幅(0pt)"))
-	     (temp (read-string "支柱の幅(0pt): ")))
-	(if (string= emop "") ""
-	  (concat "[" emop "]"))) ""))
+             (emop (emath-setoption emop "xspc" "縦罫と本文との空白(2pt)"))
+             (emop (emath-setoption emop "yspc" "横罫と本文との空白(2pt)"))
+             (emop (emath-setoption emop "display" "縦罫の表示位置[lr]"))
+             (emop (emath-setoption emop "width" "箱の横幅"))
+             (emop (emath-setoption emop "pos" "文字列の配置[lcr]"))
+             (emop (emath-setoption emop "strutheight" "支柱の高さ(0pt)"))
+             (emop (emath-setoption emop "strutdepth" "支柱の深さ(0pt)"))
+             (emop (emath-setoption emop "strutwidth" "支柱の幅(0pt)"))
+             (temp (read-string "支柱の幅(0pt): ")))
+        (if (string= emop "") ""
+          (concat "[" emop "]"))) ""))
 ;;% \FboxLine : 線の幅 .4pt
 ;;% \FboxXSpc : 線と文字の間隔(横方向) 2pt
 ;;% \FboxYSpc : 線と文字の間隔(縦方向) 2pt
@@ -112,32 +112,32 @@
 (defun YaTeX:SpcFbox ()
   (if (y-or-n-p "オプションを設定しますか？")
       (let* ((emop (emath-setoption "" "linewidth" "線の太さ(.4pt)"))
-	     (emop (emath-setoption emop "xspc" "縦罫と本文との空白(2pt)"))
-	     (emop (emath-setoption emop "yspc" "横罫と本文との空白(2pt)"))
-	     (emop (emath-setoption emop "width" "箱の横幅"))
-	     (emop (emath-setoption emop "display" "縦罫の表示[lr]"))
-	     (emop (emath-setoption emop "pos" "文字列の配置[lcr]"))
-	     (emop (emath-setoption emop "upperspace" "文字の上部の空白(8pt)"))
-	     (emop (emath-setoption emop "lowerspace" "文字の下部の空白(8pt)")))
-	(if (string= emop "") ""
-	  (concat "[" emop "]%広域での設定\n%\\FboxLine:線の幅\n"
-		  "%\\FboxXSpc:縦罫と文字列との幅\n%\\FboxYSpc:横罫と文字列との幅\n\t"))) ""))
+             (emop (emath-setoption emop "xspc" "縦罫と本文との空白(2pt)"))
+             (emop (emath-setoption emop "yspc" "横罫と本文との空白(2pt)"))
+             (emop (emath-setoption emop "width" "箱の横幅"))
+             (emop (emath-setoption emop "display" "縦罫の表示[lr]"))
+             (emop (emath-setoption emop "pos" "文字列の配置[lcr]"))
+             (emop (emath-setoption emop "upperspace" "文字の上部の空白(8pt)"))
+             (emop (emath-setoption emop "lowerspace" "文字の下部の空白(8pt)")))
+        (if (string= emop "") ""
+          (concat "[" emop "]%広域での設定\n%\\FboxLine:線の幅\n"
+                  "%\\FboxXSpc:縦罫と文字列との幅\n%\\FboxYSpc:横罫と文字列との幅\n\t"))) ""))
 ;;\Integers[option]%
 ;; options:alph=文字(n),first=開始番号(1),end=終了番号(3),space=「,」と「数字」の空白(\ )
 ;;         dots=点々の種類(ldots),nodots(dotsなし)
 (defun YaTeX:Integers ()
   (if (y-or-n-p "オプションを設定しますか？")
       (let* ((emop (emath-setoption "" "alph" "文字の指定(n)"))
-	     (emop (emath-setoption emop "begin" "開始番号(1)"))
-	     (emop (emath-setoption emop "end" "終了番号(3)"))
-	     (emop (emath-setoption emop "space" "`,'と`数字'の間の空白(\\ )"))
-	     (emop (emath-setoption emop "dots" "dotsの指定(\\ldots)")))
-	(if (y-or-n-p "nodotsを指定しますか？")
-	    (setq emop (concat emop
-			       (if (> (length emop) 0) "," "")
-			       "nodots")) "")
-	(if (string= emop "") ""
-	  (concat "[" emop "]%"))) ""))
+             (emop (emath-setoption emop "begin" "開始番号(1)"))
+             (emop (emath-setoption emop "end" "終了番号(3)"))
+             (emop (emath-setoption emop "space" "`,'と`数字'の間の空白(\\ )"))
+             (emop (emath-setoption emop "dots" "dotsの指定(\\ldots)")))
+        (if (y-or-n-p "nodotsを指定しますか？")
+            (setq emop (concat emop
+                               (if (> (length emop) 0) "," "")
+                               "nodots")) "")
+        (if (string= emop "") ""
+          (concat "[" emop "]%"))) ""))
 ;; \Tree[option]{繰り返し数}
 ;;% options:angle=開き角,length=初期枝長さ,
 ;;%         leftretio=左枝比,rightretio=右枝比
@@ -151,32 +151,32 @@
 ;;	  "{" (read-string "繰り返し数: ") "}"))
 (defun YaTeX:Mark ()
   (let* ((prerefstrings (mapconcat 'concat
-				   (split-string (file-name-sans-extension
-						  (file-name-nondirectory (buffer-file-name))) "-" t)
-				   ":"))
-	 (refstrings (read-string "[option] 参照用ラベル(`mark:'が内部で先頭に付加される): " (concat prerefstrings "-")))
-	 (sublabel-y-or-n (if (> (length refstrings) 0)
-			      (if (y-or-n-p "個別ラベルを設定しますか？") t nil)
-			    nil))
-	 (sublabel "")
-	 (answer (read-string "解答の設定: "))
-	 (loop-no 0))
+                                   (split-string (file-name-sans-extension
+                                                  (file-name-nondirectory (buffer-file-name))) "-" t)
+                                   ":"))
+         (refstrings (read-string "[option] 参照用ラベル(`mark:'が内部で先頭に付加される): " (concat prerefstrings "-")))
+         (sublabel-y-or-n (if (> (length refstrings) 0)
+                              (if (y-or-n-p "個別ラベルを設定しますか？") t nil)
+                            nil))
+         (sublabel "")
+         (answer (read-string "解答の設定: "))
+         (loop-no 0))
     (while (> (length answer) loop-no)
       (progn (setq loop-no (+ loop-no 1))
-	     (setq sublabel (format "%s%s%s:%s" sublabel (if (> (length sublabel) 0) "," "") refstrings loop-no))))
+             (setq sublabel (format "%s%s%s:%s" sublabel (if (> (length sublabel) 0) "," "") refstrings loop-no))))
     (concat (if (> (length refstrings) 0)
-		(concat "[" refstrings "]"
-			(if sublabel-y-or-n
-			    (concat "[" sublabel "]") "")) "")
-	    "{" answer "}")))
+                (concat "[" refstrings "]"
+                        (if sublabel-y-or-n
+                            (concat "[" sublabel "]") "")) "")
+            "{" answer "}")))
 (fset 'YaTeX:Mark* 'YaTeX:Mark)
 (fset 'YaTeX:MarkBox 'YaTeX:Mark)
 (fset 'YaTeX:MarkBox* 'YaTeX:Mark)
 (defun YaTeX:refMark ()
   (let* ((default-refstrings (mapconcat 'concat
-					(split-string (file-name-sans-extension
-						       (file-name-nondirectory (buffer-file-name))) "-" t)
-					":")))
+                                        (split-string (file-name-sans-extension
+                                                       (file-name-nondirectory (buffer-file-name))) "-" t)
+                                        ":")))
     (concat "{" (read-string "参照用ラベルの指定: " (concat default-refstrings "-")) "}")))
 (fset 'YaTeX:refMark* 'YaTeX:refMark)
 (fset 'YaTeX:RefMark 'YaTeX:refMark)
@@ -193,12 +193,12 @@
 (defun YaTeX:Zahyo ()
   (let* ((opstring ""))
     (if (y-or-n-p "オプションを設定しますか?")
-	(setq opstring (emath-setoption opstring "space" "座標間の距離(\\ )")
-	      opstring (emath-setoption opstring "sign" "座標間の区切り(,)")
-	      opstring (emath-setoption opstring "pspace" "括弧と座標のスペース(\\,)")
-	      opstring (emath-setoption opstring "paren" "括弧の種類((,))" "{" "}")) "")
+        (setq opstring (emath-setoption opstring "space" "座標間の距離(\\ )")
+              opstring (emath-setoption opstring "sign" "座標間の区切り(,)")
+              opstring (emath-setoption opstring "pspace" "括弧と座標のスペース(\\,)")
+              opstring (emath-setoption opstring "paren" "括弧の種類((,))" "{" "}")) "")
     (if (> (length opstring) 0)
-	(concat "<" opstring ">") "")))
+        (concat "<" opstring ">") "")))
 ;year:年
 ;term:前後期
 ;university:大学
@@ -209,33 +209,33 @@
 ;level:難易度
 (defun YaTeX:Shutten ()
   (let* ((option (emath-setoption "" "year" "出題年度"))
-	 (option (emath-setoption option "term" "前・後期"))
-	 (option (emath-setoption option "university" "大学名"))
-	 (option (emath-setoption option "faculty" "学部名"))
-	 (option (emath-setoption option "department" "学科名"))
-	 (option (emath-setoption option "no" "問題番号"))
-	 (option (emath-setoption option "matter" "出題内容" "{" "}"))
-	 (option (emath-setoption option "level" "難易度")))
+         (option (emath-setoption option "term" "前・後期"))
+         (option (emath-setoption option "university" "大学名"))
+         (option (emath-setoption option "faculty" "学部名"))
+         (option (emath-setoption option "department" "学科名"))
+         (option (emath-setoption option "no" "問題番号"))
+         (option (emath-setoption option "matter" "出題内容" "{" "}"))
+         (option (emath-setoption option "level" "難易度")))
     (concat "{" option "}" )))
 (defun YaTeX:unitcirc ()
   (let* ((option (emath-setoption "" "hankei" "単位円の半径(1)"))
-	 (option (emath-setoption option "ewputstring" "横軸に表示する半径(1)"))
-	 (option (emath-setoption option "nsputstring" "縦軸に表示する半径(1)"))
-	 (epos (emath-Put-HouiShitei))
-	 (wpos (emath-Put-HouiShitei))
-	 (npos (emath-Put-HouiShitei))
-	 (spos (emath-Put-HouiShitei))
-	 (epos (if (> (length epos) 0)
-		   (concat "epos={" epos "}") ""))
-	 (wpos (if (> (length wpos) 0)
-		   (concat "wpos={" wpos "}") ""))
-	 (npos (if (> (length npos) 0)
-		   (concat "npos={" npos "}") ""))
-	 (spos (if (> (length spos) 0)
-		   (concat "spos={" spos "}") ""))
-	 (option (emath-option-combine "," `(,option ,epos ,wpos ,npos ,spos))))
+         (option (emath-setoption option "ewputstring" "横軸に表示する半径(1)"))
+         (option (emath-setoption option "nsputstring" "縦軸に表示する半径(1)"))
+         (epos (emath-Put-HouiShitei))
+         (wpos (emath-Put-HouiShitei))
+         (npos (emath-Put-HouiShitei))
+         (spos (emath-Put-HouiShitei))
+         (epos (if (> (length epos) 0)
+                   (concat "epos={" epos "}") ""))
+         (wpos (if (> (length wpos) 0)
+                   (concat "wpos={" wpos "}") ""))
+         (npos (if (> (length npos) 0)
+                   (concat "npos={" npos "}") ""))
+         (spos (if (> (length spos) 0)
+                   (concat "spos={" spos "}") ""))
+         (option (emath-option-combine "," `(,option ,epos ,wpos ,npos ,spos))))
     (if (> (length option) 0)
-	(insert (concat "[" option "]")))))
+        (insert (concat "[" option "]")))))
 ;\define@key{mytikzpicture}{fontsize}{\def\@MTPfontsize{#1}}
 ;\define@key{mytikzpicture}{margin}{\def\@MTPmargin{#1}}%
 ;\define@key{mytikzpicture}{left margin}{\def\@MTPleftmargin{#1}}%
@@ -252,29 +252,29 @@
 ;\define@key{mytikzpicture}{y string pos}{\def\@MTPystringpos{#1}}%
 (defun YaTeX:mytikzpicture ()
   (concat (if (y-or-n-p "座標軸を描画しますか?: ")
-	      "" "*")
-	  "<grid>"
-	  (let* ((xscale (read-string "[option] x軸方向の拡大率: "))
-		 (xscale (if (> (length xscale) 0)
-			     (concat "xscale=" xscale) ""))
-		 (yscale (read-string "[option] y軸方向の拡大率: "))
-		 (yscale (if (> (length yscale) 0)
-			     (concat "yscale=" yscale) ""))
-		 (scale (if (and (= (length xscale) 0)(= (length yscale) 0))
-			    (read-string "[option] 全体の拡大率: ") ""))
-		 (scale (if (> (length scale) 0)
-			     (concat "scale=" scale) ""))
-		 (opnum (emath-get-number-from-list "[option] baselineの設定" `("Top" "Center" "Bottom" "None")))
-		 (baseline (cond ((= opnum 1) "baseline=current bounding box.north")
-				 ((= opnum 2) "baseline=current bounding box.center")
-				 ((= opnum 3) "baseline=current bounding box.south")
-				 (t "")))
-		 (option (emath-option-combine "," `(,xscale ,yscale ,scale ,baseline))))
-	    (concat (if (> (length option) 0)
-			(concat "[" option "]") "")))
-	  (YaTeX:read-coordinates "xの定義域の指定: " "xmin" "xmax")
-	  (YaTeX:read-coordinates "yの定義域の指定: " "ymin" "ymax")
-	  "\n\\draw(trueLB)rectangle(trueRT);"))
+              "" "*")
+          "<grid>"
+          (let* ((xscale (read-string "[option] x軸方向の拡大率: "))
+                 (xscale (if (> (length xscale) 0)
+                             (concat "xscale=" xscale) ""))
+                 (yscale (read-string "[option] y軸方向の拡大率: "))
+                 (yscale (if (> (length yscale) 0)
+                             (concat "yscale=" yscale) ""))
+                 (scale (if (and (= (length xscale) 0)(= (length yscale) 0))
+                            (read-string "[option] 全体の拡大率: ") ""))
+                 (scale (if (> (length scale) 0)
+                            (concat "scale=" scale) ""))
+                 (opnum (emath-get-number-from-list "[option] baselineの設定" `("Top" "Center" "Bottom" "None")))
+                 (baseline (cond ((= opnum 1) "baseline=current bounding box.north")
+                                 ((= opnum 2) "baseline=current bounding box.center")
+                                 ((= opnum 3) "baseline=current bounding box.south")
+                                 (t "")))
+                 (option (emath-option-combine "," `(,xscale ,yscale ,scale ,baseline))))
+            (concat (if (> (length option) 0)
+                        (concat "[" option "]") "")))
+          (YaTeX:read-coordinates "xの定義域の指定: " "xmin" "xmax")
+          (YaTeX:read-coordinates "yの定義域の指定: " "ymin" "ymax")
+          "\n\\draw(trueLB)rectangle(trueRT);"))
 ;; \mytikzarc<オプション1>[オプション2]{中心}{半径}{開始角}{終了角}
 ;; \mytikzarc*[option]{中心}{半径}{開始角}{終了角}
 ;; 中心・半径・開始角・終了角を指定して弧を描く
@@ -406,13 +406,13 @@
 ;;  #3:点列(,区切り)
 (defun YaTeX:mytikzmaru ()
   (let* ((option (emath-setoption "" "radius" "(白|黒)丸の半径(2.5pt)"))
-	 (option (emath-setoption option "x radius" "x軸方向の半径"))
-	 (option (emath-setoption option "y radius" "y軸方向の半径"))
-	 (blackflag (if (y-or-n-p "黒丸にしますか?: ") 1 0)))
+         (option (emath-setoption option "x radius" "x軸方向の半径"))
+         (option (emath-setoption option "y radius" "y軸方向の半径"))
+         (blackflag (if (y-or-n-p "黒丸にしますか?: ") 1 0)))
     (concat (if (= blackflag 1) "*" "")
-	    (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (emath-tenretu-loop "," "(白|黒)丸を打つ点の指定(Enterで終了)") "}%")))
+            (if (> (length option) 0)
+                (concat "<" option ">") "")
+            "{" (emath-tenretu-loop "," "(白|黒)丸を打つ点の指定(Enterで終了)") "}%")))
 ;; \mytikzmakeintersection<#1>[#2]#3#4#5
 ;; #1:オプション
 ;;  sort:Sortの基準を設定(#3or#5)default=#3
@@ -449,14 +449,14 @@
 ;; #5:この関数のパスの名前(交点を求めるときに使える)
 (defun YaTeX:mytikzfunction ()
   (let* ((option (emath-setoption "" "leftP" "左端点の名前(leftP)"))
-	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
+         (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">"))
-	    "{" (read-string "x座標を表す式: " "\\x") "}"
-	    "{" (read-string "y座標を表す式: " "\\Fx") "}"
-	    "{" (read-string "パス名: ") "}%\n"
-	    "%\t[#2]はplotのオプション．\n"
-	    "%\tデフォルトはsmooth．samples=200などで変更できる")))
+                (concat "<" option ">"))
+            "{" (read-string "x座標を表す式: " "\\x") "}"
+            "{" (read-string "y座標を表す式: " "\\Fx") "}"
+            "{" (read-string "パス名: ") "}%\n"
+            "%\t[#2]はplotのオプション．\n"
+            "%\tデフォルトはsmooth．samples=200などで変更できる")))
 ;; \mytikzfillFandF<#1>[#2]|#3|#4#5#6#7
 ;; #1:オプション1
 ;;  \fillのオプション指定(色や透明度など)
@@ -584,12 +584,12 @@
 ;; #5:この開始点と終了点の角度をカンマ(,)区切りで指定
 (defun YaTeX:ASector ()
   (let* ((option (if (y-or-n-p "弧のみを描画しますか？: ") "arc only" ""))
-	 (option (emath-setoption option "arc radius" "引数の半径を無視する場合の半径")))
+         (option (emath-setoption option "arc radius" "引数の半径を無視する場合の半径")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "扇形の中心: ") "}"
-	    "{" (read-string "扇形の半径: ") "}"
-	    "{" (read-string "開始角度: ") "," (read-string "終了角度: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "扇形の中心: ") "}"
+            "{" (read-string "扇形の半径: ") "}"
+            "{" (read-string "開始角度: ") "," (read-string "終了角度: ") "}%")))
 ;; \PSector<#1>[#2]{#3}{#4}%
 ;; P(oint)Sector:開始点と終了点を指定する扇形
 ;; ex:\PSector{O}{A,B}%
@@ -601,11 +601,11 @@
 ;; #4:弧の開始点と終了点をカンマ(,)区切りで指定
 (defun YaTeX:PSector ()
   (let* ((option (if (y-or-n-p "弧のみを描画しますか？: ") "arc only" ""))
-	 (option (emath-setoption option "arc radius" "引数の半径を無視する場合の半径")))
+         (option (emath-setoption option "arc radius" "引数の半径を無視する場合の半径")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "扇形の中心: ") "}"
-	    "{" (read-string "開始点: ") "," (read-string "終了点: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "扇形の中心: ") "}"
+            "{" (read-string "開始点: ") "," (read-string "終了点: ") "}%")))
 ;; \DSector<#1>[#2]{#3}{#4}{#5}%
 ;; D(elta)Sector:開始点と中心角を指定する扇形
 ;; ex:\DSector{O}{A}{150}%
@@ -618,12 +618,12 @@
 ;; #5:中心角
 (defun YaTeX:DSector ()
   (let* ((option (if (y-or-n-p "弧のみを描画しますか？: ") "arc only" ""))
-	 (option (emath-setoption option "arc radius" "引数の半径を無視する場合の半径")))
+         (option (emath-setoption option "arc radius" "引数の半径を無視する場合の半径")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "扇形の中心: ") "}"
-	    "{" (read-string "開始点: ") "}"
-	    "{" (read-string "中心角: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "扇形の中心: ") "}"
+            "{" (read-string "開始点: ") "}"
+            "{" (read-string "中心角: ") "}%")))
 ;; \Bunten<#1>[#2]{#3}{#4}%
 ;; ex:\Bunten{A,B}{4}%
 ;; #1:固有オプション
@@ -634,11 +634,11 @@
 ;; #4:何等分するか指定
 (defun YaTeX:Bunten ()
   (let* ((option (if (y-or-n-p "両端にも線分を負荷しますか？: ") "both ends" ""))
-	 (option (emath-setoption option "length" "付加する線分の長さ(7.5pt)")))
+         (option (emath-setoption option "length" "付加する線分の長さ(7.5pt)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "端点1: ") "," (read-string "端点2: ") "}"
-	    "{" (read-string "何等分するか指定: ") "}")))
+                (concat "<" option ">") "")
+            "{" (read-string "端点1: ") "," (read-string "端点2: ") "}"
+            "{" (read-string "何等分するか指定: ") "}")))
 ;; \ToukakuKigou<#1>[#2]{#3}{#4}%
 ;; ex:\ToukakuKigou{A,B,C;B,C,D;D,A,B}{$\circ$}%
 ;; #1:固有オプション
@@ -654,22 +654,22 @@
 ;; #4:使用する記号を指定する
 (defun YaTeX:ToukakuKigou ()
   (let* ((option (if (y-or-n-p "弧を描画しますか？: ") "arc" ""))
-	 (option (if (> (length option) 0)
-		     (emath-setoption option "arc radius" "弧に対する半径(12.5pt)") ""))
-	 (option (emath-setoption option "string radius" "文字列に対する半径(7.5pt)"))
-	 (option (emath-setoption option "string size" "文字列の大きさ(\\scriptsize)"))
-	 (num (read-number "弧上に配置する等弧記号の数(0): "))
-	 (signnum (if (> num 0)
-		      (concat "sing num=" (number-to-string num)) ""))
-	 (signlength (if (> num 0)
-			 (emath-setoption "" "sign length" "弧上に配置する等弧記号の長さ(7.5pt)") ""))
-	 (signspace (if (> num 1)
-			(emath-setoption "" "sign space" "弧上に配置する等弧記号間の間隔(1pt)") ""))
-	 (option (emath-option-combine "," `(,option ,signnum ,signlength ,signspace))))
+         (option (if (> (length option) 0)
+                     (emath-setoption option "arc radius" "弧に対する半径(12.5pt)") ""))
+         (option (emath-setoption option "string radius" "文字列に対する半径(7.5pt)"))
+         (option (emath-setoption option "string size" "文字列の大きさ(\\scriptsize)"))
+         (num (read-number "弧上に配置する等弧記号の数(0): "))
+         (signnum (if (> num 0)
+                      (concat "sing num=" (number-to-string num)) ""))
+         (signlength (if (> num 0)
+                         (emath-setoption "" "sign length" "弧上に配置する等弧記号の長さ(7.5pt)") ""))
+         (signspace (if (> num 1)
+                        (emath-setoption "" "sign space" "弧上に配置する等弧記号間の間隔(1pt)") ""))
+         (option (emath-option-combine "," `(,option ,signnum ,signlength ,signspace))))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (emath-tenretu-loop ";" "角度をカンマ(,)区切りで3点指定する") "}"
-	    "{" (read-string "記号の指定: ") "}")))
+                (concat "<" option ">") "")
+            "{" (emath-tenretu-loop ";" "角度をカンマ(,)区切りで3点指定する") "}"
+            "{" (read-string "記号の指定: ") "}")))
 ;; \TouhenKigou<#1>[#2]{#3}
 ;; #1:固有オプション
 ;;   length:記号の長さ(7.5pt)
@@ -679,15 +679,15 @@
 ;; #3:2端点をカンマ(,)区切りで指定したものをセミコロン(;)区切りで複数指定する
 (defun YaTeX:TouhenKigou ()
   (let* ((num (read-number "等辺記号の個数(2): "))
-	 (signnum (if (not (= num 2))
-		      (concat "sign num=" (number-to-string num)) ""))
-	 (option (if (> num 1)
-		     (emath-setoption "" "space" "等辺記号間の間隔(3pt)") ""))
-	 (option (emath-setoption option "length" "等辺記号の長さ(7.5pt)"))
-	 (option (emath-option-combine "," `(,signnum ,option))))
+         (signnum (if (not (= num 2))
+                      (concat "sign num=" (number-to-string num)) ""))
+         (option (if (> num 1)
+                     (emath-setoption "" "space" "等辺記号間の間隔(3pt)") ""))
+         (option (emath-setoption option "length" "等辺記号の長さ(7.5pt)"))
+         (option (emath-option-combine "," `(,signnum ,option))))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (emath-tenretu-loop ";" "辺の端点をカンマ(,)区切りで指定する") "}")))
+                (concat "<" option ">") "")
+            "{" (emath-tenretu-loop ";" "辺の端点をカンマ(,)区切りで指定する") "}")))
 ;; \Henko<#1>[#2]{#3,#4}{#5}%
 ;; #1:固有オプション
 ;;    fboxsep:文字列の周りのスペース(1pt)
@@ -701,15 +701,15 @@
 ;; #5:配置文字列の指定
 (defun YaTeX:Henko ()
   (let* ((option (emath-setoption "" "angle" "弦から出る角度(空文字列)"))
-	 (option (emath-setoption option "pos" "文字列の配置位置(.5)"))
-	 (option (emath-setoption option "rotate" "文字列の回転(0)[0:回転なし 1:始点から終点 -1:終点から始点]"))
-	 (option (emath-setoption option "fboxsep" "文字列の周りの余白(1pt)"))
-	 (option (emath-setoption option "fontsize" "文字列のサイズ(\\scriptsize)"))
-	 (option (emath-setoption option "background color" "文字列の背景色(white)[transparentで塗り潰しなし]")))
+         (option (emath-setoption option "pos" "文字列の配置位置(.5)"))
+         (option (emath-setoption option "rotate" "文字列の回転(0)[0:回転なし 1:始点から終点 -1:終点から始点]"))
+         (option (emath-setoption option "fboxsep" "文字列の周りの余白(1pt)"))
+         (option (emath-setoption option "fontsize" "文字列のサイズ(\\scriptsize)"))
+         (option (emath-setoption option "background color" "文字列の背景色(white)[transparentで塗り潰しなし]")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "端点1: ") "," (read-string "端点2: ") "}"
-	    "{" (read-string "配置文字列: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "端点1: ") "," (read-string "端点2: ") "}"
+            "{" (read-string "配置文字列: ") "}%")))
 ;; \RightAngle<#1>[#2]{#3}%
 ;; #1:固有オプション
 ;;    size:直角記号の1辺の長さ(10pt)
@@ -719,11 +719,11 @@
 ;; #3:直角をなす角をカンマ(,)区切りで指定したものをセミコロン(;)で区切り複数指定する
 (defun YaTeX:RightAngle ()
   (let* ((option (if (y-or-n-p "記号をひし形(正方形)にしますか？: ")
-		     "cycle" ""))
-	 (option (emath-setoption option "size" "記号の1辺の長さ(10pt)")))
+                     "cycle" ""))
+         (option (emath-setoption option "size" "記号の1辺の長さ(10pt)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (emath-tenretu-loop ";" "直角を作る3点をカンマ(,)区切りで指定") "}%")))
+                (concat "<" option ">") "")
+            "{" (emath-tenretu-loop ";" "直角を作る3点をカンマ(,)区切りで指定") "}%")))
 ;; \Maru*<#1>[#2]{#3}%
 ;; *:負荷すると黒丸，負荷しないと白丸
 ;; #1:半径オプション
@@ -757,20 +757,20 @@
 ;; #5:パスの名前
 (defun YaTeX:Vline ()
   (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
-		  (if (y-or-n-p "半直線にしますか？: ")
-		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
-			  1 2) 0) 3))
-	 (option (cond ((= num 1) "left")
-		       ((= num 2) "right")
-		       ((= num 3) "noline")
-		       (t "")))
-	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
-	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
+                  (if (y-or-n-p "半直線にしますか？: ")
+                      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+                          1 2) 0) 3))
+         (option (cond ((= num 1) "left")
+                       ((= num 2) "right")
+                       ((= num 3) "noline")
+                       (t "")))
+         (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
+         (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "通過点: ") "}"
-	    "{" (read-string "方向ベクトル[ex. 1,2]: ") "}"
-	    "{" (read-string "直線の名前: ") "}")))
+                (concat "<" option ">") "")
+            "{" (read-string "通過点: ") "}"
+            "{" (read-string "方向ベクトル[ex. 1,2]: ") "}"
+            "{" (read-string "直線の名前: ") "}")))
 ;; \Pline<#1>[#2]{#3}{#4}%
 ;; P(ector)line
 ;; ex:\Pline{A,B}{line1}%
@@ -785,19 +785,19 @@
 ;; #4:パスの名前
 (defun YaTeX:Pline ()
   (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
-		  (if (y-or-n-p "半直線にしますか？: ")
-		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
-			  1 2) 0) 3))
-	 (option (cond ((= num 1) "left")
-		       ((= num 2) "right")
-		       ((= num 3) "noline")
-		       (t "")))
-	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
-	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
+                  (if (y-or-n-p "半直線にしますか？: ")
+                      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+                          1 2) 0) 3))
+         (option (cond ((= num 1) "left")
+                       ((= num 2) "right")
+                       ((= num 3) "noline")
+                       (t "")))
+         (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
+         (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "通過点1: ") "," (read-string "通過点2: ") "}"
-	    "{" (read-string "パスの名前: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "通過点1: ") "," (read-string "通過点2: ") "}"
+            "{" (read-string "パスの名前: ") "}%")))
 ;; \Sline<#1>[#2]#3#4#5
 ;; S(lope)line:1点と傾き指定
 ;; #1:オプション1
@@ -812,20 +812,20 @@
 ;; #5:パスの名前
 (defun YaTeX:Sline ()
   (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
-		  (if (y-or-n-p "半直線にしますか？: ")
-		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
-			  1 2) 0) 3))
-	 (option (cond ((= num 1) "left")
-		       ((= num 2) "right")
-		       ((= num 3) "noline")
-		       (t "")))
-	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
-	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
+                  (if (y-or-n-p "半直線にしますか？: ")
+                      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+                          1 2) 0) 3))
+         (option (cond ((= num 1) "left")
+                       ((= num 2) "right")
+                       ((= num 3) "noline")
+                       (t "")))
+         (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
+         (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "通過点: ") "}"
-	    "{" (read-string "傾き: ") "}"
-	    "{" (read-string "パスの名前: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "通過点: ") "}"
+            "{" (read-string "傾き: ") "}"
+            "{" (read-string "パスの名前: ") "}%")))
 ;; \Aline<#1>[#2]#3#4#5
 ;; A(ngle)line:1点と角度指定
 ;; #1:オプション1
@@ -840,20 +840,20 @@
 ;; #5:パスの名前
 (defun YaTeX:Aline ()
   (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
-		  (if (y-or-n-p "半直線にしますか？: ")
-		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
-			  1 2) 0) 3))
-	 (option (cond ((= num 1) "left")
-		       ((= num 2) "right")
-		       ((= num 3) "noline")
-		       (t "")))
-	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
-	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
+                  (if (y-or-n-p "半直線にしますか？: ")
+                      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+                          1 2) 0) 3))
+         (option (cond ((= num 1) "left")
+                       ((= num 2) "right")
+                       ((= num 3) "noline")
+                       (t "")))
+         (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
+         (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "通過点: ") "}"
-	    "{" (read-string "x軸とのなす角度: ") "}"
-	    "{" (read-string "パスの名前: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "通過点: ") "}"
+            "{" (read-string "x軸とのなす角度: ") "}"
+            "{" (read-string "パスの名前: ") "}%")))
 ;; \Nline:1点と法線ベクトル指定
 ;; N(ormalVector)line
 ;; #1:オプション1
@@ -868,20 +868,20 @@
 ;; #5:パスの名前
 (defun YaTeX:Nline ()
   (let* ((num (if (y-or-n-p "直線を描画しますか？: ")
-		  (if (y-or-n-p "半直線にしますか？: ")
-		      (if (y-or-n-p "指定点の左側を描画しますか？: ")
-			  1 2) 0) 3))
-	 (option (cond ((= num 1) "left")
-		       ((= num 2) "right")
-		       ((= num 3) "noline")
-		       (t "")))
-	 (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
-	 (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
+                  (if (y-or-n-p "半直線にしますか？: ")
+                      (if (y-or-n-p "指定点の左側を描画しますか？: ")
+                          1 2) 0) 3))
+         (option (cond ((= num 1) "left")
+                       ((= num 2) "right")
+                       ((= num 3) "noline")
+                       (t "")))
+         (option (emath-setoption option "leftP" "左端点の名前(leftP)"))
+         (option (emath-setoption option "rightP" "右端点の名前(rightP)")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">") "")
-	    "{" (read-string "通過点: ") "}"
-	    "{" (read-string "法線ベクトル: ") "}"
-	    "{" (read-string "パスの名前: ") "}%")))
+                (concat "<" option ">") "")
+            "{" (read-string "通過点: ") "}"
+            "{" (read-string "法線ベクトル: ") "}"
+            "{" (read-string "パスの名前: ") "}%")))
 ;; \CTangent<#1>[#2]{#3}{#4}{#5}{#6}%
 ;; 円外の点#3から中心#4半径#5へ接線を引く時の接点を#6に格納する
 ;; #1:固有オプション
@@ -894,13 +894,13 @@
 ;; #6:2つの接点の名前をカンマ(,)区切りで指定する
 (defun YaTeX:CTangent ()
   (let* ((option (if (y-or-n-p "drawlineオプションを使用しますか？: ")
-		     "drawline" "")))
+                     "drawline" "")))
     (concat (if (> (length option) 0)
-		(concat "<" option ">"))
-	    "{" (read-string "円外の点: ") "}"
-	    "{" (read-string "円の中心: ") "}"
-	    "{" (read-string "円の半径: ") "}"
-	    "{" (read-string "接点の指定(2点をカンマ区切りで): ") "}")))
+                (concat "<" option ">"))
+            "{" (read-string "円外の点: ") "}"
+            "{" (read-string "円の中心: ") "}"
+            "{" (read-string "円の半径: ") "}"
+            "{" (read-string "接点の指定(2点をカンマ区切りで): ") "}")))
 ;; Attention環境
 ;;(defun YaTeX:Attention ()
 ;;  (let* ((op1 (emath-setoption "" "fill" "[Title]塗りつぶし色(red!30)"))
@@ -929,8 +929,8 @@
 ;; #3:最小値を除いた数字の列を格納する命令
 (defun YaTeX:GetMin ()
   (insert (concat "{" (emath-tenretu-loop "," "データを入力(Enterで終了)") "}"
-		  (read-string "最小値を格納する命令: ")
-		  (read-string "最小値を除いたデータ列を格納する命令: "))))
+                  (read-string "最小値を格納する命令: ")
+                  (read-string "最小値を除いたデータ列を格納する命令: "))))
 ;; \Sort{#1}{#2}{#3}{#4}%
 ;; #1:配列の名称
 ;; #2:配列
@@ -938,9 +938,9 @@
 ;; #4:並べ直した配列を格納する命令
 (defun YaTeX:Sort ()
   (insert (concat "{" (read-string "配列の名称: " "array") "}"
-		  "{" (emath-tenretu-loop "," "データを入力(Enterで終了)") "}"
-		  (read-string "配列の個数を格納する命令: ")
-		  (read-string "並べ直した配列を格納する命令: "))))
+                  "{" (emath-tenretu-loop "," "データを入力(Enterで終了)") "}"
+                  (read-string "配列の個数を格納する命令: ")
+                  (read-string "並べ直した配列を格納する命令: "))))
 ;; \HakoHige<#1>[#2](#3){#4}
 ;; #1:original option
 ;;  width:箱の横幅
@@ -953,26 +953,26 @@
 ;; #4:箱ひげを作るためのデータをカンマ区切りで指定
 (defun YaTeX:HakoHige ()
   (let* ((op1 (emath-setoption "" "width" "箱の横幅(0,1)で指定(.5)"))
-	 (op1 (emath-setoption op1 "higewidth" "ひげの横幅(0,1)で指定(.5)"))
-	 (op1 (emath-setoption op1 "medmark" "平均値のマークの指定($+$)"))
-	 (showmed (if (y-or-n-p "平均値を表示させますか？: ")
-		      "showmed" ""))
-	 (data (if (y-or-n-p "条件のみ与えますか？: ")
-		   (concat "data={" (read-string "最小値: ")
-			   "," (read-string "第1四分位数: ")
-			   "," (read-string "第2四分位数: ")
-			   "," (read-string "第3四分位数: ")
-			   "," (read-string "最大値") "}") ""))
-	 (op1 (emath-option-combine "," `(,op1 ,showmed ,data)))
-	 (op2 (read-string "箱のオプション指定[fill,opacity=.5など]: "))
-	 (op3 (read-string "ひげのオプション指定[line width=2ptなど]: ")))
+         (op1 (emath-setoption op1 "higewidth" "ひげの横幅(0,1)で指定(.5)"))
+         (op1 (emath-setoption op1 "medmark" "平均値のマークの指定($+$)"))
+         (showmed (if (y-or-n-p "平均値を表示させますか？: ")
+                      "showmed" ""))
+         (data (if (y-or-n-p "条件のみ与えますか？: ")
+                   (concat "data={" (read-string "最小値: ")
+                           "," (read-string "第1四分位数: ")
+                           "," (read-string "第2四分位数: ")
+                           "," (read-string "第3四分位数: ")
+                           "," (read-string "最大値") "}") ""))
+         (op1 (emath-option-combine "," `(,op1 ,showmed ,data)))
+         (op2 (read-string "箱のオプション指定[fill,opacity=.5など]: "))
+         (op3 (read-string "ひげのオプション指定[line width=2ptなど]: ")))
     (insert (concat (if (> (length op1) 0)
-			(concat "<" op1 ">"))
-		    (if (> (length op2) 0)
-			(concat "[" op2 "]"))
-		    (if (> (length op3) 0)
-			(concat "(" op3 ")"))
-		    "{" (emath-tenretu-loop "," "データの入力(Enterで終了)") "}"))))
+                        (concat "<" op1 ">"))
+                    (if (> (length op2) 0)
+                        (concat "[" op2 "]"))
+                    (if (> (length op3) 0)
+                        (concat "(" op3 ")"))
+                    "{" (emath-tenretu-loop "," "データの入力(Enterで終了)") "}"))))
 ;; \SetAngles<#1>[#2]{#3}[#4]{#5}%
 ;; #1:オリジナルオプション
 ;;  strings only:弧を描かない
@@ -982,11 +982,11 @@
 ;; #5:「始点,中心,終点」のセットを ; 区切りで記述
 (defun YaTeX:SetAngles ()
   (let* ((picop (emath-setoption "" "angle radius" "弧の半径(5mm)"))
-	 (picop (emath-setoption picop "angle eccentricity" "テキストの位置[0で中心1で弧上](.6)")))
+         (picop (emath-setoption picop "angle eccentricity" "テキストの位置[0で中心1で弧上](.6)")))
     (insert (concat "{" (read-string "テキスト: ") "}"
-		    (if (> (length picop) 0)
-			(concat "[" picop "]"))
-		    "{" (emath-tenretu-loop ";" "始点,中心,終点を入力(Enterで終了)") "}%"))))
+                    (if (> (length picop) 0)
+                        (concat "[" picop "]"))
+                    "{" (emath-tenretu-loop ";" "始点,中心,終点を入力(Enterで終了)") "}%"))))
 ;; Framebox 環境 (枠で囲む，ページで分割可能)
 ;; \begin{Framebox}<#1>(#2)[#3]{#4}
 ;;  ほげほげふがふが
@@ -1000,11 +1000,11 @@
 (defun YaTeX:Framebox ()
   (let ((title (read-string "Title: ")))
     (concat "\n\t<>% Titleの\\node option\n"
-		    "\t()% Titleの\\tikz option\n"
-		    "\t[]% mdframed環境のoption\n"
-		    (if (> (length title) 0)
-			(concat "\t{" title "}%")
-		      "\t{}%"))))
+            "\t()% Titleの\\tikz option\n"
+            "\t[]% mdframed環境のoption\n"
+            (if (> (length title) 0)
+                (concat "\t{" title "}%")
+              "\t{}%"))))
 ;; \SetParallels<#1>[#2]{#3}
 ;; 平行記号を配置するコマンド
 ;; #1:オリジナルオプション
@@ -1019,16 +1019,16 @@
 ;;  A,B;C,D;E,F のように複数指定する
 (defun YaTeX:SetParallels ()
   (let* ((op1 (emath-setoption "" "num" "平行記号の数(2)"))
-	 (op1 (emath-setoption op1 "angle" "辺と平行記号のなす角(25)"))
-	 (op1 (emath-setoption op1 "space" "平行記号間の距離(1.5mm)"))
-	 (op1 (emath-setoption op1 "scale" "平行記号のサイズ指定(1)"))
-	 (op1 (emath-setoption op1 "length" "平行記号の線分の長さ(2mm)"))
-	 (op1 (emath-setoption op1 "pos" "平行記号を置く位置(.5)")))
-  (insert (concat (if (> (length op1) 0)
-		      (concat "<" op1 ">"))
-		  "{"
-		  (emath-tenretu-loop ";" "記号を置く線分をカンマ(,)区切りで指定(Enterで終了)")
-		  "}%"))))
+         (op1 (emath-setoption op1 "angle" "辺と平行記号のなす角(25)"))
+         (op1 (emath-setoption op1 "space" "平行記号間の距離(1.5mm)"))
+         (op1 (emath-setoption op1 "scale" "平行記号のサイズ指定(1)"))
+         (op1 (emath-setoption op1 "length" "平行記号の線分の長さ(2mm)"))
+         (op1 (emath-setoption op1 "pos" "平行記号を置く位置(.5)")))
+    (insert (concat (if (> (length op1) 0)
+                        (concat "<" op1 ">"))
+                    "{"
+                    (emath-tenretu-loop ";" "記号を置く線分をカンマ(,)区切りで指定(Enterで終了)")
+                    "}%"))))
 ;; \SetEquilaterals<#1>[#2]{#3}
 ;; 等辺記号を配置するコマンド
 ;; #1:オリジナルオプション
@@ -1042,57 +1042,57 @@
 ;;  A,B;C,D;E,F のように複数指定する
 (defun YaTeX:SetEquilaterals ()
   (let* ((op1 (emath-setoption "" "num" "等辺記号の数(2)"))
-	 (op1 (emath-setoption op1 "space" "等辺記号間の距離(.75mm)"))
-	 (op1 (emath-setoption op1 "scale" "等辺記号のサイズ指定(1)"))
-	 (op1 (emath-setoption op1 "length" "等辺記号の線分の長さ(2mm)"))
-	 (op1 (emath-setoption op1 "pos" "等辺記号を置く位置(.5)")))
-   (insert (concat (if (> (length op1) 0)
-		       (concat "<" op1 ">"))
-		   "{"
-		   (emath-tenretu-loop ";" "記号を置く線分をカンマ(,)区切りで指定(Enterで終了)")
-		   "}%"))))
+         (op1 (emath-setoption op1 "space" "等辺記号間の距離(.75mm)"))
+         (op1 (emath-setoption op1 "scale" "等辺記号のサイズ指定(1)"))
+         (op1 (emath-setoption op1 "length" "等辺記号の線分の長さ(2mm)"))
+         (op1 (emath-setoption op1 "pos" "等辺記号を置く位置(.5)")))
+    (insert (concat (if (> (length op1) 0)
+                        (concat "<" op1 ">"))
+                    "{"
+                    (emath-tenretu-loop ";" "記号を置く線分をカンマ(,)区切りで指定(Enterで終了)")
+                    "}%"))))
 ;; \DrawSegments<#1>[#2]{#3}
 (defun YaTeX:DrawSegments ()
   (let* ((op1 (emath-setoption "" "shift" "原点をシフトさせる点を指定(0,0)"))
-	 (op1 (emath-setoption op1 "overratio" "線分をはみ出させる割合[無名数は線分の長さの割合,単位付きは実際の長さ](0)")))
+         (op1 (emath-setoption op1 "overratio" "線分をはみ出させる割合[無名数は線分の長さの割合,単位付きは実際の長さ](0)")))
     (insert (concat (if (> (length op1) 0)
-			(concat "<" op1 ">"))
-		    "{"
-		    (emath-tenretu-loop ";" "線分の両端をカンマ(,)区切りで指定(Enterで終了)")
-		    "}%"))))
+                        (concat "<" op1 ">"))
+                    "{"
+                    (emath-tenretu-loop ";" "線分の両端をカンマ(,)区切りで指定(Enterで終了)")
+                    "}%"))))
 ;; \DrawPolygons<#1>[#2]{#3}
 (defun YaTeX:DrawPolygons ()
   (let*((op1 (emath-setoption "" "shift" "原点をシフトさせる点を指定(0,0)")))
     (insert (concat (if (> (length op1) 0)
-			(concat "<" op1 ">"))
-		    "{"
-		    (emath-tenretu-loop ";" "多角形をつくる点列をカンマ(,)区切りで指定(Enterで終了)")
-		    "}%"))))
+                        (concat "<" op1 ">"))
+                    "{"
+                    (emath-tenretu-loop ";" "多角形をつくる点列をカンマ(,)区切りで指定(Enterで終了)")
+                    "}%"))))
 (defun my-tex-mark-setting ()
   (interactive)
   (insert (concat "\\MarkReset\n"
-		  "\\HeadNumber\n"
-		  "\\SetPrePath{}%\n"
-		  "\\SetPath{}%\n"
-		  "\\PutMarkAsnwer{試験名}%")))
+                  "\\HeadNumber\n"
+                  "\\SetPrePath{}%\n"
+                  "\\SetPath{}%\n"
+                  "\\PutMarkAsnwer{試験名}%")))
 (defun YaTeX:scope ()
   (concat "\n\t\\clip(LB)rectangle(RT);"))
 (defun YaTeX:EqualSidesMarks ()
   (let*((num (read-string "等辺記号の数(2): ")))
     (insert (concat (if (> (length num) 0)
-			(concat "<" num ">"))
-		    "{"
-		    (emath-tenretu-loop ";" "記号を置く線分をカンマ(,)区切りで指定(Enterで終了)")
-		    "}%"))))
+                        (concat "<" num ">"))
+                    "{"
+                    (emath-tenretu-loop ";" "記号を置く線分をカンマ(,)区切りで指定(Enterで終了)")
+                    "}%"))))
 (defun YaTeX:EqualArcsMarks ()
   (let*((num (read-string "等弧記号の数(2): ")))
     (insert (concat (if (> (length num) 0)
-			(concat "<" num ">"))
-		    "{"
-		    (read-string "円弧の中心: ")
-		    "}{"
-		    (emath-tenretu-loop ";" "記号を置く円弧をカンマ(,)区切りで指定[偏角が小さい順](Enterで終了)")
-		    "}%"))))
+                        (concat "<" num ">"))
+                    "{"
+                    (read-string "円弧の中心: ")
+                    "}{"
+                    (emath-tenretu-loop ";" "記号を置く円弧をカンマ(,)区切りで指定[偏角が小さい順](Enterで終了)")
+                    "}%"))))
 (defun YaTeX:tikzpicture ()
   (concat "[" "font=\\scriptsize,scale=.5"  "]"))
 (eval-after-load 'yatexadd
@@ -1131,4 +1131,8 @@
                                   (concat labelname ":" value)))
            (YaTeX::ref-generate-label nil nil))))
      ))
+;; tcbFramebox 環境
+(defun YaTeX:tcbFramebox ()
+  (let ((title (read-string "タイトルを入力(不要のときは省略): ")))
+    (concat "{" title "}")))
 (provide 'for-original-macro)
