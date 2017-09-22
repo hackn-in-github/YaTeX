@@ -21,7 +21,7 @@
         YaTeX-no-begend-shortcut t;;`[prefix] b ??' のショートカットを使わず、`[prefix] b' だけで補完入力に入る (`nil')
         YaTeX-fill-prefix ""
         makeindex-command "mendex -g -s mystyle.ist "
-        YaTeX-item-regexp "\\\\\\(eda\\)*item";;-->\\\(eda\)*item
+        YaTeX-item-regexp "\\\\\\(eda\\|h\\)*item";;-->\\\(eda\|h\)*item
 ;;itemの桁揃えの時に用いる、itemの正規表現 (`"\\\\(sub\\)*item"') <--嘘つきwww
         YaTeX-create-file-prefix-g t;;`\include'などで `prefix g'した時に、ジャンプ先が存在しないファイルであってもオープンする (`nil')
         YaTeX-fill-column 120;;反映される？
@@ -33,6 +33,7 @@
         )
   (fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
   (fset 'YaTeX-intelligent-newline-centerenum* 'YaTeX-intelligent-newline-itemize)
+  (fset 'YaTeX-intelligent-newline-hlist 'YaTeX-intelligent-newline-itemize)
   (setq
    YaTeX-math-sign-alist-private
    '(

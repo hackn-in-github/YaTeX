@@ -1135,4 +1135,14 @@
 (defun YaTeX:tcbFramebox ()
   (let ((title (read-string "タイトルを入力(不要のときは省略): ")))
     (concat "{" title "}")))
+;; hlist 環境
+(defun YaTeX:hlist ()
+  (insert "\\nouseparheadparenindent\n")
+  (let ((option (read-string "番号の形式指定: " "\\arabic")))
+    (concat "[pre label={},"
+            (if (y-or-n-p "括弧を付けますか?: ")
+                (concat "label={(" option "{hlisti})}")
+              (concat "label={" option "{hlisti}}"))
+            "]"
+            (read-string "列数の指定: " "3"))))
 (provide 'for-original-macro)
