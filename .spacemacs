@@ -528,6 +528,11 @@ you should place your code here."
   (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n p" "polygon")
   (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t" "transparency")
   (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t g" "gruop")
+;Emacs YaTeX/yahtml の入力支援では helm を無効にする
+;http://gordiustears.net/disabling-helm-on-yatex-yahtml/
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-begin-end . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-singlecmd . nil))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
