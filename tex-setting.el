@@ -391,14 +391,14 @@
     (let ((figfile (read-string "figファイル名: " (file-name-sans-extension (buffer-name)))))
       (progn (if (= beg end)
                  ;;	       (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
-                 (insert (concat "\t\\IncludePDF{" figfile ".pdf}%\n"
+                 (insert (concat "\t\\IncludeGraphics{" figfile ".pdf}%\n"
                                  "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n"
                                  "\t\\endpgfgraphicnamed\n"))
                (progn (goto-char (if (> beg end) beg end))
                       (insert "\t\\endpgfgraphicnamed\n")
                       (goto-char (if (> beg end) end beg))
                       ;;		    (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
-                      (insert (concat "\t\\IncludePDF{" figfile ".pdf}%\n"
+                      (insert (concat "\t\\IncludeGraphics{" figfile ".pdf}%\n"
                                       "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n")))))))
 ;; TikZ の scope 環境を clip 付きで挿入する
   (defun my-tikz-scope-with-clip ()
