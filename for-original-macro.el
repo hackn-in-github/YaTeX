@@ -173,11 +173,14 @@
 (fset 'YaTeX:MarkBox 'YaTeX:Mark)
 (fset 'YaTeX:MarkBox* 'YaTeX:Mark)
 (defun YaTeX:refMark ()
-  (let* ((default-refstrings (mapconcat 'concat
+  (let* ((option (read-string "node に対するオプションを指定してください: " "MarkBoxNode"))
+         (default-refstrings (mapconcat 'concat
                                         (split-string (file-name-sans-extension
                                                        (file-name-nondirectory (buffer-file-name))) "-" t)
                                         ":")))
-    (concat "{" (read-string "参照用ラベルの指定: " (concat default-refstrings "-")) "}")))
+    (concat (if (> (length option) 0)
+                (concat "[" option "]"))
+            "{" (read-string " 参照用ラベルの指定: " (concat default-refstrings "-")) "}")))
 (fset 'YaTeX:refMark* 'YaTeX:refMark)
 (fset 'YaTeX:RefMark 'YaTeX:refMark)
 (fset 'YaTeX:RefMark* 'YaTeX:refMark)
