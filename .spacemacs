@@ -532,9 +532,14 @@ you should place your code here."
 ;Emacs YaTeX/yahtml の入力支援では helm を無効にする
 ;http://gordiustears.net/disabling-helm-on-yatex-yahtml/
   (with-eval-after-load "helm-mode"
+    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-accent . nil))
     (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-begin-end . nil))
     (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize . nil))
+    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-section . nil))
     (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-singlecmd . nil))
+    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-begin-end-region . nil))
+    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize-region . nil))
+    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-section-region . nil))
     )
   )
 
