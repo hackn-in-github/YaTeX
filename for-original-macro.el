@@ -1148,4 +1148,10 @@
               (concat "label={" option "{hlisti}}"))
             "]"
             (read-string "列数の指定: " "3"))))
+;; spacename 環境
+(defun YaTeX:spacename ()
+  (concat "{" (read-string "名前空間名を入力してください: ") "}"))
+(fset 'YaTeX:sapcelabel 'YaTeX:label)
+(defun YaTeX:spaceref ()
+  (concat "{" (read-string "出力形式を指定してください: ") "}{" (read-string "\\ref の引数を指定してください: ") "}"))
 (provide 'for-original-macro)
