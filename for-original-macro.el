@@ -1102,6 +1102,7 @@
   `(progn
      (setq YaTeX::ref-mathenv-regexp (concat YaTeX::ref-mathenv-regexp "\\|\\(sub\\)?numcases")
            YaTeX-ref-generate-label-function 'my-yatex-generate-label)
+;; spacename 環境の新設により元の定義に近いものに戻す
      (defun my-yatex-generate-label (command value)
        (and (string= command "caption")
             (re-search-backward "\\\\begin{\\(figure\\|table\\)}" nil t)
@@ -1117,22 +1118,41 @@
                       ("subnumcases" . "eq")
                       ("equation" . "eq")
                       ("eqnarray" . "eq")
-                      ("item" . "enu")))
-             (labelname (replace-regexp-in-string
-                         "\\(：\\|-\\)" ":"
-                         (concat (read-string "問題の出題年度を入力してください: ") ">"
-                                  (if (> (length YaTeX-parent-file) 0)
-                                     (concat (file-name-sans-extension
-                                              (file-name-nondirectory
-                                               YaTeX-parent-file)) ">"))
-                                 (file-name-sans-extension
-                                  (file-name-nondirectory
-                                   (buffer-name)))))))
+                      ("item" . "enu"))))
          (if (setq command (cdr (assoc command alist)))
-             (concat command ":"
-                     (read-string "ユニークになるように番号などを入力してください: "
-                                  (concat labelname ":" value)))
+             (concat command ":" (read-string "重複しない任意の番号を指定: "))
            (YaTeX::ref-generate-label nil nil))))
+;;     (defun my-yatex-generate-label (command value)
+;;       (and (string= command "caption")
+;;            (re-search-backward "\\\\begin{\\(figure\\|table\\)}" nil t)
+;;            (setq command (match-string 1)))
+;;       (let ((alist '(("chapter" . "chap")
+;;                      ("section" . "sec")
+;;                      ("subsection" . "subsec")
+;;                      ("figure" . "fig")
+;;                      ("table" . "tbl")
+;;                      ("align" . "eq")
+;;                      ("gather" . "eq")
+;;                      ("numcases" . "eq")
+;;                      ("subnumcases" . "eq")
+;;                      ("equation" . "eq")
+;;                      ("eqnarray" . "eq")
+;;                      ("item" . "enu")))
+;;             (labelname (replace-regexp-in-string
+;;                         "\\(：\\|-\\)" ":"
+;;                         (concat (read-string "問題の出題年度を入力してください: ") ">"
+;;                                  (if (> (length YaTeX-parent-file) 0)
+;;                                     (concat (file-name-sans-extension
+;;                                              (file-name-nondirectory
+;;                                               YaTeX-parent-file)) ">"))
+;;                                 (file-name-sans-extension
+;;                                  (file-name-nondirectory
+;;                                   (buffer-name)))))))
+;;         (if (setq command (cdr (assoc command alist)))
+;;             (concat command ":"
+;;                     (read-string "ユニークになるように番号などを入力してください: "
+;;                                  (concat labelname ":" value)))
+;;           (YaTeX::ref-generate-label nil nil))))
      ))
 ;; tcbFramebox 環境
 (defun YaTeX:tcbFramebox ()
