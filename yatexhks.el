@@ -268,9 +268,7 @@ send the condition to dviout and open a dvifile to the page that agree with the 
 						".tex")))))
 	  ((= emchar ?i)(setq-default YaTeX-my-dvifile nil
 				      YaTeX-my-sourcefile nil)))))
-;
-;;; End of yatexhks.el
-(provide 'yatexhks)
+(setq YaTeX-on-the-fly-preview-interval nil);[prefix] t e で即時プレビューを行わない
 ;
 ;;; End of yatexhks.el
 (provide 'yatexhks)
