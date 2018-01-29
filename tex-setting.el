@@ -34,7 +34,11 @@
         )
   (fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
   (fset 'YaTeX-intelligent-newline-centerenum* 'YaTeX-intelligent-newline-itemize)
-  (fset 'YaTeX-intelligent-newline-hlist 'YaTeX-intelligent-newline-itemize)
+(defun YaTeX-intelligent-newline-hlist ()
+  "Insert '\\hitem '."
+  (insert "\\hitem ")
+  (YaTeX-indent-line))
+;;  (fset 'YaTeX-intelligent-newline-hlist 'YaTeX-intelligent-newline-itemize)
   (setq
    YaTeX-math-sign-alist-private
    '(
