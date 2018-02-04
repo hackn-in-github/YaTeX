@@ -487,6 +487,7 @@ you should place your code here."
              ("SPC y z t g" . my-tikz-transparency-group))
   (bind-keys :map evil-insert-state-map
              ("\C-c y p g" . my-pgf-graphic-named)
+             ("\C-c y t" . YaTeX-typeset-menu)
              ("\C-c y x f" . my-tex-filename-replace)
              ("\C-c y x k" . my-tex-kijutsu-insert-include)
              ("\C-c y x m" . my-tex-mark-setting)
@@ -503,59 +504,85 @@ you should place your code here."
              ("\C-c y z t g" . my-tikz-transparency-group))
   (spacemacs/declare-prefix "h" "help/helm")
   (spacemacs/declare-prefix "h c" "calcul")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y" "TeX用関数")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y p" "PGF関係")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y p g" "PGF設定")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y t" "TeX Typeset")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x" "TeXソース編集")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x f" "ファイル初期設定")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x k" "記述用設定")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x m" "マーク用設定")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z" "TikZ設定")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z d" "decoration")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z d b" "brace")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f" "foreach/fill")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f e" "foreach evaluate")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f p" "fill pattern")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f r" "foreach remember")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l" "line")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l c" "cap")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l d" "dash/double")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l d a" "dash")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l d o" "double")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l j" "join")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l w" "width")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n" "node")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n p" "polygon")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t" "transparency")
-  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t g" "gruop")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y" "TeX用関数")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y p" "PGF関係")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y p g" "PGF設定")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y t" "TeX Typeset")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x" "TeXソース編集")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x f" "ファイル初期設定")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x k" "記述用設定")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y x m" "マーク用設定")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z" "TikZ設定")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z d" "decoration")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z d b" "brace")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f" "foreach/fill")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f e" "foreach evaluate")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f p" "fill pattern")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z f r" "foreach remember")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l" "line")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l c" "cap")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l d" "dash/double")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l d a" "dash")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l d o" "double")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l j" "join")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z l w" "width")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n" "node")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n p" "polygon")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t" "transparency")
+;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t g" "gruop")
   (which-key-add-major-mode-key-based-replacements
     'yatex-mode
+    "SPC y" "TeX用関数"
     "\C-c y" "TeX用関数"
+    "SPC y p" "PGF関数"
     "\C-c y p" "PGF関数"
+    "SPC y p g" "PGF設定"
     "\C-c y p g" "PGF設定"
+    "SPC y t" "TeX Typeset"
     "\C-c y t" "TeX Typeset"
+    "SPC y x" "TeXソース編集"
     "\C-c y x" "TeXソース編集"
+    "SPC y x f" "ファイル初期設定"
     "\C-c y x f" "ファイル初期設定"
+    "SPC y x k" "記述用設定"
     "\C-c y x k" "記述用設定"
+    "SPC y x m" "マーク用設定"
     "\C-c y x m" "マーク用設定"
+    "SPC y z" "TikZ設定"
     "\C-c y z" "TikZ設定"
+    "SPC y z d" "decoration"
     "\C-c y z d" "decoration"
+    "SPC y z d b" "brace"
     "\C-c y z d b" "brace"
+    "SPC y z f" "foreach/fill"
     "\C-c y z f" "foreach/fill"
+    "SPC y z f e" "foreach evaluate"
     "\C-c y z f e" "foreach evaluate"
+    "SPC y z f p" "fill pattern"
     "\C-c y z f p" "fill pattern"
+    "SPC y z f r" "foreach remember"
     "\C-c y z f r" "foreach remember"
+    "SPC y z l" "line"
     "\C-c y z l" "line"
+    "SPC y z l c" "cap"
     "\C-c y z l c" "cap"
+    "SPC y z l d" "dash/double"
     "\C-c y z l d" "dash/double"
+    "SPC y z l d a" "dash"
     "\C-c y z l d a" "dash"
+    "SPC y z l d o" "double"
     "\C-c y z l d o" "double"
+    "SPC y z l j" "join"
     "\C-c y z l j" "join"
+    "SPC y z l w" "width"
     "\C-c y z l w" "width"
+    "SPC y z n" "node"
     "\C-c y z n" "node"
+    "SPC y z n p" "polygon"
     "\C-c y z n p" "polygon"
+    "SPC y z t" "transparency"
     "\C-c y z t" "transparency"
+    "SPC y z t g" "group"
     "\C-c y z t g" "group")
 ;Emacs YaTeX/yahtml の入力支援では helm を無効にする
 ;http://gordiustears.net/disabling-helm-on-yatex-yahtml/
