@@ -38,7 +38,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; auto-completion
      ;; better-defaults
-     (colors :variables colors-enable-nyan-cat-progress-bar t)
+     (colors :variables colors-enable-nyan-cat-progress-bar nil)
      emacs-lisp
      emoji
      git
@@ -529,6 +529,34 @@ you should place your code here."
   (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n p" "polygon")
   (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t" "transparency")
   (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t g" "gruop")
+  (which-key-add-major-mode-key-based-replacements
+    'yatex-mode
+    "\C-c y" "TeX用関数"
+    "\C-c y p" "PGF関数"
+    "\C-c y p g" "PGF設定"
+    "\C-c y t" "TeX Typeset"
+    "\C-c y x" "TeXソース編集"
+    "\C-c y x f" "ファイル初期設定"
+    "\C-c y x k" "記述用設定"
+    "\C-c y x m" "マーク用設定"
+    "\C-c y z" "TikZ設定"
+    "\C-c y z d" "decoration"
+    "\C-c y z d b" "brace"
+    "\C-c y z f" "foreach/fill"
+    "\C-c y z f e" "foreach evaluate"
+    "\C-c y z f p" "fill pattern"
+    "\C-c y z f r" "foreach remember"
+    "\C-c y z l" "line"
+    "\C-c y z l c" "cap"
+    "\C-c y z l d" "dash/double"
+    "\C-c y z l d a" "dash"
+    "\C-c y z l d o" "double"
+    "\C-c y z l j" "join"
+    "\C-c y z l w" "width"
+    "\C-c y z n" "node"
+    "\C-c y z n p" "polygon"
+    "\C-c y z t" "transparency"
+    "\C-c y z t g" "group")
 ;Emacs YaTeX/yahtml の入力支援では helm を無効にする
 ;http://gordiustears.net/disabling-helm-on-yatex-yahtml/
   (with-eval-after-load "helm-mode"
