@@ -596,6 +596,8 @@ you should place your code here."
     (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize-region . nil))
     (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-section-region . nil))
     )
+; iedit で V で toggle visibility of lines with no occurrence を使えるようにする
+  (fset 'iedit-toggle-unmatched-lines-visible 'iedit-show/hide-unmatched-lines)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
