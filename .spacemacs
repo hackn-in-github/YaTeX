@@ -600,16 +600,20 @@ you should place your code here."
     )
 ; iedit で V で toggle visibility of lines with no occurrence を使えるようにする
   (fset 'iedit-toggle-unmatched-lines-visible 'iedit-show/hide-unmatched-lines)
-; バクとして報告されている件だったので https://github.com/syl20bnr/spacemacs/issues/7999
+; バグとして報告されている件だったので https://github.com/syl20bnr/spacemacs/issues/7999
 ; ~/.emacs.d/layers/+web-services/search-engine/package.el を直接編集することにする
 ;  (push '(wikipedia-ja
 ;          :name "Wikipedia (ja)"
 ;          :url "http://www.wikipedia.org/search-redirect.php?language=ja&go=Go&search=%s")
 ;        search-engine-alist)
-;  (push '(wikipedia-ja
-;          :name "ウィキペディア"
-;          :url "https://ja.wikipedia.org/w/index.php?search=%s")
-;        search-engine-alist)
+  (push '(stack-overflow-ja
+          :name "Stack Overflow (ja)"
+          :url "https://ja.stackoverflow.com/search?q=%s")
+        search-engine-alist)
+  (push '(wikipedia-ja
+          :name "Wikipedia (ja)"
+          :url "https://ja.wikipedia.org/w/index.php?search=%s")
+        search-engine-alist)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
