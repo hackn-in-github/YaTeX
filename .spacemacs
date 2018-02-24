@@ -607,11 +607,11 @@ you should place your code here."
 ;          :url "http://www.wikipedia.org/search-redirect.php?language=ja&go=Go&search=%s")
 ;        search-engine-alist)
   (push '(stack-overflow-ja
-          :name "Stack Overflow (ja)"
+          :name "スタック・オーバーフロー"
           :url "https://ja.stackoverflow.com/search?q=%s")
         search-engine-alist)
   (push '(wikipedia-ja
-          :name "Wikipedia (ja)"
+          :name "ウィキペディア"
           :url "https://ja.wikipedia.org/w/index.php?search=%s")
         search-engine-alist)
   )
