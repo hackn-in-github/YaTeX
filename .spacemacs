@@ -331,7 +331,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
               (normal-top-level-add-subdirs-to-load-path))))))
   (add-to-load-path "/private/local")
 ;;  (add-to-load-path "/site-lisp")
-  (require 'tex-setting)
 ;;; 日本語環境設定
   (set-language-environment "utf-8")
   )
@@ -343,6 +342,8 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (with-eval-after-load "helm"
+    (require 'tex-setting))
   (require 'my-setting)
   (require 'migemo)
   (require 'avy-migemo)
@@ -555,6 +556,8 @@ you should place your code here."
     "\C-c y x m" "マーク用設定"
     "SPC y z" "TikZ設定"
     "\C-c y z" "TikZ設定"
+    "SPC y z c" "colors"
+    "\C-c y z c" "colors"
     "SPC y z d" "decoration"
     "\C-c y z d" "decoration"
     "SPC y z d b" "brace"
