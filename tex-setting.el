@@ -238,6 +238,17 @@
                                    ((char-equal chr ?a) "bricks")
                                    ((char-equal chr ?b) "checkerboard")
                                    (t "error")))))))
+;; my-tikz-fill-patter の helm 版
+(defvar helm-tikz-fill-pattern--source
+  (helm-build-sync-source "TikZ Fill Patterns"
+    :candidates '("horizontal lines" "vertical lines" "north east lines" "north west lines"
+                  "grid" "crosshatch" "dots" "fivepointed stars" "sixpointes stars" "bricks" "checkerboard")
+    :migemo t
+    :action #'insert))
+(defun helm-tikz-fill-pattern ()
+  (interactive)
+  (helm :sources '(helm-tikz-fill-pattern--source)
+        :buffer "*helm TikZ Fill Pattern*"))
 ;; TikzのLine Widthの選択
   (defun my-tikz-line-width ()
     (interactive)
@@ -251,6 +262,16 @@
                            ((char-equal chr ?5) "very thick")
                            ((char-equal chr ?6) "ultra thick")
                            (t (concat "line width=" (read-string "線の太さを指定: "))))))))
+;; my-tikz-line-width の helm 版
+(defvar helm-tikz-line-width--source
+  (helm-build-sync-source "TikZ Line Width"
+    :candidates `("ultra thin" "very thin" "thin" "semithick" "thick" "very thick" "ultra thick" "line width=")
+    :migemo t
+    :action #'insert))
+(defun helm-tikz-line-width ()
+  (interactive)
+  (helm :sources '(helm-tikz-line-width--source)
+        :buffer "*helm TikZ Line Width*"))
 ;; TikzのLine Capの選択
   (defun my-tikz-line-cap ()
     (interactive)
@@ -261,6 +282,16 @@
                                    ((char-equal chr ?1) "butt")
                                    ((char-equal chr ?2) "rect")
                                    (t "error")))))))
+;; my-tikz-line-cap の helm 版
+(defvar helm-tikz-line-cap--source
+  (helm-build-sync-source "TikZ Line Cap"
+    :candidates '("round" "butt" "rect")
+    :migemo t
+    :action #'insert))
+(defun helm-tikz-line-cap ()
+  (interactive)
+  (helm :sources '(helm-tikz-line-cap--source)
+        :buffer "*helm TikZ Line Cap*"))
 ;; TikzのLine Joinの選択
   (defun my-tikz-line-join ()
     (interactive)
@@ -271,6 +302,16 @@
                                    ((char-equal chr ?1) "bevel")
                                    ((char-equal chr ?2) "miter")
                                    (t "error")))))))
+;; my-tikz-line-join の helm 版
+(defvar helm-tikz-line-join--source
+  (helm-build-sync-source "TikZ Line Join"
+    :candidates '("round" "bevel" "miter")
+    :migemo t
+    :action #'insert))
+(defun helm-tikz-line-join ()
+  (interactive)
+  (helm :sources '(helm-tikz-line-join--source)
+        :buffer "*helm TikZ Line Join*"))
 ;; TikzのDash Patternの選択
   (defun my-tikz-line-dash ()
     (interactive)
@@ -290,6 +331,24 @@
                              ((char-equal chr2 ?1) "densely ")
                              ((char-equal chr2 ?2) "loosely ")))
              (insert (concat op2 op1)))))
+;; my-tikz-line-dash の helm 版
+(defvar helm-tikz-line-dash-gap--source
+  (helm-build-sync-source "TikZ Dash Line Gap"
+    :candidates '("densely" "loosely")
+    :migemo t
+    :action #'insert))
+(defvar helm-tikz-line-dash-type--source
+  (helm-build-sync-source "TikZ Dash Line Type"
+    :candidates '("dotted" "dashed" "dash dot" "dash dot dot")
+    :migemo t
+    :action #'insert))
+(defun helm-tikz-line-dash ()
+  (interactive)
+  (progn (helm :sources '(helm-tikz-line-dash-gap--source)
+               :buffer "*helm TikZ Dashline Gap*")
+         (insert " ")
+         (helm :sources '(helm-tikz-line-dash-type--source)
+               :buffer "*helm TikZ Dashline Type*")))
 ;; TikZのdoubleの設定
   (defun my-tikz-line-double ()
     (interactive)
@@ -301,6 +360,17 @@
                           (concat ",double distance=" distance))
                       (if (> (length linecenterdis) 0)
                           (concat ",double distance between line centers=" linecenterdis))))))
+;; my-tikz-line-double の helm 版
+(defvar helm-tikz-line-double-type--source
+  (helm-build-sync-source "TikZ Line Double Type"
+    :candidates '("double distance=" "double distance between line centers=")
+    :migemo t
+    :action #'insert))
+(defun helm-tikz-line-double ()
+  (interactive)
+  (progn (insert "double,")
+         (helm :sources '(helm-tikz-line-double-type--source)
+               :buffer "*helm TilZ Line Double Types*")))
 ;; TikZのcolor指定
 ;; red、green、blue、cyan、magenta、yellow、black、gray、white、darkgray、lightgray、brown、lime、olive、orange、pink、purple、teal、violet
   (defun my-tikz-color ()
@@ -328,6 +398,16 @@
                            ((char-equal chr ?h) "teal")
                            ((char-equal chr ?i) "violet")
                            (t "error"))))))
+;; my-tikz-color の helm 版
+(defvar helm-tikz-colors--source
+  (helm-build-sync-source "TikZ Colors"
+    :candidates '("red" "green" "blue" "cyan" "magenta" "yellow" "black" "gray" "white"
+                  "darkgray" "lightgray" "brown" "lime" "olive" "orange" "pink" "purple" "teal" "violet")
+    :migemo t
+    :action #'insert))
+(defun helm-tikz-colors ()
+  (interactive)
+  (helm :sources '(helm-tikz-colors--source) :buffer "*helm TikZ Colors*"))
 ;; TikZ \foreach の remember オプション
   (defun my-tikz-foreach-remember ()
     (interactive)
