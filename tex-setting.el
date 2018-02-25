@@ -334,7 +334,7 @@
 ;; my-tikz-line-dash の helm 版
 (defvar helm-tikz-line-dash-gap--source
   (helm-build-sync-source "TikZ Dash Line Gap"
-    :candidates '("densely" "loosely")
+    :candidates '("densely " "loosely ")
     :migemo t
     :action #'insert))
 (defvar helm-tikz-line-dash-type--source

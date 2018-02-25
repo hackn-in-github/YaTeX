@@ -359,8 +359,8 @@ you should place your code here."
    '(next-line-add-newlines nil)
    '(show-paren-mode t)
    '(tool-bar-mode nil)
-   ;; Emacs で全角スペース/タブ文字を可視化
-   ;; http://weboo-returns.com/blog/emacs-shows-double-space-and-tab/
+;; Emacs で全角スペース/タブ文字を可視化
+;; http://weboo-returns.com/blog/emacs-shows-double-space-and-tab/
    '(whitespace-style '(face
                         trailing
                         tabs
@@ -371,7 +371,7 @@ you should place your code here."
    '(whitespace-trailing-regexp "\\([\x20\x3000\t]+\\)$")
    '(whitespace-display-mappings '((space-mark ?\x3000 [?\x2603])
                                    (tab-mark ?\t [?\xBB?\t])))
-   ;; migemo
+;; migemo
    '(migemo-command "cmigemo")
    '(migemo-options '("-q" "--emacs" "-i" "\a"))
    '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict");; system-type 'gnu/linux
@@ -381,37 +381,36 @@ you should place your code here."
    '(migemo-regex-dictionary nil)
    '(migemo-coding-system 'utf-8-unix)
    )
-  ;; ウィンドウの透け透け度 0-100 (0で透け透け)
+;; ウィンドウの透け透け度 0-100 (0で透け透け)
   (set-frame-parameter nil 'alpha 75)
-  ;; japanese-holidays の設定等
-  (eval-after-load "holidays"
-    '(progn
-       (require 'japanese-holidays)
-       (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
-             (append japanese-holidays holiday-local-holidays holiday-other-holidays))
-       (setq mark-holidays-in-calendar t) ; 祝日をカレンダーに表示
-       ;; 土曜日・日曜日を祝日として表示する場合、以下の設定を追加します。
-       ;; 変数はデフォルトで設定済み
-       (setq japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
-             japanese-holiday-weekend-marker     ; 土曜日を水色で表示
-             '(holiday nil nil nil nil nil japanese-holiday-saturday))
-       (add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
-       (add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
-       ;; “きょう”をマークするには以下の設定を追加します。
-       (add-hook 'calendar-today-visible-hook 'calendar-mark-today)))
+;; japanese-holidays の設定等
+  (with-eval-after-load "holidays"
+    (require 'japanese-holidays)
+    (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
+          (append japanese-holidays holiday-local-holidays holiday-other-holidays)
+          mark-holidays-in-calendar t ; 祝日をカレンダーに表示
+;; 土曜日・日曜日を祝日として表示する場合、以下の設定を追加します。
+;; 変数はデフォルトで設定済み
+          japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
+          japanese-holiday-weekend-marker     ; 土曜日を水色で表示
+          '(holiday nil nil nil nil nil japanese-holiday-saturday))
+    (add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
+    (add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
+;; “きょう”をマークするには以下の設定を追加します。
+    (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 ;; diaryの設定
-  (add-hook 'list-diary-entries-hook 'include-other-diary-files)
-  (add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
+    (add-hook 'list-diary-entries-hook 'include-other-diary-files)
+    (add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
 ;;装飾日誌表示
-  (add-hook 'diary-display-hook 'fancy-diary-display)
-  ;; Turn off the tildes in the fringe
+    (add-hook 'diary-display-hook 'fancy-diary-display))
+;; Turn off the tildes in the fringe
   (global-vi-tilde-fringe-mode -1)
-  ;; insert mode でのカーソル移動
+;; insert mode でのカーソル移動
   (define-key evil-insert-state-map "\C-e" 'end-of-line)
   (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
   (define-key evil-insert-state-map "\C-n" 'next-line)
   (define-key evil-insert-state-map "\C-p" 'previous-line)
-  ;; whitespace
+;; whitespace
   (global-whitespace-mode 1)
   (set-face-foreground 'whitespace-space "LightSlateGray")
   (set-face-background 'whitespace-space "DarkSlateGray")
@@ -419,24 +418,24 @@ you should place your code here."
   (set-face-background 'whitespace-tab "DarkSlateGray")
   (set-face-foreground 'whitespace-trailing "CornflowerBlue")
   (set-face-background 'whitespace-trailing "RoyalBlue")
-  ;; initialize migemo
+;; initialize migemo
   (migemo-init)
-  ;;
+;;
   (with-eval-after-load "helm"
     (helm-migemo-mode 1)
     )
-  ;; avy-migemo
+;; avy-migemo
    (avy-migemo-mode 1)
   (setq hl-line-face 'underline)
   (global-hl-line-mode)
   (fset 'evil-visual-update-x-selection 'ignore)
-  ;; latex in org mode
+;; latex in org mode
   (require 'ox-latex)
-  ;; pdf process = lualatex
+;; pdf process = lualatex
   (setq org-latex-pdf-process '("lualatex %f"))
-  ;; default class = jsarticle
+;; default class = jsarticle
   (setq org-latex-default-class "bxjsreport")
-  ;; org-latex-classes
+;; org-latex-classes
   (add-to-list 'org-latex-classes
                '("bxjsreport"
                  "\\documentclass[a4j,lualatex,ja=standard,magstyle=nomag*]{bxjsreport}\n
@@ -453,7 +452,7 @@ you should place your code here."
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
                  ))
-  ;; org-export-latex-no-toc
+;; org-export-latex-no-toc
   (defun org-export-latex-no-toc (depth)
     (when depth
       (format "%% Org-mode is exporting headings to %s levels.\n"
