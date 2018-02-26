@@ -247,6 +247,7 @@
     :action #'insert))
 (defun helm-tikz-fill-pattern ()
   (interactive)
+  (insert "pattern=")
   (helm :sources '(helm-tikz-fill-pattern--source)
         :buffer "*helm TikZ Fill Pattern*"))
 ;; TikzのLine Widthの選択
@@ -290,6 +291,7 @@
     :action #'insert))
 (defun helm-tikz-line-cap ()
   (interactive)
+  (insert "line cap=")
   (helm :sources '(helm-tikz-line-cap--source)
         :buffer "*helm TikZ Line Cap*"))
 ;; TikzのLine Joinの選択
@@ -310,6 +312,7 @@
     :action #'insert))
 (defun helm-tikz-line-join ()
   (interactive)
+  (insert "line join=")
   (helm :sources '(helm-tikz-line-join--source)
         :buffer "*helm TikZ Line Join*"))
 ;; TikzのDash Patternの選択
