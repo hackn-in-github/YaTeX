@@ -241,8 +241,17 @@
 ;; my-tikz-fill-patter の helm 版
 (defvar helm-tikz-fill-pattern--source
   (helm-build-sync-source "TikZ Fill Patterns"
-    :candidates '("horizontal lines" "vertical lines" "north east lines" "north west lines"
-                  "grid" "crosshatch" "dots" "fivepointed stars" "sixpointes stars" "bricks" "checkerboard")
+    :candidates '(("水平線" . "horizontal lines")
+                  ("垂直線" . "vertical lines")
+                  ("右上" . "north east lines")
+                  ("右下" . "north west lines")
+                  ("グリッド" . "grid")
+                  ("クロスハッチ" . "crosshatch")
+                  ("ドット" . "dots")
+                  ("五芒星" . "fivepointed stars")
+                  ("六芒星" . "sixpointes stars")
+                  ("煉瓦" . "bricks")
+                  ("チェッカーボード" . "checkerboard"))
     :migemo t
     :action #'insert))
 (defun helm-tikz-fill-pattern ()
@@ -286,7 +295,9 @@
 ;; my-tikz-line-cap の helm 版
 (defvar helm-tikz-line-cap--source
   (helm-build-sync-source "TikZ Line Cap"
-    :candidates '("round" "butt" "rect")
+    :candidates '(("round" . "round")
+                  ("butt(default)" . "butt")
+                  ("rect" . "rect"))
     :migemo t
     :action #'insert))
 (defun helm-tikz-line-cap ()
@@ -307,7 +318,9 @@
 ;; my-tikz-line-join の helm 版
 (defvar helm-tikz-line-join--source
   (helm-build-sync-source "TikZ Line Join"
-    :candidates '("round" "bevel" "miter")
+    :candidates '(("round" . "round")
+                  ("bevel" . "bevel")
+                  ("miter(default)" . "miter"))
     :migemo t
     :action #'insert))
 (defun helm-tikz-line-join ()
@@ -336,22 +349,39 @@
              (insert (concat op2 op1)))))
 ;; my-tikz-line-dash の helm 版
 (defvar helm-tikz-line-dash-gap--source
-  (helm-build-sync-source "TikZ Dash Line Gap"
-    :candidates '("densely " "loosely ")
+  (helm-build-sync-source "TikZ Dashline Gap"
+    :candidates '("densely" "loosely")
     :migemo t
-    :action #'insert))
+    :action (lambda (candidate) (format "%s" candidate))))
 (defvar helm-tikz-line-dash-type--source
-  (helm-build-sync-source "TikZ Dash Line Type"
+  (helm-build-sync-source "TikZ Dashline Type"
     :candidates '("dotted" "dashed" "dash dot" "dash dot dot")
     :migemo t
-    :action #'insert))
+    :action (lambda (candidate) (format "%s" candidate))))
 (defun helm-tikz-line-dash ()
   (interactive)
-  (progn (helm :sources '(helm-tikz-line-dash-gap--source)
-               :buffer "*helm TikZ Dashline Gap*")
-         (insert " ")
-         (helm :sources '(helm-tikz-line-dash-type--source)
-               :buffer "*helm TikZ Dashline Type*")))
+  (let ((gap (helm :sources '(helm-tikz-line-dash-gap--source)
+                   :buffer "*helm TikZ Dashline Gap*"))
+        (type (helm :sources '(helm-tikz-line-dash-type--source)
+                    :buffer "*helm TikZ Dashline Type*")))
+    (insert (concat gap (if (> (length gap) 0) " ") type))))
+;;(defvar helm-tikz-line-dash-gap--source
+;;  (helm-build-sync-source "TikZ Dash Line Gap"
+;;    :candidates '("densely " "loosely ")
+;;    :migemo t
+;;    :action #'insert))
+;;(defvar helm-tikz-line-dash-type--source
+;;  (helm-build-sync-source "TikZ Dash Line Type"
+;;    :candidates '("dotted" "dashed" "dash dot" "dash dot dot")
+;;    :migemo t
+;;    :action #'insert))
+;;(defun helm-tikz-line-dash ()
+;;  (interactive)
+;;  (progn (helm :sources '(helm-tikz-line-dash-gap--source)
+;;               :buffer "*helm TikZ Dashline Gap*")
+;;         (insert " ")
+;;         (helm :sources '(helm-tikz-line-dash-type--source)
+;;               :buffer "*helm TikZ Dashline Type*")))
 ;; TikZのdoubleの設定
   (defun my-tikz-line-double ()
     (interactive)
