@@ -236,7 +236,7 @@
                              (if (= no 1)
                                  "*")
                              "\n\\include{"
-                             term "/"
+                             term "/" preposition
                              (number-to-string no)
                              "}\n"))))))
 ;; TikZの塗りつぶしパターンを選択させる
