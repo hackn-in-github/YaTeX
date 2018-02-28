@@ -219,6 +219,26 @@
                                preposition
                                (number-to-string no)
                                "}\n"))))))
+;; my-tex-kijutsu-iinsert-include の helm 版
+(defun helm-tex-kijutsu-insert-include ()
+  (interactive)
+  (let ((term (helm :sources (helm-build-sync-source "Terms"
+                               :candidates '("前期" "中期" "後期")
+                               :migemo t
+                               :action (lambda (candidate) (format "%s" candidate)))
+                    :buffer "*helm Term 選択*"))
+        (preposition (read-string "前置詞: "))
+        (max (read-number "問題数: "))
+        (no 0))
+    (while (> max no)
+      (progn (setq no (+ no 1))
+             (insert (concat "\\HeadNumber"
+                             (if (= no 1)
+                                 "*")
+                             "\n\\include{"
+                             term "/"
+                             (number-to-string no)
+                             "}\n"))))))
 ;; TikZの塗りつぶしパターンを選択させる
   (defun my-tikz-fill-pattern ()
     (interactive)
