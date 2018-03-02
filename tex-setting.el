@@ -225,7 +225,7 @@
   (let ((term (helm :sources (helm-build-sync-source "Terms"
                                :candidates '("前期" "中期" "後期")
                                :migemo t
-                               :action (lambda (candidate) (format "%s" candidate)))
+                               :action (lambda (candidate) (concat candidate)))
                     :buffer "*helm Term 選択*"))
         (preposition (read-string "前置詞: "))
         (max (read-number "問題数: "))
@@ -369,12 +369,12 @@
   (helm-build-sync-source "TikZ Dashline Gap"
     :candidates '("densely" "loosely")
     :migemo t
-    :action (lambda (candidate) (format "%s" candidate))))
+    :action (lambda (candidate) (concat candidate))))
 (defvar helm-tikz-line-dash-type--source
   (helm-build-sync-source "TikZ Dashline Type"
     :candidates '("dotted" "dashed" "dash dot" "dash dot dot")
     :migemo t
-    :action (lambda (candidate) (format "%s" candidate))))
+    :action (lambda (candidate) (concat candidate))))
 (defun helm-tikz-line-dash ()
   (interactive)
   (let ((gap (helm :sources '(helm-tikz-line-dash-gap--source)
