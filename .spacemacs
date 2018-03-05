@@ -52,6 +52,7 @@ values."
      org
      python
      search-engine
+     search-engine-revision
      (shell :variables
             shell-default-term-shell "/bin/bash"
             shell-default-height 30
