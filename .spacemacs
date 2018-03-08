@@ -43,10 +43,10 @@ values."
      emoji
      git
      github
-     ibuffer
-     imenu-list
      helm
      html
+     ibuffer
+     imenu-list
      lua
      markdown
      org
@@ -468,8 +468,14 @@ you should place your code here."
 ;;  (define-key evil-insert-state-map (kbd "\C-c h c") #'helm-calcul-expression)
 ;; http://emacs.rubikitch.com/bind-key/
 ;;(require 'bind-key);;spacemacsではすでに読みこまれているらしい
-  (bind-key "SPC h c" 'helm-calcul-expression evil-motion-state-map)
-  (bind-key "C-c h c" 'helm-calcul-expression evil-insert-state-map)
+;;  (bind-key "SPC h c" 'helm-calcul-expression evil-motion-state-map)
+;;  (bind-key "C-c h c" 'helm-calcul-expression evil-insert-state-map)
+  (bind-keys :map evil-motion-state-map
+             ("SPC s o" . helm-occur)
+             ("SPC h c" . helm-calcul-expression)
+             :map evil-insert-state-map
+             ("\C-c s o" . helm-occur)
+             ("\C-c h c" . helm-calcul-expression))
 ;; http://emacs.rubikitch.com/use-package-2/
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
   (bind-keys :map evil-motion-state-map
