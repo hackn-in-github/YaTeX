@@ -561,4 +561,15 @@
         (minisize (read-string "外接円の直径を入力: " "8pt")))
     (insert (concat "regular polygon,regular polygon sides=" sides
                     ",minimum size=" minisize ",draw,inner sep=0pt"))))
+(defun replace-dot-comma ()
+  (let ((curpos (point)))
+    (goto-char (point-min))
+    (while (search-forward "。" nil t) (replace-match "．"))
+    (goto-char (point-min))
+    (while (search-forward "、" nil t) (replace-match "，"))
+    (goto-char curpos)))
+
+(add-hook 'yatex-mode-hook
+          '(lambda ()
+             (add-hook 'before-save-hook 'replace-dot-comma nil 'make-it-local)))
 (provide 'tex-setting)
