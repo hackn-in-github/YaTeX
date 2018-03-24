@@ -628,6 +628,9 @@ you should place your code here."
           :name "ウィキペディア"
           :url "https://ja.wikipedia.org/w/index.php?search=%s")
         search-engine-alist)
+; vim-surround の設定
+  (evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
+  (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
