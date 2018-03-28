@@ -634,8 +634,10 @@ you should place your code here."
 ; 全角かな設定
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    (font-spec :family "Source Han Sans JP Light"
+                    (font-spec :family "Source Han Sans JP"
                                :size 13
+                               :weight `light
+                               :width `normal
                                :powerline-scale 1.1))
   )
 
