@@ -463,7 +463,7 @@ you should place your code here."
 ;;  (and
 ;;   (require 'centered-cursor-mode)
 ;;   (global-centered-cursor-mode +1))
-  (setq magit-repository-directories '("~/ダウンロード/Github/"))
+  (setq magit-repository-directories '("~/Downloads/Github/"))
 ;;  (define-key evil-motion-state-map (kbd "SPC h c") #'helm-calcul-expression)
 ;;  (define-key evil-insert-state-map (kbd "\C-c h c") #'helm-calcul-expression)
 ;; http://emacs.rubikitch.com/bind-key/
