@@ -631,6 +631,12 @@ you should place your code here."
 ; vim-surround の設定
   (evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
   (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
+; 全角かな設定
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    (font-spec :family "Source Han Sans JP Light"
+                               :size 13
+                               :powerline-scale 1.1))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
