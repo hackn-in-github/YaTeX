@@ -499,7 +499,7 @@ you should place your code here."
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
                     (font-spec :family "Source Han Sans JP"
-                               :size 13
+;                               :size 13
                                :weight `light
                                :width `normal
                                :powerline-scale 1.1))
