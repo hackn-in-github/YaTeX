@@ -177,15 +177,15 @@
 ;;             (YaTeX::ref-generate-label nil nil))))
 ;;       ))
 ;;Yahtmlの設定
-  (setq auto-mode-alist
-        (cons (cons "\\.html?$" 'yahtml-mode) auto-mode-alist))
-  (autoload 'yahtml-mode "yahtml" "Yet Another HTML mode" t)
-  (setq yahtml-www-browser "/usr/bin/firefox"
-        yahtml-always-/p t
-        yahtml-fill-column 100;;default 72
-        yahtml-kanji-code 4;;1:sjis 2:jis 3:euc
-        ;;改行位置の設定
-        fill-column 100);;default70以下[反映されず]
+;;  (setq auto-mode-alist
+;;        (cons (cons "\\.html?$" 'yahtml-mode) auto-mode-alist))
+;;  (autoload 'yahtml-mode "yahtml" "Yet Another HTML mode" t)
+;;  (setq yahtml-www-browser "/usr/bin/firefox"
+;;        yahtml-always-/p t
+;;        yahtml-fill-column 100;;default 72
+;;        yahtml-kanji-code 4;;1:sjis 2:jis 3:euc
+;;        ;;改行位置の設定
+;;        fill-column 100);;default70以下[反映されず]
 ;; TeXのテンプレートを読み込みfilenameを現在のBuffer名に置き換える
   (defun my-tex-filename-replace ()
     (interactive)
