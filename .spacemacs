@@ -332,6 +332,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
           (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
               (normal-top-level-add-subdirs-to-load-path))))))
   (add-to-load-path "/private/local")
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 ;;  (add-to-load-path "/site-lisp")
 ;;; 日本語環境設定
   (set-language-environment "utf-8")
