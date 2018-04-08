@@ -385,7 +385,7 @@ you should place your code here."
    '(migemo-coding-system 'utf-8-unix)
    )
 ;; ウィンドウの透け透け度 0-100 (0で透け透け)
-  (set-frame-parameter nil 'alpha 75)
+  (set-frame-parameter nil 'alpha 80)
 ;; japanese-holidays の設定等
   (with-eval-after-load "holidays"
     (require 'japanese-holidays)
