@@ -260,7 +260,7 @@
                                    (t "error")))))))
 ;; my-tikz-fill-patter の helm 版
 (defvar helm-tikz-fill-pattern--source
-  (helm-build-sync-source "TikZ Fill Patterns"
+  (helm-build-sync-source "[TikZ] Fill Patterns"
     :candidates '(("水平線" . "horizontal lines")
                   ("垂直線" . "vertical lines")
                   ("右上" . "north east lines")
@@ -277,7 +277,7 @@
 (defun helm-tikz-fill-pattern ()
   (interactive)
   (helm :sources '(helm-tikz-fill-pattern--source)
-        :buffer "*helm TikZ Fill Pattern*"))
+        :buffer "*helm [TikZ] Fill Pattern*"))
 ;; TikzのLine Widthの選択
   (defun my-tikz-line-width ()
     (interactive)
@@ -293,14 +293,14 @@
                            (t (concat "line width=" (read-string "線の太さを指定: "))))))))
 ;; my-tikz-line-width の helm 版
 (defvar helm-tikz-line-width--source
-  (helm-build-sync-source "TikZ Line Width"
+  (helm-build-sync-source "[TikZ] Line Width"
     :candidates `("ultra thin" "very thin" "thin" "semithick" "thick" "very thick" "ultra thick" "line width=")
     :migemo t
     :action #'insert))
 (defun helm-tikz-line-width ()
   (interactive)
   (helm :sources '(helm-tikz-line-width--source)
-        :buffer "*helm TikZ Line Width*"))
+        :buffer "*helm [TikZ] Line Width*"))
 ;; TikzのLine Capの選択
   (defun my-tikz-line-cap ()
     (interactive)
@@ -313,7 +313,7 @@
                                    (t "error")))))))
 ;; my-tikz-line-cap の helm 版
 (defvar helm-tikz-line-cap--source
-  (helm-build-sync-source "TikZ Line Cap"
+  (helm-build-sync-source "[TikZ] Line Cap"
     :candidates '(("round" . "round")
                   ("butt(default)" . "butt")
                   ("rect" . "rect"))
@@ -322,7 +322,7 @@
 (defun helm-tikz-line-cap ()
   (interactive)
   (helm :sources '(helm-tikz-line-cap--source)
-        :buffer "*helm TikZ Line Cap*"))
+        :buffer "*helm [TikZ] Line Cap*"))
 ;; TikzのLine Joinの選択
   (defun my-tikz-line-join ()
     (interactive)
@@ -335,7 +335,7 @@
                                    (t "error")))))))
 ;; my-tikz-line-join の helm 版
 (defvar helm-tikz-line-join--source
-  (helm-build-sync-source "TikZ Line Join"
+  (helm-build-sync-source "[TikZ] Line Join"
     :candidates '(("round" . "round")
                   ("bevel" . "bevel")
                   ("miter(default)" . "miter"))
@@ -344,7 +344,7 @@
 (defun helm-tikz-line-join ()
   (interactive)
   (helm :sources '(helm-tikz-line-join--source)
-        :buffer "*helm TikZ Line Join*"))
+        :buffer "*helm [TikZ] Line Join*"))
 ;; TikzのDash Patternの選択
   (defun my-tikz-line-dash ()
     (interactive)
@@ -366,21 +366,21 @@
              (insert (concat op2 op1)))))
 ;; my-tikz-line-dash の helm 版
 (defvar helm-tikz-line-dash-gap--source
-  (helm-build-sync-source "TikZ Dashline Gap"
+  (helm-build-sync-source "[TikZ] Dashline Gap"
     :candidates '("densely" "loosely")
     :migemo t
     :action (lambda (candidate) (concat candidate))))
 (defvar helm-tikz-line-dash-type--source
-  (helm-build-sync-source "TikZ Dashline Type"
+  (helm-build-sync-source "[TikZ] Dashline Type"
     :candidates '("dotted" "dashed" "dash dot" "dash dot dot")
     :migemo t
     :action (lambda (candidate) (concat candidate))))
 (defun helm-tikz-line-dash ()
   (interactive)
   (let ((gap (helm :sources '(helm-tikz-line-dash-gap--source)
-                   :buffer "*helm TikZ Dashline Gap*"))
+                   :buffer "*helm [TikZ] Dashline Gap*"))
         (type (helm :sources '(helm-tikz-line-dash-type--source)
-                    :buffer "*helm TikZ Dashline Type*")))
+                    :buffer "*helm [TikZ] Dashline Type*")))
     (insert (concat gap (if (> (length gap) 0) " ") type))))
 ;;(defvar helm-tikz-line-dash-gap--source
 ;;  (helm-build-sync-source "TikZ Dash Line Gap"
@@ -412,7 +412,7 @@
                           (concat ",double distance between line centers=" linecenterdis))))))
 ;; my-tikz-line-double の helm 版
 (defvar helm-tikz-line-double-type--source
-  (helm-build-sync-source "TikZ Line Double Type"
+  (helm-build-sync-source "[TikZ] Line Double Type"
     :candidates '("double distance=" "double distance between line centers=")
     :migemo t
     :action #'insert))
@@ -420,7 +420,7 @@
   (interactive)
   (progn (insert "double,")
          (helm :sources '(helm-tikz-line-double-type--source)
-               :buffer "*helm TilZ Line Double Types*")))
+               :buffer "*helm [TikZ] Line Double Types*")))
 ;; TikZのcolor指定
 ;; red、green、blue、cyan、magenta、yellow、black、gray、white、darkgray、lightgray、brown、lime、olive、orange、pink、purple、teal、violet
   (defun my-tikz-color ()
@@ -450,14 +450,14 @@
                            (t "error"))))))
 ;; my-tikz-color の helm 版
 (defvar helm-tikz-colors--source
-  (helm-build-sync-source "TikZ Colors"
+  (helm-build-sync-source "[TikZ] color"
     :candidates '("red" "green" "blue" "cyan" "magenta" "yellow" "black" "gray" "white"
                   "darkgray" "lightgray" "brown" "lime" "olive" "orange" "pink" "purple" "teal" "violet")
     :migemo t
     :action #'insert))
 (defun helm-tikz-colors ()
   (interactive)
-  (helm :sources '(helm-tikz-colors--source) :buffer "*helm TikZ Colors*"))
+  (helm :sources '(helm-tikz-colors--source) :buffer "*helm [TikZ] color*"))
 ;; TikZ \foreach の remember オプション
   (defun my-tikz-foreach-remember ()
     (interactive)
@@ -561,6 +561,15 @@
         (minisize (read-string "外接円の直径を入力: " "8pt")))
     (insert (concat "regular polygon,regular polygon sides=" sides
                     ",minimum size=" minisize ",draw,inner sep=0pt"))))
+;; tcolorbox の sidebyside align オプションの指定
+(defun helm-tcolorbox-sidebyside-align ()
+  (interactive)
+  (progn (insert "sidebyside algin=")
+         (helm :sources (helm-build-sync-source "[tcolorbox] sidebyside align"
+                          :candidates '("center" "top" "bottom" "center seam" "top seam" "bottom seam")
+                          :migemo t
+                          :action #'insert)
+               :buffer "*helm [tcolorbox] sidebyside align*")))
 (defun replace-dot-comma ()
   (let ((curpos (point)))
     (goto-char (point-min))
@@ -576,7 +585,8 @@
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
   (bind-keys :map evil-motion-state-map
              ("SPC y p g" . my-pgf-graphic-named)
-             ("SPC y t" . YaTeX-typeset-menu)
+             ("SPC y t s a" . helm-tcolorbox-sidebyside-align)
+             ("SPC y T" . YaTeX-typeset-menu)
              ("SPC y x f" . my-tex-filename-replace)
              ("SPC y x k" . helm-tex-kijutsu-insert-include)
              ("SPC y x m" . my-tex-mark-setting)
@@ -595,7 +605,8 @@
              ("SPC y z t g" . my-tikz-transparency-group))
   (bind-keys :map evil-insert-state-map
              ("\C-c y p g" . my-pgf-graphic-named)
-             ("\C-c y t" . YaTeX-typeset-menu)
+             ("\C-c y t s a" . helm-tcolorbox-sidebyside-align)
+             ("\C-c y T" . YaTeX-typeset-menu)
              ("\C-c y x f" . my-tex-filename-replace)
              ("\C-c y x k" . helm-tex-kijutsu-insert-include)
              ("\C-c y x m" . my-tex-mark-setting)
@@ -647,8 +658,14 @@
     "\C-c y p" "PGF関数"
     "SPC y p g" "PGF設定"
     "\C-c y p g" "PGF設定"
-    "SPC y t" "TeX Typeset"
-    "\C-c y t" "TeX Typeset"
+    "SPC y t" "tcolorbox"
+    "\C-c y t" "tcolorbox"
+    "SPC y t s" "sidebyside"
+    "\C-c y t s" "sidebyside"
+    "SPC y t s a" "align"
+    "\C-c y t s a" "align"
+    "SPC y T" "TeX Typeset"
+    "\C-c y T" "TeX Typeset"
     "SPC y x" "TeXソース編集"
     "\C-c y x" "TeXソース編集"
     "SPC y x f" "ファイル初期設定"
