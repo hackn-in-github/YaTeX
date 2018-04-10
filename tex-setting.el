@@ -570,6 +570,46 @@
                           :migemo t
                           :action #'insert)
                :buffer "*helm [tcolorbox] sidebyside align*")))
+;; tcolorbox の frame の corner の指定
+(defun helm-tcolorbox-sharp-corners ()
+  (interactive)
+  (progn (insert "sharp corners=")
+         (helm :sources (helm-build-sync-source "[tcolorbox] sharp corners"
+                          :candidates `("northwest" "northeast" "southwest" "southeast" "north"
+                                        "south" "east" "west" "downhill" "uphill" "all")
+                          :migemo t
+                          :action #'insert)
+               :buffer "*helm [tcolorbox] sharp corners*")))
+;; tcolorbox の frame の corner の指定
+(defun helm-tcolorbox-rounded-corners ()
+  (interactive)
+  (progn (insert "rounded corners=")
+         (helm :sources (helm-build-sync-source "[tcolorbox] rounded corners"
+                          :candidates `("northwest" "northeast" "southwest" "southeast" "north"
+                                        "south" "east" "west" "downhill" "uphill" "all")
+                          :migemo t
+                          :action #'insert)
+               :buffer "*helm [tcolorbox] rounded corners*")))
+;; tcolorbox の text の配置
+(defun helm-tcolorbox-text-halign ()
+  (interactive)
+  (progn (insert "halign=")
+         (helm :sources (helm-build-sync-source "[tcolorbox] halign"
+                          :candidates `("justify" "left" "flush left" "right" "flush right"
+                                        "center" "flush center")
+                          :migemo t
+                          :action #'insert)
+               :buffer "*helm [tcolorbox] halign*")))
+;; tcolorbox の text の配置
+(defun helm-tcolorbox-text-valign ()
+  (interactive)
+  (progn (insert "valign=")
+         (helm :sources (helm-build-sync-source "[tcolorbox] valign"
+                          :candidates `("top" "center" "bottom" "scale" "scale*")
+                          :migemo t
+                          :action #'insert)
+               :buffer "*helm [tcolorbox] valign*")))
+;; YaTeX でソースファイルのセーブ時に「、」を「，」に「。」を「．」に置換する
 (defun replace-dot-comma ()
   (let ((curpos (point)))
     (goto-char (point-min))
@@ -585,7 +625,11 @@
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
   (bind-keys :map evil-motion-state-map
              ("SPC y p g" . my-pgf-graphic-named)
+             ("SPC y t c s" . helm-tcolorbox-sharp-corners)
+             ("SPC y t c r" . helm-tcolorbox-rounded-corners)
              ("SPC y t s a" . helm-tcolorbox-sidebyside-align)
+             ("SPC y t t h" . helm-tcolorbox-text-halign)
+             ("SPC y t t v" . helm-tcolorbox-text-valign)
              ("SPC y T" . YaTeX-typeset-menu)
              ("SPC y x f" . my-tex-filename-replace)
              ("SPC y x k" . helm-tex-kijutsu-insert-include)
@@ -605,7 +649,11 @@
              ("SPC y z t g" . my-tikz-transparency-group))
   (bind-keys :map evil-insert-state-map
              ("\C-c y p g" . my-pgf-graphic-named)
+             ("\C-c y t c s" . helm-tcolorbox-sharp-corners)
+             ("\C-c y t c r" . helm-tcolorbox-rounded-corners)
              ("\C-c y t s a" . helm-tcolorbox-sidebyside-align)
+             ("\C-c y t t h" . helm-tcolorbox-text-halign)
+             ("\C-c y t t v" . helm-tcolorbox-text-valign)
              ("\C-c y T" . YaTeX-typeset-menu)
              ("\C-c y x f" . my-tex-filename-replace)
              ("\C-c y x k" . helm-tex-kijutsu-insert-include)
@@ -660,10 +708,22 @@
     "\C-c y p g" "PGF設定"
     "SPC y t" "tcolorbox"
     "\C-c y t" "tcolorbox"
+    "SPC y t c" "corners"
+    "\C-c y t c" "corners"
+    "SPC y t c s" "sharp corners"
+    "\C-c y t c s" "sharp corners"
+    "SPC y t c r" "rounded corners"
+    "\C-c y t c r" "rounded corners"
     "SPC y t s" "sidebyside"
     "\C-c y t s" "sidebyside"
     "SPC y t s a" "align"
     "\C-c y t s a" "align"
+    "SPC y t t" "text"
+    "\C-c y t t" "text"
+    "SPC y t t h" "halign"
+    "\C-c y t t h" "halign"
+    "SPC y t t v" "valign"
+    "\C-c y t t v" "valign"
     "SPC y T" "TeX Typeset"
     "\C-c y T" "TeX Typeset"
     "SPC y x" "TeXソース編集"
