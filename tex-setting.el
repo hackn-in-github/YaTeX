@@ -1,12 +1,12 @@
-  (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
-  (setq auto-mode-alist
-        (append '(("\\.tex$" . yatex-mode)
-                  ("\\.ltx$" . yatex-mode)
-                  ("\\.cls$" . yatex-mode)
-                  ("\\.sty$" . yatex-mode)
-                  ("\\.clo$" . yatex-mode)
-                  ("\\.bbl$" . yatex-mode)) auto-mode-alist))
-  (setq	tex-command "/usr/local/bin/ptex2pdf -l -u"
+(autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
+(setq auto-mode-alist
+      (append '(("\\.tex$" . yatex-mode)
+                ("\\.ltx$" . yatex-mode)
+                ("\\.cls$" . yatex-mode)
+                ("\\.sty$" . yatex-mode)
+                ("\\.clo$" . yatex-mode)
+                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
+(setq	tex-command "/usr/local/bin/ptex2pdf -l -u"
         dvi2-command "/usr/bin/evince"
         tex-pdfview-command "evince"
         YaTeX-dvi2-command-ext-alist '(("evince\\|okular\\|zathura\\|qpdfview\\|pdfopen\\|xdg-open\\|open\\|start" . ".pdf"))
@@ -32,52 +32,52 @@
         YaTeX-japan t
 ;;        YaTeX-help-file $doc-directory/../../site-lisp/YATEXHLP.ja
         )
-  (fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
-  (fset 'YaTeX-intelligent-newline-centerenum* 'YaTeX-intelligent-newline-itemize)
+(fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
+(fset 'YaTeX-intelligent-newline-centerenum* 'YaTeX-intelligent-newline-itemize)
 (defun YaTeX-intelligent-newline-hlist ()
   "Insert '\\hitem '."
   (insert "\\hitem ")
   (YaTeX-indent-line))
 ;;  (fset 'YaTeX-intelligent-newline-hlist 'YaTeX-intelligent-newline-itemize)
-  (setq
-   YaTeX-math-sign-alist-private
-   '(
-     ("q"         "Q"          "(Q)")
-     ("z"         "Z"          "ZZ")
-     ("t""text""text")
-     ("qu"        "quad"         "__")
-     ("qq"        "qquad"         "____")
-     ("ls"        "varlimsup"     "___\nlim")
-     ("li"        "varliminf"     "lim\n---")
-     ("il"        "varinjlim"     "lim\n-->")
-     ("pl"        "varprojlim"    "lim\n<--")
-     ("st"        "text{ s.t. }" "s.t.")
-     ("bigop"     "bigoplus"      "_\n(+)~")
-     ("bigot"     "bigotimes"     "_\n(x)\n ~")
-     ))
-  (require 'dbus)
-  (defun un-urlify (fname-or-url)
-    "A trivial function that replaces a prefix of file:/// with just /."
-    (if (string= (substring fname-or-url 0 8) "file:///")
-        (substring fname-or-url 7)
-      fname-or-url))
+(setq
+ YaTeX-math-sign-alist-private
+ '(
+   ("q"         "Q"          "(Q)")
+   ("z"         "Z"          "ZZ")
+   ("t""text""text")
+   ("qu"        "quad"         "__")
+   ("qq"        "qquad"         "____")
+   ("ls"        "varlimsup"     "___\nlim")
+   ("li"        "varliminf"     "lim\n---")
+   ("il"        "varinjlim"     "lim\n-->")
+   ("pl"        "varprojlim"    "lim\n<--")
+   ("st"        "text{ s.t. }" "s.t.")
+   ("bigop"     "bigoplus"      "_\n(+)~")
+   ("bigot"     "bigotimes"     "_\n(x)\n ~")
+   ))
+(require 'dbus)
+(defun un-urlify (fname-or-url)
+  "A trivial function that replaces a prefix of file:/// with just /."
+  (if (string= (substring fname-or-url 0 8) "file:///")
+      (substring fname-or-url 7)
+    fname-or-url))
 ;; TeX Wiki の関数の fname へのファイル名代入において
 ;; file に(decode-coding-string (url-unhex-string ) 'utf-8)を噛ませる
-  (defun evince-inverse-search (file linecol &rest ignored)
-    (let* ((fname (decode-coding-string (url-unhex-string (un-urlify file)) 'utf-8))
-           (buf (find-file fname))
-           (line (car linecol))
-           (col (cadr linecol)))
-      (if (null buf)
-          (message "[Synctex]: %s is not opened..." fname)
-        (switch-to-buffer buf)
-        (goto-line (car linecol))
-        (unless (= col -1)
-          (move-to-column col)))))
-  (dbus-register-signal
-   :session nil "/org/gnome/evince/Window/0"
-   "org.gnome.evince.Window" "SyncSource"
-   'evince-inverse-search)
+(defun evince-inverse-search (file linecol &rest ignored)
+  (let* ((fname (decode-coding-string (url-unhex-string (un-urlify file)) 'utf-8))
+         (buf (find-file fname))
+         (line (car linecol))
+         (col (cadr linecol)))
+    (if (null buf)
+        (message "[Synctex]: %s is not opened..." fname)
+      (switch-to-buffer buf)
+      (goto-line (car linecol))
+      (unless (= col -1)
+        (move-to-column col)))))
+(dbus-register-signal
+ :session nil "/org/gnome/evince/Window/0"
+ "org.gnome.evince.Window" "SyncSource"
+ 'evince-inverse-search)
 ;; forward-serach は YaTeX で対応:平文においてC-c C-g
 ;; 01/08/2016 広瀬さん御本人が YaTeX-preview-junp-line を訂正してくださる．
 ;; 訂正内容:yatexprc.elの
@@ -187,38 +187,38 @@
 ;;        ;;改行位置の設定
 ;;        fill-column 100);;default70以下[反映されず]
 ;; TeXのテンプレートを読み込みfilenameを現在のBuffer名に置き換える
-  (defun my-tex-filename-replace ()
-    (interactive)
-    (progn (goto-char 0)
-           (insert-file-contents "~/Templates/template.tex")
-           (goto-char 0)
-           (perform-replace "filename"
-                            (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
-                            nil nil nil)
-           (re-search-backward "pdftitle={" nil t)
-           (goto-char (match-end 0))))
+(defun my-tex-filename-replace ()
+  (interactive)
+  (progn (goto-char 0)
+         (insert-file-contents "~/Templates/template.tex")
+         (goto-char 0)
+         (perform-replace "filename"
+                          (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                          nil nil nil)
+         (re-search-backward "pdftitle={" nil t)
+         (goto-char (match-end 0))))
 ;; 記述の問題 include
-  (defun my-tex-kijutsu-insert-include ()
-    (interactive)
-    (let ((term (read-string "ターム等: " "前期"))
-          (preposition (read-string "前置詞: "))
-          (max (read-number "問題数: "))
-          (no 0))
-      (while (> max no)
-        (progn (setq no (+ no 1))
-               (insert (concat "\\HeadNumber"
-                               (if (= no 1)
-                                   "*")
-                               "\n\\include{"
-                               term "/"
+(defun my-tex-kijutsu-insert-include ()
+  (interactive)
+  (let ((term (read-string "ターム等: " "前期"))
+        (preposition (read-string "前置詞: "))
+        (max (read-number "問題数: "))
+        (no 0))
+    (while (> max no)
+      (progn (setq no (+ no 1))
+             (insert (concat "\\HeadNumber"
+                             (if (= no 1)
+                                 "*")
+                             "\n\\include{"
+                             term "/"
 ;;			     (cond ((= termno 1) "中期/")
 ;;				   ((= termno 2) "後期/")
 ;;				   (t "前期/"))
 ;;			     (if (> (length preposition) 0)
 ;;				 (concat preposition "-"))
-                               preposition
-                               (number-to-string no)
-                               "}\n"))))))
+                             preposition
+                             (number-to-string no)
+                             "}\n"))))))
 ;; my-tex-kijutsu-iinsert-include の helm 版
 (defun helm-tex-kijutsu-insert-include ()
   (interactive)
@@ -324,15 +324,15 @@
   (helm :sources '(helm-tikz-line-cap--source)
         :buffer "*helm [TikZ] Line Cap*"))
 ;; TikzのLine Joinの選択
-  (defun my-tikz-line-join ()
-    (interactive)
-    (progn (message "0:round 1:bevel 2:miter(default)")
-           (let ((chr (read-char)))
-             (insert (concat "line join="
-                             (cond ((char-equal chr ?0) "round")
-                                   ((char-equal chr ?1) "bevel")
-                                   ((char-equal chr ?2) "miter")
-                                   (t "error")))))))
+(defun my-tikz-line-join ()
+  (interactive)
+  (progn (message "0:round 1:bevel 2:miter(default)")
+         (let ((chr (read-char)))
+           (insert (concat "line join="
+                           (cond ((char-equal chr ?0) "round")
+                                 ((char-equal chr ?1) "bevel")
+                                 ((char-equal chr ?2) "miter")
+                                 (t "error")))))))
 ;; my-tikz-line-join の helm 版
 (defvar helm-tikz-line-join--source
   (helm-build-sync-source "[TikZ] Line Join"
@@ -346,24 +346,24 @@
   (helm :sources '(helm-tikz-line-join--source)
         :buffer "*helm [TikZ] Line Join*"))
 ;; TikzのDash Patternの選択
-  (defun my-tikz-line-dash ()
-    (interactive)
-    (let ((chr1)
-          (chr2)
-          (op1)
-          (op2))
-      (progn (message "0:dotted 1:dashed 2:dash dot 3:dash dot dot")
-             (setq chr1 (read-char)
-                   op1 (cond ((char-equal chr1 ?0) "dotted")
-                             ((char-equal chr1 ?1) "dashed")
-                             ((char-equal chr1 ?2) "dash dot")
-                             ((char-equal chr1 ?3) "dash dot dot")))
-             (message "0:normal 1:densely 2:loosely")
-             (setq chr2 (read-char)
-                   op2 (cond ((char-equal chr2 ?0) "")
-                             ((char-equal chr2 ?1) "densely ")
-                             ((char-equal chr2 ?2) "loosely ")))
-             (insert (concat op2 op1)))))
+(defun my-tikz-line-dash ()
+  (interactive)
+  (let ((chr1)
+        (chr2)
+        (op1)
+        (op2))
+    (progn (message "0:dotted 1:dashed 2:dash dot 3:dash dot dot")
+           (setq chr1 (read-char)
+                 op1 (cond ((char-equal chr1 ?0) "dotted")
+                           ((char-equal chr1 ?1) "dashed")
+                           ((char-equal chr1 ?2) "dash dot")
+                           ((char-equal chr1 ?3) "dash dot dot")))
+           (message "0:normal 1:densely 2:loosely")
+           (setq chr2 (read-char)
+                 op2 (cond ((char-equal chr2 ?0) "")
+                           ((char-equal chr2 ?1) "densely ")
+                           ((char-equal chr2 ?2) "loosely ")))
+           (insert (concat op2 op1)))))
 ;; my-tikz-line-dash の helm 版
 (defvar helm-tikz-line-dash-gap--source
   (helm-build-sync-source "[TikZ] Dashline Gap"
@@ -400,16 +400,16 @@
 ;;         (helm :sources '(helm-tikz-line-dash-type--source)
 ;;               :buffer "*helm TikZ Dashline Type*")))
 ;; TikZのdoubleの設定
-  (defun my-tikz-line-double ()
-    (interactive)
-    (let ((double "double")
-          (distance (read-string "内側のラインの間隔(.6pt): "))
-          (linecenterdis (read-string "2本の線の中央間の間隔: ")))
-      (insert (concat double
-                      (if (> (length distance) 0)
-                          (concat ",double distance=" distance))
-                      (if (> (length linecenterdis) 0)
-                          (concat ",double distance between line centers=" linecenterdis))))))
+(defun my-tikz-line-double ()
+  (interactive)
+  (let ((double "double")
+        (distance (read-string "内側のラインの間隔(.6pt): "))
+        (linecenterdis (read-string "2本の線の中央間の間隔: ")))
+    (insert (concat double
+                    (if (> (length distance) 0)
+                        (concat ",double distance=" distance))
+                    (if (> (length linecenterdis) 0)
+                        (concat ",double distance between line centers=" linecenterdis))))))
 ;; my-tikz-line-double の helm 版
 (defvar helm-tikz-line-double-type--source
   (helm-build-sync-source "[TikZ] Line Double Type"
@@ -423,31 +423,31 @@
                :buffer "*helm [TikZ] Line Double Types*")))
 ;; TikZのcolor指定
 ;; red、green、blue、cyan、magenta、yellow、black、gray、white、darkgray、lightgray、brown、lime、olive、orange、pink、purple、teal、violet
-  (defun my-tikz-color ()
-    (interactive)
-    (let ((chr))
-      (progn (message "0:red 1:green 2:blue 3:cyan 4:magenta 5:yellow 6:black 7:gray 8:white 9:darkgray a:lightgray b:brown c:lime d:olive e:orange f:pink g:purple h:teal i:violet")
-             (setq chr (read-char))
-             (insert (cond ((char-equal chr ?0) "red")
-                           ((char-equal chr ?1) "green")
-                           ((char-equal chr ?2) "blue")
-                           ((char-equal chr ?3) "cyan")
-                           ((char-equal chr ?4) "magenta")
-                           ((char-equal chr ?5) "yellow")
-                           ((char-equal chr ?6) "black")
-                           ((char-equal chr ?7) "gray")
-                           ((char-equal chr ?8) "white")
-                           ((char-equal chr ?9) "darkgray")
-                           ((char-equal chr ?a) "lightgray")
-                           ((char-equal chr ?b) "brown")
-                           ((char-equal chr ?c) "lime")
-                           ((char-equal chr ?d) "olive")
-                           ((char-equal chr ?e) "orange")
-                           ((char-equal chr ?f) "pink")
-                           ((char-equal chr ?g) "purple")
-                           ((char-equal chr ?h) "teal")
-                           ((char-equal chr ?i) "violet")
-                           (t "error"))))))
+(defun my-tikz-color ()
+  (interactive)
+  (let ((chr))
+    (progn (message "0:red 1:green 2:blue 3:cyan 4:magenta 5:yellow 6:black 7:gray 8:white 9:darkgray a:lightgray b:brown c:lime d:olive e:orange f:pink g:purple h:teal i:violet")
+           (setq chr (read-char))
+           (insert (cond ((char-equal chr ?0) "red")
+                         ((char-equal chr ?1) "green")
+                         ((char-equal chr ?2) "blue")
+                         ((char-equal chr ?3) "cyan")
+                         ((char-equal chr ?4) "magenta")
+                         ((char-equal chr ?5) "yellow")
+                         ((char-equal chr ?6) "black")
+                         ((char-equal chr ?7) "gray")
+                         ((char-equal chr ?8) "white")
+                         ((char-equal chr ?9) "darkgray")
+                         ((char-equal chr ?a) "lightgray")
+                         ((char-equal chr ?b) "brown")
+                         ((char-equal chr ?c) "lime")
+                         ((char-equal chr ?d) "olive")
+                         ((char-equal chr ?e) "orange")
+                         ((char-equal chr ?f) "pink")
+                         ((char-equal chr ?g) "purple")
+                         ((char-equal chr ?h) "teal")
+                         ((char-equal chr ?i) "violet")
+                         (t "error"))))))
 ;; my-tikz-color の helm 版
 (defvar helm-tikz-colors--source
   (helm-build-sync-source "[TikZ] color"
@@ -459,94 +459,94 @@
   (interactive)
   (helm :sources '(helm-tikz-colors--source) :buffer "*helm [TikZ] color*"))
 ;; TikZ \foreach の remember オプション
-  (defun my-tikz-foreach-remember ()
-    (interactive)
-    (insert (concat "remember="
-                    (read-string "変数: " "\\P")
-                    " as "
-                    (read-string "変数を格納する制御綴: " "\\lastP")
-                    " (initially "
-                    (read-string "制御綴の初期値: " "A")
-                    ")")))
+(defun my-tikz-foreach-remember ()
+  (interactive)
+  (insert (concat "remember="
+                  (read-string "変数: " "\\P")
+                  " as "
+                  (read-string "変数を格納する制御綴: " "\\lastP")
+                  " (initially "
+                  (read-string "制御綴の初期値: " "A")
+                  ")")))
 ;; TikZ \foreach の evaluate オプション
-  (defun my-tikz-foreach-evaluate ()
-    (interactive)
-    (insert (concat "evaluate="
-                    (read-string "変数: " "\\x")
-                    (if (y-or-n-p "変数を展開したものを別に使用しますか?: ")
-                        (concat " as "
-                                (read-string "変数を展開したものを格納する制御綴: " "\\xeval"))))))
+(defun my-tikz-foreach-evaluate ()
+  (interactive)
+  (insert (concat "evaluate="
+                  (read-string "変数: " "\\x")
+                  (if (y-or-n-p "変数を展開したものを別に使用しますか?: ")
+                      (concat " as "
+                              (read-string "変数を展開したものを格納する制御綴: " "\\xeval"))))))
 ;; TikZ plot のオプション
-  (defun my-tikz-plot-main-option ()
-    (interactive)
-    (let ((domain (concat (read-string "start domain(-5): " "\\xmin")
-                          ":"
-                          (read-string "end domain(5): " "\\xmax")))
-          (samples (read-string "samples(25): "))
-          (variable (read-string "variable(\\x): ")))
-      (insert (concat "domain="
-                      domain
-                      (if (> (length samples) 0)
-                          (concat ",samples="
-                                  samples))
-                      (if (> (length variable) 0)
-                          (concat ",variable="
-                                  variable))))))
+(defun my-tikz-plot-main-option ()
+  (interactive)
+  (let ((domain (concat (read-string "start domain(-5): " "\\xmin")
+                        ":"
+                        (read-string "end domain(5): " "\\xmax")))
+        (samples (read-string "samples(25): "))
+        (variable (read-string "variable(\\x): ")))
+    (insert (concat "domain="
+                    domain
+                    (if (> (length samples) 0)
+                        (concat ",samples="
+                                samples))
+                    (if (> (length variable) 0)
+                        (concat ",variable="
+                                variable))))))
 ;; TikZ opacity の group 指定
-  (defun my-tikz-transparency-group ()
-    (interactive)
-    (insert "\\begin{scope}[transparency group]\n\t\n\t\\end{scope}"))
+(defun my-tikz-transparency-group ()
+  (interactive)
+  (insert "\\begin{scope}[transparency group]\n\t\n\t\\end{scope}"))
 ;; TikZ decoration brace の指定
-  (defun my-tikz-decoration-brace ()
-    (interactive)
-    (insert (concat "decorate,decoration={brace"
-                    (if (y-or-n-p "use mirror option?: ")
-                        ",mirror")
-                    (if (y-or-n-p "use raise option?: ")
-                        (concat ",raise="
-                                (read-string "raise value: ")))
-                    "}")))
+(defun my-tikz-decoration-brace ()
+  (interactive)
+  (insert (concat "decorate,decoration={brace"
+                  (if (y-or-n-p "use mirror option?: ")
+                      ",mirror")
+                  (if (y-or-n-p "use raise option?: ")
+                      (concat ",raise="
+                              (read-string "raise value: ")))
+                  "}")))
 ;; TikZ angle のオプション
-  (defun my-tikz-pic-angle ()
-    (interactive)
-    (let ((radius (read-string "radius(5mm): "))
-          (eccentricity (read-string "eccentricity(.6): ")))
-      (insert (concat (if (> (length radius) 0)
-                          (concat "angle radius="
-                                  radius
-                                  (if (> (length eccentricity) 0)
-                                      (concat ",angle eccentricity="
-                                              eccentricity)))
-                        (if (> (length eccentricity) 0)
-                            (concat "angle eccentricity="
-                                    eccentricity)))))))
+(defun my-tikz-pic-angle ()
+  (interactive)
+  (let ((radius (read-string "radius(5mm): "))
+        (eccentricity (read-string "eccentricity(.6): ")))
+    (insert (concat (if (> (length radius) 0)
+                        (concat "angle radius="
+                                radius
+                                (if (> (length eccentricity) 0)
+                                    (concat ",angle eccentricity="
+                                            eccentricity)))
+                      (if (> (length eccentricity) 0)
+                          (concat "angle eccentricity="
+                                  eccentricity)))))))
 ;; tikzpicture 環境だけをpdfにするための関数
-  (defun my-pgf-graphic-named (beg end)
-    (interactive "r")
-    (let ((figfile (read-string "figファイル名: " (file-name-sans-extension (buffer-name)))))
-      (progn (if (= beg end)
-                 ;;	       (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
-                 (insert (concat "\t\\IncludeGraphics{" figfile ".pdf}%\n"
-                                 "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n"
-                                 "\t\\endpgfgraphicnamed\n"))
-               (progn (goto-char (if (> beg end) beg end))
-                      (insert "\t\\endpgfgraphicnamed\n")
-                      (goto-char (if (> beg end) end beg))
-                      ;;		    (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
-                      (insert (concat "\t\\IncludeGraphics{" figfile ".pdf}%\n"
-                                      "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n")))))))
+(defun my-pgf-graphic-named (beg end)
+  (interactive "r")
+  (let ((figfile (read-string "figファイル名: " (file-name-sans-extension (buffer-name)))))
+    (progn (if (= beg end)
+;;	       (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
+               (insert (concat "\t\\IncludeGraphics{" figfile ".pdf}%\n"
+                               "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n"
+                               "\t\\endpgfgraphicnamed\n"))
+             (progn (goto-char (if (> beg end) beg end))
+                    (insert "\t\\endpgfgraphicnamed\n")
+                    (goto-char (if (> beg end) end beg))
+;;		    (insert (concat "\t\\includegraphics{\\PATH " figfile ".pdf}%\n"
+                    (insert (concat "\t\\IncludeGraphics{" figfile ".pdf}%\n"
+                                    "\t\\beginpgfgraphicnamed{\\PATH " figfile "}%\n")))))))
 ;; TikZ の scope 環境を clip 付きで挿入する
-  (defun my-tikz-scope-with-clip ()
-    (interactive)
-    (let ((CoordLB (read-string "左下の座標: " "LB"))
-          (CoordRT (read-string "右上の座標: " "RT"))
-          (rectangle-name (read-string "矩形範囲の名前: " "frame")))
-      (insert (concat "\\begin{scope}\n"
-                      "\t\\clip"
-                      (if (> (length rectangle-name) 0)
-                          (concat "[name path global=" rectangle-name "]"))
-                      "(" CoordLB ")rectangle(" CoordRT ");%\n"
-                      "\t\\end{scope}"))))
+(defun my-tikz-scope-with-clip ()
+  (interactive)
+  (let ((CoordLB (read-string "左下の座標: " "LB"))
+        (CoordRT (read-string "右上の座標: " "RT"))
+        (rectangle-name (read-string "矩形範囲の名前: " "frame")))
+    (insert (concat "\\begin{scope}\n"
+                    "\t\\clip"
+                    (if (> (length rectangle-name) 0)
+                        (concat "[name path global=" rectangle-name "]"))
+                    "(" CoordLB ")rectangle(" CoordRT ");%\n"
+                    "\t\\end{scope}"))))
 ;; align 環境にダミーの \Longleftrightarrow または = を配置する
 (defun my-align-phantom ()
   (interactive)
@@ -623,55 +623,57 @@
              (add-hook 'before-save-hook 'replace-dot-comma nil 'make-it-local)))
 ;; http://emacs.rubikitch.com/use-package-2/
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
-  (bind-keys :map evil-motion-state-map
-             ("SPC y p g" . my-pgf-graphic-named)
-             ("SPC y t c s" . helm-tcolorbox-sharp-corners)
-             ("SPC y t c r" . helm-tcolorbox-rounded-corners)
-             ("SPC y t s a" . helm-tcolorbox-sidebyside-align)
-             ("SPC y t t h" . helm-tcolorbox-text-halign)
-             ("SPC y t t v" . helm-tcolorbox-text-valign)
-             ("SPC y T" . YaTeX-typeset-menu)
-             ("SPC y x f" . my-tex-filename-replace)
-             ("SPC y x k" . helm-tex-kijutsu-insert-include)
-             ("SPC y x m" . my-tex-mark-setting)
-             ("SPC y z c" . helm-tikz-colors)
-             ("SPC y z d b" . my-tikz-decoration-brace)
-             ("SPC y z f e" . my-tikz-foreach-evaluate)
-             ("SPC y z f p" . helm-tikz-fill-pattern)
-             ("SPC y z f r" . my-tikz-foreach-remember)
-             ("SPC y z l c" . helm-tikz-line-cap)
-             ("SPC y z l d a" . helm-tikz-line-dash)
-             ("SPC y z l d o" . helm-tikz-line-double)
-             ("SPC y z l j" . helm-tikz-line-join)
-             ("SPC y z l w" . helm-tikz-line-width)
-             ("SPC y z l w" . helm-tikz-line-width)
-             ("SPC y z n p" . my-tikz-node-polygon)
-             ("SPC y z t g" . my-tikz-transparency-group))
-  (bind-keys :map evil-insert-state-map
-             ("\C-c y p g" . my-pgf-graphic-named)
-             ("\C-c y t c s" . helm-tcolorbox-sharp-corners)
-             ("\C-c y t c r" . helm-tcolorbox-rounded-corners)
-             ("\C-c y t s a" . helm-tcolorbox-sidebyside-align)
-             ("\C-c y t t h" . helm-tcolorbox-text-halign)
-             ("\C-c y t t v" . helm-tcolorbox-text-valign)
-             ("\C-c y T" . YaTeX-typeset-menu)
-             ("\C-c y x f" . my-tex-filename-replace)
-             ("\C-c y x k" . helm-tex-kijutsu-insert-include)
-             ("\C-c y x m" . my-tex-mark-setting)
-             ("\C-c y z c" . helm-tikz-colors)
-             ("\C-c y z d b" . my-tikz-decoration-brace)
-             ("\C-c y z f e" . my-tikz-foreach-evaluate)
-             ("\C-c y z f p" . helm-tikz-fill-pattern)
-             ("\C-c y z f r" . my-tikz-foreach-remember)
-             ("\C-c y z l c" . helm-tikz-line-cap)
-             ("\C-c y z l d a" . helm-tikz-line-dash)
-             ("\C-c y z l d o" . helm-tikz-line-double)
-             ("\C-c y z l j" . helm-tikz-line-join)
-             ("\C-c y z l w" . helm-tikz-line-width)
-             ("\C-c y z n p" . my-tikz-node-polygon)
-             ("\C-c y z t g" . my-tikz-transparency-group))
-  (spacemacs/declare-prefix "h" "help/helm")
-  (spacemacs/declare-prefix "h c" "calcul")
+(bind-keys :map evil-motion-state-map
+           ("SPC y a a p" . my-align-phantom)
+           ("SPC y p g" . my-pgf-graphic-named)
+           ("SPC y t c s" . helm-tcolorbox-sharp-corners)
+           ("SPC y t c r" . helm-tcolorbox-rounded-corners)
+           ("SPC y t s a" . helm-tcolorbox-sidebyside-align)
+           ("SPC y t t h" . helm-tcolorbox-text-halign)
+           ("SPC y t t v" . helm-tcolorbox-text-valign)
+           ("SPC y T" . YaTeX-typeset-menu)
+           ("SPC y x f" . my-tex-filename-replace)
+           ("SPC y x k" . helm-tex-kijutsu-insert-include)
+           ("SPC y x m" . my-tex-mark-setting)
+           ("SPC y z c" . helm-tikz-colors)
+           ("SPC y z d b" . my-tikz-decoration-brace)
+           ("SPC y z f e" . my-tikz-foreach-evaluate)
+           ("SPC y z f p" . helm-tikz-fill-pattern)
+           ("SPC y z f r" . my-tikz-foreach-remember)
+           ("SPC y z l c" . helm-tikz-line-cap)
+           ("SPC y z l d a" . helm-tikz-line-dash)
+           ("SPC y z l d o" . helm-tikz-line-double)
+           ("SPC y z l j" . helm-tikz-line-join)
+           ("SPC y z l w" . helm-tikz-line-width)
+           ("SPC y z l w" . helm-tikz-line-width)
+           ("SPC y z n p" . my-tikz-node-polygon)
+           ("SPC y z t g" . my-tikz-transparency-group))
+(bind-keys :map evil-insert-state-map
+           ("\C-c y a a p" . my-align-phantom)
+           ("\C-c y p g" . my-pgf-graphic-named)
+           ("\C-c y t c s" . helm-tcolorbox-sharp-corners)
+           ("\C-c y t c r" . helm-tcolorbox-rounded-corners)
+           ("\C-c y t s a" . helm-tcolorbox-sidebyside-align)
+           ("\C-c y t t h" . helm-tcolorbox-text-halign)
+           ("\C-c y t t v" . helm-tcolorbox-text-valign)
+           ("\C-c y T" . YaTeX-typeset-menu)
+           ("\C-c y x f" . my-tex-filename-replace)
+           ("\C-c y x k" . helm-tex-kijutsu-insert-include)
+           ("\C-c y x m" . my-tex-mark-setting)
+           ("\C-c y z c" . helm-tikz-colors)
+           ("\C-c y z d b" . my-tikz-decoration-brace)
+           ("\C-c y z f e" . my-tikz-foreach-evaluate)
+           ("\C-c y z f p" . helm-tikz-fill-pattern)
+           ("\C-c y z f r" . my-tikz-foreach-remember)
+           ("\C-c y z l c" . helm-tikz-line-cap)
+           ("\C-c y z l d a" . helm-tikz-line-dash)
+           ("\C-c y z l d o" . helm-tikz-line-double)
+           ("\C-c y z l j" . helm-tikz-line-join)
+           ("\C-c y z l w" . helm-tikz-line-width)
+           ("\C-c y z n p" . my-tikz-node-polygon)
+           ("\C-c y z t g" . my-tikz-transparency-group))
+(spacemacs/declare-prefix "h" "help/helm")
+(spacemacs/declare-prefix "h c" "calcul")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y" "TeX用関数")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y p" "PGF関係")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y p g" "PGF設定")
@@ -698,91 +700,97 @@
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n p" "polygon")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t" "transparency")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t g" "gruop")
-  (which-key-add-major-mode-key-based-replacements
-    'yatex-mode
-    "SPC y" "TeX用関数"
-    "\C-c y" "TeX用関数"
-    "SPC y p" "PGF関数"
-    "\C-c y p" "PGF関数"
-    "SPC y p g" "PGF設定"
-    "\C-c y p g" "PGF設定"
-    "SPC y t" "tcolorbox"
-    "\C-c y t" "tcolorbox"
-    "SPC y t c" "corners"
-    "\C-c y t c" "corners"
-    "SPC y t c s" "sharp corners"
-    "\C-c y t c s" "sharp corners"
-    "SPC y t c r" "rounded corners"
-    "\C-c y t c r" "rounded corners"
-    "SPC y t s" "sidebyside"
-    "\C-c y t s" "sidebyside"
-    "SPC y t s a" "align"
-    "\C-c y t s a" "align"
-    "SPC y t t" "text"
-    "\C-c y t t" "text"
-    "SPC y t t h" "halign"
-    "\C-c y t t h" "halign"
-    "SPC y t t v" "valign"
-    "\C-c y t t v" "valign"
-    "SPC y T" "TeX Typeset"
-    "\C-c y T" "TeX Typeset"
-    "SPC y x" "TeXソース編集"
-    "\C-c y x" "TeXソース編集"
-    "SPC y x f" "ファイル初期設定"
-    "\C-c y x f" "ファイル初期設定"
-    "SPC y x k" "記述用設定"
-    "\C-c y x k" "記述用設定"
-    "SPC y x m" "マーク用設定"
-    "\C-c y x m" "マーク用設定"
-    "SPC y z" "TikZ設定"
-    "\C-c y z" "TikZ設定"
-    "SPC y z c" "colors"
-    "\C-c y z c" "colors"
-    "SPC y z d" "decoration"
-    "\C-c y z d" "decoration"
-    "SPC y z d b" "brace"
-    "\C-c y z d b" "brace"
-    "SPC y z f" "foreach/fill"
-    "\C-c y z f" "foreach/fill"
-    "SPC y z f e" "foreach evaluate"
-    "\C-c y z f e" "foreach evaluate"
-    "SPC y z f p" "fill pattern"
-    "\C-c y z f p" "fill pattern"
-    "SPC y z f r" "foreach remember"
-    "\C-c y z f r" "foreach remember"
-    "SPC y z l" "line"
-    "\C-c y z l" "line"
-    "SPC y z l c" "cap"
-    "\C-c y z l c" "cap"
-    "SPC y z l d" "dash/double"
-    "\C-c y z l d" "dash/double"
-    "SPC y z l d a" "dash"
-    "\C-c y z l d a" "dash"
-    "SPC y z l d o" "double"
-    "\C-c y z l d o" "double"
-    "SPC y z l j" "join"
-    "\C-c y z l j" "join"
-    "SPC y z l w" "width"
-    "\C-c y z l w" "width"
-    "SPC y z n" "node"
-    "\C-c y z n" "node"
-    "SPC y z n p" "polygon"
-    "\C-c y z n p" "polygon"
-    "SPC y z t" "transparency"
-    "\C-c y z t" "transparency"
-    "SPC y z t g" "group"
-    "\C-c y z t g" "group")
+(which-key-add-major-mode-key-based-replacements
+  'yatex-mode
+  "SPC y" "TeX用関数"
+  "\C-c y" "TeX用関数"
+  "SPC y a" "AMS"
+  "\C-c y a" "AMS"
+  "SPC y a a" "align環境"
+  "\C-c y a a" "align環境"
+  "SPC y a a p" "phantom"
+  "\C-c y a a p" "phantom"
+  "SPC y p" "PGF関数"
+  "\C-c y p" "PGF関数"
+  "SPC y p g" "PGF設定"
+  "\C-c y p g" "PGF設定"
+  "SPC y t" "tcolorbox"
+  "\C-c y t" "tcolorbox"
+  "SPC y t c" "corners"
+  "\C-c y t c" "corners"
+  "SPC y t c s" "sharp corners"
+  "\C-c y t c s" "sharp corners"
+  "SPC y t c r" "rounded corners"
+  "\C-c y t c r" "rounded corners"
+  "SPC y t s" "sidebyside"
+  "\C-c y t s" "sidebyside"
+  "SPC y t s a" "align"
+  "\C-c y t s a" "align"
+  "SPC y t t" "text"
+  "\C-c y t t" "text"
+  "SPC y t t h" "halign"
+  "\C-c y t t h" "halign"
+  "SPC y t t v" "valign"
+  "\C-c y t t v" "valign"
+  "SPC y T" "TeX Typeset"
+  "\C-c y T" "TeX Typeset"
+  "SPC y x" "TeXソース編集"
+  "\C-c y x" "TeXソース編集"
+  "SPC y x f" "ファイル初期設定"
+  "\C-c y x f" "ファイル初期設定"
+  "SPC y x k" "記述用設定"
+  "\C-c y x k" "記述用設定"
+  "SPC y x m" "マーク用設定"
+  "\C-c y x m" "マーク用設定"
+  "SPC y z" "TikZ設定"
+  "\C-c y z" "TikZ設定"
+  "SPC y z c" "colors"
+  "\C-c y z c" "colors"
+  "SPC y z d" "decoration"
+  "\C-c y z d" "decoration"
+  "SPC y z d b" "brace"
+  "\C-c y z d b" "brace"
+  "SPC y z f" "foreach/fill"
+  "\C-c y z f" "foreach/fill"
+  "SPC y z f e" "foreach evaluate"
+  "\C-c y z f e" "foreach evaluate"
+  "SPC y z f p" "fill pattern"
+  "\C-c y z f p" "fill pattern"
+  "SPC y z f r" "foreach remember"
+  "\C-c y z f r" "foreach remember"
+  "SPC y z l" "line"
+  "\C-c y z l" "line"
+  "SPC y z l c" "cap"
+  "\C-c y z l c" "cap"
+  "SPC y z l d" "dash/double"
+  "\C-c y z l d" "dash/double"
+  "SPC y z l d a" "dash"
+  "\C-c y z l d a" "dash"
+  "SPC y z l d o" "double"
+  "\C-c y z l d o" "double"
+  "SPC y z l j" "join"
+  "\C-c y z l j" "join"
+  "SPC y z l w" "width"
+  "\C-c y z l w" "width"
+  "SPC y z n" "node"
+  "\C-c y z n" "node"
+  "SPC y z n p" "polygon"
+  "\C-c y z n p" "polygon"
+  "SPC y z t" "transparency"
+  "\C-c y z t" "transparency"
+  "SPC y z t g" "group"
+  "\C-c y z t g" "group")
 ;Emacs YaTeX/yahtml の入力支援では helm を無効にする
 ;http://gordiustears.net/disabling-helm-on-yatex-yahtml/
-  (with-eval-after-load "helm-mode"
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-accent . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-begin-end . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-section . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-singlecmd . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-begin-end-region . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize-region . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-section-region . nil))
-    (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-change-environment . nil))
-    )
+(with-eval-after-load "helm-mode"
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-accent . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-begin-end . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-section . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-singlecmd . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-begin-end-region . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-fontsize-region . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-make-section-region . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(YaTeX-change-environment . nil))
+  )
 (provide 'tex-setting)
