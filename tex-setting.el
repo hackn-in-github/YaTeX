@@ -617,6 +617,15 @@
     (goto-char (point-min))
     (while (search-forward "、" nil t) (replace-match "，"))
     (goto-char curpos)))
+;; \label および \ref をそれぞれ \spacelabel \spaceref に変換
+(defun my-label-ref-space-add ()
+  (interactive)
+  (let ((str (read-string "\\spaceref の対象は？: " "enum")))
+    (goto-char 0)
+    (while (search-forward "\\label" nil t) (replace-match "\\\\spacelabel"))
+    (goto-char 0)
+    (while (search-forward "\\ref" nil t) (replace-match (format "\\\\spaceref{%s}" str)))
+    ))
 
 (add-hook 'yatex-mode-hook
           '(lambda ()
@@ -625,6 +634,7 @@
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
 (bind-keys :map evil-motion-state-map
            ("SPC y a a p" . my-align-phantom)
+           ("SPC y l a" . my-label-ref-space-add)
            ("SPC y p g" . my-pgf-graphic-named)
            ("SPC y t c s" . helm-tcolorbox-sharp-corners)
            ("SPC y t c r" . helm-tcolorbox-rounded-corners)
@@ -650,6 +660,7 @@
            ("SPC y z t g" . my-tikz-transparency-group))
 (bind-keys :map evil-insert-state-map
            ("\C-c y a a p" . my-align-phantom)
+           ("\C-c y l a" .my-label-ref-space-add)
            ("\C-c y p g" . my-pgf-graphic-named)
            ("\C-c y t c s" . helm-tcolorbox-sharp-corners)
            ("\C-c y t c r" . helm-tcolorbox-rounded-corners)
@@ -710,6 +721,10 @@
   "\C-c y a a" "align環境"
   "SPC y a a p" "phantom"
   "\C-c y a a p" "phantom"
+  "SPC y l" "label"
+  "\C-c y l" "label"
+  "SPC y l a" "add space"
+  "\C-c y l a" "add space"
   "SPC y p" "PGF関数"
   "\C-c y p" "PGF関数"
   "SPC y p g" "PGF設定"
