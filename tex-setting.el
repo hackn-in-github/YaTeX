@@ -660,7 +660,7 @@
            ("SPC y z t g" . my-tikz-transparency-group))
 (bind-keys :map evil-insert-state-map
            ("\C-c y a a p" . my-align-phantom)
-           ("\C-c y l a" .my-label-ref-space-add)
+           ("\C-c y l a" . my-label-ref-space-add)
            ("\C-c y p g" . my-pgf-graphic-named)
            ("\C-c y t c s" . helm-tcolorbox-sharp-corners)
            ("\C-c y t c r" . helm-tcolorbox-rounded-corners)
