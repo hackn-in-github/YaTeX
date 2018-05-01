@@ -626,6 +626,10 @@
     (goto-char 0)
     (while (search-forward "\\ref" nil t) (replace-match (format "\\\\spaceref{%s}" str)))
     ))
+;; 【証明】と\qedを挿入し行頭を揃えるため\prnindも挿入する
+(defun my-insert-shoumei ()
+  (interactive)
+  (insert "\\prnind【証明】\n\t\\qed"))
 
 (add-hook 'yatex-mode-hook
           '(lambda ()
@@ -634,6 +638,7 @@
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
 (bind-keys :map evil-motion-state-map
            ("SPC y a a p" . my-align-phantom)
+           ("SPC y i s" . my-insert-shoumei)
            ("SPC y l a" . my-label-ref-space-add)
            ("SPC y p g" . my-pgf-graphic-named)
            ("SPC y t c s" . helm-tcolorbox-sharp-corners)
@@ -660,6 +665,7 @@
            ("SPC y z t g" . my-tikz-transparency-group))
 (bind-keys :map evil-insert-state-map
            ("\C-c y a a p" . my-align-phantom)
+           ("\C-c y i s" . my-insert-shoumei)
            ("\C-c y l a" . my-label-ref-space-add)
            ("\C-c y p g" . my-pgf-graphic-named)
            ("\C-c y t c s" . helm-tcolorbox-sharp-corners)
@@ -721,6 +727,10 @@
   "\C-c y a a" "align環境"
   "SPC y a a p" "phantom"
   "\C-c y a a p" "phantom"
+  "SPC y i" "insert"
+  "\C-c y i" "insert"
+  "SPC y i s" "証明"
+  "\C-c y i s" "証明"
   "SPC y l" "label"
   "\C-c y l" "label"
   "SPC y l a" "add space"
