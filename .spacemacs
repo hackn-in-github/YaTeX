@@ -75,7 +75,10 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(exec-path-from-shell)
+   dotspacemacs-excluded-packages '(
+                                    exec-path-from-shell
+                                    latex
+                                    )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -500,7 +503,7 @@ you should place your code here."
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
                     (font-spec :family "Source Han Sans JP"
-;                               :size 13
+                               :size 13
                                :weight `light
                                :width `normal
                                :powerline-scale 1.1))
@@ -524,7 +527,7 @@ you should place your code here."
  '(migemo-coding-system (quote utf-8-unix))
  '(migemo-command "cmigemo")
  '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
- '(migemo-options (quote ("-q" "--emacs" "-i" "")))
+ '(migemo-options (quote ("-q" "--emacs")))
  '(migemo-regex-dictionary nil)
  '(migemo-user-dictionary nil)
  '(next-line-add-newlines nil)
