@@ -1,4 +1,7 @@
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
+(with-eval-after-load 'yatexhks
+  (require 'for-emath-macro)
+  (require 'for-original-macro))
 (setq auto-mode-alist
       (append '(("\\.tex$" . yatex-mode)
                 ("\\.ltx$" . yatex-mode)
