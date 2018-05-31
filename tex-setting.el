@@ -31,7 +31,7 @@
 ;;	YaTeX-ref-default-label-string (buffer-file-name)
         YaTeX-use-AMS-LaTeX t;align環境が数式モードのになるはず
         YaTeX-electric-indent-mode t;emacs24.4以降に必要
-;        YaTeX-on-the-fly-preview-interval nil;[prefix] t e で即時プレビューを行わない
+        YaTeX-on-the-fly-preview-interval nil;[prefix] t e で即時プレビューを行わない
         YaTeX-japan t
 ;;        YaTeX-help-file $doc-directory/../../site-lisp/YATEXHLP.ja
         )
@@ -636,23 +636,38 @@
 ;; 括弧類の挿入
 (defun my-insert-parens (beg end)
   (interactive "r")
-  (let ((lrflag (if (y-or-n-p "user \\left and \\right?: ") 1 0))
-        (pchar)
-        (paren))
-    (progn (message "p:paren() r:bracket[] b:brace\\{\\} n:none")
-           (setq pchar (read-char))
-           (goto-char (if (> beg end) beg end))
-           (insert (concat (if (> lrflag 0) "\\right")
-                           (cond ((char-equal pchar ?p) ")")
-                                 ((char-equal pchar ?r) "]")
-                                 ((char-equal pchar ?b) "\\}")
-                                 (t))))
-           (goto-char (if (> beg end) end beg))
-           (insert (concat (if (> lrflag 0) "\\left")
-                           (cond ((char-equal pchar ?p) "(")
-                                 ((char-equal pchar ?r) "[")
-                                 ((char-equal pchar ?b) "\\{")
-                                 (t)))))))
+  (let ((lrflag (if (y-or-n-p "use \\left & \\right?: ") t nil)))
+    (helm :sources (helm-build-sync-source "[MY] insert parens"
+          :candidates `(("grouping `{ & }'" . "g")
+                        ("parens `( & )'" . "p")
+                        ("braces `\{ & \}'" . "b")
+                        ("brackets `[ & ]'" . "r")
+                        ("l & r angle `\\langle & \\rangle'" . "a")
+                        ("l & r floor `\\lfloor & \\rfloor'" . "f")
+                        ("l & r ceil `\\lceil & \\rceil'" . "c")
+                        ("none" . "n"))
+          :migemo t
+          :action (lambda (candidates)
+                    (progn (goto-char (if (> beg end) beg end))
+                           (insert (concat (if lrflag "\\right")
+                                           (cond ((string= candidates "g") "}")
+                                                 ((string= candidates "p") ")")
+                                                 ((string= candidates "b") "\\}")
+                                                 ((string= candidates "r") "]")
+                                                 ((string= candidates "a") "\\rangle")
+                                                 ((string= candidates "f") "\\rfloor")
+                                                 ((string= candidates "c") "\\rceil")
+                                                 (t ""))))
+                           (goto-char (if (> beg end) end beg))
+                           (insert (concat (if lrflag "\\left")
+                                           (cond ((string= candidates "g") "{")
+                                                 ((string= candidates "p") "(")
+                                                 ((string= candidates "b") "\\{")
+                                                 ((string= candidates "r") "[")
+                                                 ((string= candidates "a") "\\langle")
+                                                 ((string= candidates "f") "\\lfloor")
+                                                 ((string= candidates "c") "\\lceil")
+                                                 (t ""))))))))))
 
 (add-hook 'yatex-mode-hook
           '(lambda ()
