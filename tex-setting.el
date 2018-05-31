@@ -633,6 +633,26 @@
 (defun my-insert-shoumei ()
   (interactive)
   (insert "\\prnind【証明】\n\t\\qed"))
+;; 括弧類の挿入
+(defun my-insert-parens (beg end)
+  (interactive "r")
+  (let ((lrflag (if (y-or-n-p "user \\left and \\right?: ") 1 0))
+        (pchar)
+        (paren))
+    (progn (message "p:paren() r:bracket[] b:brace\\{\\} n:none")
+           (setq pchar (read-char))
+           (goto-char (if (> beg end) beg end))
+           (insert (concat (if (> lrflag 0) "\\right")
+                           (cond ((char-equal pchar ?p) ")")
+                                 ((char-equal pchar ?r) "]")
+                                 ((char-equal pchar ?b) "\\}")
+                                 (t))))
+           (goto-char (if (> beg end) end beg))
+           (insert (concat (if (> lrflag 0) "\\left")
+                           (cond ((char-equal pchar ?p) "(")
+                                 ((char-equal pchar ?r) "[")
+                                 ((char-equal pchar ?b) "\\{")
+                                 (t)))))))
 
 (add-hook 'yatex-mode-hook
           '(lambda ()
@@ -641,6 +661,7 @@
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
 (bind-keys :map evil-motion-state-map
            ("SPC y a a p" . my-align-phantom)
+           ("SPC y i p" . my-insert-parens)
            ("SPC y i s" . my-insert-shoumei)
            ("SPC y l a" . my-label-ref-space-add)
            ("SPC y p g" . my-pgf-graphic-named)
@@ -668,6 +689,7 @@
            ("SPC y z t g" . my-tikz-transparency-group))
 (bind-keys :map evil-insert-state-map
            ("\C-c y a a p" . my-align-phantom)
+           ("\C-c y i p" . my-insert-parens)
            ("\C-c y i s" . my-insert-shoumei)
            ("\C-c y l a" . my-label-ref-space-add)
            ("\C-c y p g" . my-pgf-graphic-named)
@@ -732,6 +754,8 @@
   "\C-c y a a p" "phantom"
   "SPC y i" "insert"
   "\C-c y i" "insert"
+  "SPC y i p" "括弧類"
+  "\C-c y i p" "括弧類"
   "SPC y i s" "証明"
   "\C-c y i s" "証明"
   "SPC y l" "label"
