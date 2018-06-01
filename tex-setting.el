@@ -628,10 +628,10 @@
         :migemo t
         :action (lambda (candidates)
                   (progn (goto-char 0)
-                         (while (search-forward "\\spacelabel" nil t)
+                         (while (search-forward "\\label" nil t)
                            (replace-match "\\\\spacelabel"))
                          (goto-char 0)
-                         (while (search-forward "\\spaceref{enum}" nil t)
+                         (while (search-forward "\\ref" nil t)
                            (replace-match (format "\\\\spaceref{%s}" candidates))))))))
 ;; 【証明】と\qedを挿入し行頭を揃えるため\prnindも挿入する
 (defun my-insert-shoumei ()
