@@ -633,6 +633,10 @@
                          (goto-char 0)
                          (while (search-forward "\\ref" nil t)
                            (replace-match (format "\\\\spaceref{%s}" candidates))))))))
+;; tikz において 浮動小数点の設定を挿入する
+(defun my-pgf-fpu-sci-format-insert ()
+  (interactive)
+  (insert "\\pgfkeys{/pgf/fpu,/pgf/fpu/output format=fixed}%\n"))
 ;; 【証明】と\qedを挿入し行頭を揃えるため\prnindも挿入する
 (defun my-insert-shoumei ()
   (interactive)
@@ -680,6 +684,7 @@
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
 (bind-keys :map evil-motion-state-map
            ("SPC y a a p" . my-align-phantom)
+           ("SPC y i f" . my-pgf-fpu-sci-format-insert)
            ("SPC y i p" . my-insert-parens)
            ("SPC y i s" . my-insert-shoumei)
            ("SPC y l a" . my-label-ref-space-add)
@@ -708,6 +713,7 @@
            ("SPC y z t g" . my-tikz-transparency-group))
 (bind-keys :map evil-insert-state-map
            ("\C-c y a a p" . my-align-phantom)
+           ("\C-c y i f" . my-pgf-fpu-sci-format-insert)
            ("\C-c y i p" . my-insert-parens)
            ("\C-c y i s" . my-insert-shoumei)
            ("\C-c y l a" . my-label-ref-space-add)
@@ -773,6 +779,8 @@
   "\C-c y a a p" "phantom"
   "SPC y i" "insert"
   "\C-c y i" "insert"
+  "SPC y i f" "set PGF Floating Point Unit"
+  "\C-c y i f" "set PGF Floating Point Unit"
   "SPC y i p" "括弧類"
   "\C-c y i p" "括弧類"
   "SPC y i s" "証明"
