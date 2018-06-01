@@ -623,12 +623,16 @@
 ;; \label および \ref をそれぞれ \spacelabel \spaceref に変換
 (defun my-label-ref-space-add ()
   (interactive)
-  (let ((str (read-string "\\spaceref の対象は？: " "enum")))
-    (goto-char 0)
-    (while (search-forward "\\label" nil t) (replace-match "\\\\spacelabel"))
-    (goto-char 0)
-    (while (search-forward "\\ref" nil t) (replace-match (format "\\\\spaceref{%s}" str)))
-    ))
+  (helm :sources (helm-build-sync-source "[MY] change label & ref command in spacename env"
+        :candidates `("enum" "eq" "chapter" "section" "subsection" "subsubsection")
+        :migemo t
+        :action (lambda (candidates)
+                  (progn (goto-char 0)
+                         (while (search-forward "\\spacelabel" nil t)
+                           (replace-match "\\\\spacelabel"))
+                         (goto-char 0)
+                         (while (search-forward "\\spaceref{enum}" nil t)
+                           (replace-match (format "\\\\spaceref{%s}" candidates))))))))
 ;; 【証明】と\qedを挿入し行頭を揃えるため\prnindも挿入する
 (defun my-insert-shoumei ()
   (interactive)
