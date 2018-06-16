@@ -121,7 +121,7 @@ values."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'hybrid
+   dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -415,10 +415,10 @@ you should place your code here."
 ;; Turn off the tildes in the fringe
   (global-vi-tilde-fringe-mode -1)
 ;; insert mode でのカーソル移動
-;  (define-key evil-insert-state-map "\C-e" 'end-of-line)
-;  (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
-;  (define-key evil-insert-state-map "\C-n" 'next-line)
-;  (define-key evil-insert-state-map "\C-p" 'previous-line)
+  (define-key evil-insert-state-map "\C-e" 'end-of-line)
+  (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
+  (define-key evil-insert-state-map "\C-n" 'next-line)
+  (define-key evil-insert-state-map "\C-p" 'previous-line)
 ;; whitespace
   (global-whitespace-mode 1)
   (set-face-foreground 'whitespace-space "LightSlateGray")
