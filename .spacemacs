@@ -260,7 +260,7 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 85
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -397,7 +397,8 @@ you should place your code here."
    '(migemo-coding-system 'utf-8-unix)
    )
 ;; ウィンドウの透け透け度 0-100 (0で透け透け)
-  (set-frame-parameter nil 'alpha 80)
+;  (set-frame-parameter nil 'alpha 80)
+  (spacemacs/toggle-transparency)
 ;; japanese-holidays の設定等
   (with-eval-after-load "holidays"
     (require 'japanese-holidays)
