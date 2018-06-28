@@ -371,7 +371,7 @@ you should place your code here."
 ;;   '(line-number-mode t)
    '(make-backup-files nil)
    '(next-line-add-newlines nil)
-;;   '(show-paren-mode t)
+   '(show-paren-mode t)
 ;;   '(tool-bar-mode nil)
 ;; Emacs で全角スペース/タブ文字を可視化
 ;; http://weboo-returns.com/blog/emacs-shows-double-space-and-tab/
