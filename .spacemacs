@@ -147,12 +147,12 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          planet
-                         zenburn
-                         ujelly
-                         monokai
-                         sanityinc-tomorrow-eighties
-                         smyx
                          material
+                         smyx
+                         sanityinc-tomorrow-eighties
+                         monokai
+                         ujelly
+                         zenburn
                          spacemacs-dark
                          spacemacs-light
                          )

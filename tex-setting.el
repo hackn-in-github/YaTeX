@@ -677,6 +677,33 @@
                                                  ((string= candidates "c") "\\lceil")
                                                  (t ""))))))))))
 
+(defun my-insert-half-paren (beg end)
+  (interactive "r")
+  (helm :sources (helm-build-sync-source "[MY] insert half paren"
+                   :candidates `(("left paren `\\left( & \\right.'" . "lp")
+                                 ("right paren `\\left. & \\right)'" . "rp")
+                                 ("left brace `\\left\\{ & \\right.'" . "lb")
+                                 ("right brace `\\left. & \\right\\}'" . "rb")
+                                 ("left bracket `\\left[ & \\right.'" . "lB")
+                                 ("right bracket `\\left. & \\right]'" . "rB"))
+                   :migemo t
+                   :action (lambda (candidates)
+                             (progn (goto-char (if (> beg end) beg end))
+                                    (insert (cond ((string= candidates "lp") "\\right.")
+                                                  ((string= candidates "rp") "\\right)")
+                                                  ((string= candidates "lb") "\\right.")
+                                                  ((string= candidates "rb") "\\right\\}")
+                                                  ((string= candidates "lB") "\\right.")
+                                                  ((string= candidates "rB") "\\right]")
+                                                  (t "")))
+                                    (goto-char (if (> beg end) end beg))
+                                    (insert (cond ((string= candidates "lp") "\\left(")
+                                                  ((string= candidates "rp") "\\left.")
+                                                  ((string= candidates "lb") "\\left\\{")
+                                                  ((string= candidates "rb") "\\left.")
+                                                  ((string= candidates "lB") "\\left[")
+                                                  ((string= candidates "rB") "\\left.")
+                                                  (t ""))))))))
 (add-hook 'yatex-mode-hook
           '(lambda ()
              (add-hook 'before-save-hook 'replace-dot-comma nil 'make-it-local)))
@@ -685,6 +712,7 @@
 (bind-keys :map evil-motion-state-map
            ("SPC y a a p" . my-align-phantom)
            ("SPC y i f" . my-pgf-fpu-sci-format-insert)
+           ("SPC y i h" . my-insert-half-paren)
            ("SPC y i p" . my-insert-parens)
            ("SPC y i s" . my-insert-shoumei)
            ("SPC y l a" . my-label-ref-space-add)
@@ -714,6 +742,7 @@
 (bind-keys :map evil-insert-state-map
            ("\C-c y a a p" . my-align-phantom)
            ("\C-c y i f" . my-pgf-fpu-sci-format-insert)
+           ("\C-c y i h" . my-insert-halp-paren)
            ("\C-c y i p" . my-insert-parens)
            ("\C-c y i s" . my-insert-shoumei)
            ("\C-c y l a" . my-label-ref-space-add)
@@ -781,6 +810,8 @@
   "\C-c y i" "insert"
   "SPC y i f" "set PGF Floating Point Unit"
   "\C-c y i f" "set PGF Floating Point Unit"
+  "SPC y i h" "半括弧"
+  "\C-c y i h" "半括弧"
   "SPC y i p" "括弧類"
   "\C-c y i p" "括弧類"
   "SPC y i s" "証明"
