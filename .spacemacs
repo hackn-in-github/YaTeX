@@ -147,13 +147,13 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         planet
-                         material
-                         smyx
-                         sanityinc-tomorrow-eighties
-                         monokai
-                         ujelly
                          zenburn
+                         ujelly
+                         monokai
+                         sanityinc-tomorrow-eighties
+                         smyx
+                         material
+                         planet
                          spacemacs-dark
                          spacemacs-light
                          )
@@ -362,7 +362,13 @@ you should place your code here."
   (require 'my-setting)
   (require 'migemo)
   (require 'avy-migemo)
+;;  (add-hook 'dired-load-hook (lambda () (load "dired-x")))
   (custom-set-variables
+   '(dired-garbage-files-regexp
+     (concat (regexp-opt
+              '(".log" ".toc" ".dvi" ".bak" ".orig" ".rej" ".aux" ".out" ".synctex.gz"
+                ".ans" ".gnuplot" ".table" "texput.pdf" "texput.tex"))
+             "\\'"))
    '(cal-tex-diary t)
 ;;   '(column-number-mode t)
    '(diary-list-include-blanks t)
