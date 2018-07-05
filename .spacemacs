@@ -347,7 +347,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 ;;  (add-to-load-path "/site-lisp")
 ;;; 日本語環境設定
-  (set-language-environment "utf-8")
+  (set-language-environment 'utf-8)
+;;dired文字コードの設定
   )
 
 (defun dotspacemacs/user-config ()
@@ -362,13 +363,17 @@ you should place your code here."
   (require 'my-setting)
   (require 'migemo)
   (require 'avy-migemo)
-;;  (add-hook 'dired-load-hook (lambda () (load "dired-x")))
+  (add-hook 'dired-load-hook (lambda () (load "dired-x")))
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat (regexp-opt
               '(".log" ".toc" ".dvi" ".bak" ".orig" ".rej" ".aux" ".out" ".synctex.gz"
                 ".ans" ".gnuplot" ".table" "texput.pdf" "texput.tex"))
              "\\'"))
+; default は nil
+; top:トップレベルのディレクトリのみ確認しサブディレクトリは確認無しで削除する
+; always:確認無しで削除を行う
+   '(dired-recursive-deletes 'top)
    '(cal-tex-diary t)
 ;;   '(column-number-mode t)
    '(diary-list-include-blanks t)
@@ -493,9 +498,13 @@ you should place your code here."
   (bind-keys :map evil-motion-state-map
              ("SPC s o" . helm-occur)
              ("SPC h c" . helm-calcul-expression)
+             ("SPC a D" . find-dired)
              :map evil-insert-state-map
              ("\C-c s o" . helm-occur)
-             ("\C-c h c" . helm-calcul-expression))
+             ("\C-c h c" . helm-calcul-expression)
+             ("\C-c a D" . find-dired)
+             )
+  (spacemacs/declare-prefix "a D" "find-dired")
 ; iedit で V で toggle visibility of lines with no occurrence を使えるようにする
   (fset 'iedit-toggle-unmatched-lines-visible 'iedit-show/hide-unmatched-lines)
 ; バグとして報告されている件だったので https://github.com/syl20bnr/spacemacs/issues/7999
