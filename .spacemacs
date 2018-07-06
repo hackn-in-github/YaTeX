@@ -369,8 +369,10 @@ you should place your code here."
   (require 'avy-migemo)
   (custom-set-variables
    '(dired-garbage-files-regexp
-     (concat "\\(_[de][0-9]+\.\\(pdf\\|xbb\\|eps\\|pl\\|dta\\)\\|\\(\\.\\(toc\\|bak\\|orig\\|rej\\|aux\\|log\\|out\\|ans\\|dvi\\|gnuplot\\|table\\|texput\\.pdf\\|texput\\.tex\\|synctex\\.gz\\)\\)\\)"
-                 "\\'"))
+     (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
+             (regexp-opt '("toc" "bak" "orig" "rej" "aux" "log" "out" "ans" "dvi"
+                           "gnuplot" "table" "texput.pdf" "texput.tex" "synctex.gz") t) "\\)"
+                           "\\'"))
 ;;   '(dired-garbage-files-regexp
 ;;     (concat (regexp-opt
 ;;              '(".log" ".toc" ".dvi" ".bak" ".orig" ".rej" ".aux" ".out" ".synctex.gz"
