@@ -348,7 +348,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
 ;;  (add-to-load-path "/site-lisp")
 ;;; 日本語環境設定
   (set-language-environment 'utf-8)
-;;dired文字コードの設定
+;; dired -> dired-x
+  (add-hook 'dired-load-hook (lambda () (load "dired-x")))
+;; find-dired の文字化け対策 (find . -ls -type f では日本語が文字化けする)
+  (setq find-ls-option '("-exec ls -ldh {} +" . "-ldh"))
+;  (setq find-ls-option '("-print0 | xargs -0 ls -Flhatd --time-style=long-iso" . "-Flhatd --time-style=long-iso"))
   )
 
 (defun dotspacemacs/user-config ()
@@ -363,7 +367,6 @@ you should place your code here."
   (require 'my-setting)
   (require 'migemo)
   (require 'avy-migemo)
-  (add-hook 'dired-load-hook (lambda () (load "dired-x")))
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat (regexp-opt
