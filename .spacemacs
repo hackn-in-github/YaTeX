@@ -369,10 +369,13 @@ you should place your code here."
   (require 'avy-migemo)
   (custom-set-variables
    '(dired-garbage-files-regexp
-     (concat (regexp-opt
-              '(".log" ".toc" ".dvi" ".bak" ".orig" ".rej" ".aux" ".out" ".synctex.gz"
-                ".ans" ".gnuplot" ".table" "texput.pdf" "texput.tex"))
-             "\\'"))
+     (concat "\\(_[de][0-9]+\.\\(pdf\\|xbb\\|eps\\|pl\\|dta\\)\\|\\(\\.\\(toc\\|bak\\|orig\\|rej\\|aux\\|log\\|out\\|ans\\|dvi\\|gnuplot\\|table\\|texput\\.pdf\\|texput\\.tex\\|synctex\\.gz\\)\\)\\)"
+                 "\\'"))
+;;   '(dired-garbage-files-regexp
+;;     (concat (regexp-opt
+;;              '(".log" ".toc" ".dvi" ".bak" ".orig" ".rej" ".aux" ".out" ".synctex.gz"
+;;                ".ans" ".gnuplot" ".table" "texput.pdf" "texput.tex"))
+;;             "\\'"))
 ; default は nil
 ; top:トップレベルのディレクトリのみ確認しサブディレクトリは確認無しで削除する
 ; always:確認無しで削除を行う
