@@ -353,6 +353,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 ;; find-dired の文字化け対策 (find . -ls -type f では日本語が文字化けする)
   (setq find-ls-option '("-exec ls -ldh {} +" . "-ldh"))
 ;  (setq find-ls-option '("-print0 | xargs -0 ls -Flhatd --time-style=long-iso" . "-Flhatd --time-style=long-iso"))
+  (setq wdired-allow-to-change-permissions t)
   )
 
 (defun dotspacemacs/user-config ()
@@ -507,12 +508,20 @@ you should place your code here."
              ("SPC s o" . helm-occur)
              ("SPC h c" . helm-calcul-expression)
              ("SPC a D" . find-dired)
+             ("SPC a w" . wdired-change-to-wdired-mode)
              :map evil-insert-state-map
              ("\C-c s o" . helm-occur)
              ("\C-c h c" . helm-calcul-expression)
              ("\C-c a D" . find-dired)
+             :map dired-mode-map
+             ("\C-c a w" . wdired-change-to-wdired-mode)
              )
   (spacemacs/declare-prefix "a D" "find-dired")
+  (spacemacs/declare-prefix "a w" "change-wdired-mode")
+  (which-key-add-major-mode-key-based-replacements
+    'dired-mode
+    "\C-c a" "applications"
+    "\C-c a w" "change-wdired-mode")
 ; iedit で V で toggle visibility of lines with no occurrence を使えるようにする
   (fset 'iedit-toggle-unmatched-lines-visible 'iedit-show/hide-unmatched-lines)
 ; バグとして報告されている件だったので https://github.com/syl20bnr/spacemacs/issues/7999
