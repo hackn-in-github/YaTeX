@@ -356,7 +356,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq find-ls-option '("-exec ls -ldh {} +" . "-ldh"))
 ;  (setq find-ls-option '("-print0 | xargs -0 ls -Flhatd --time-style=long-iso" . "-Flhatd --time-style=long-iso"))
   (setq wdired-allow-to-change-permissions t)
-;; edit server 起動
+;; edit server 起動(Google Chrome 拡張の edit with emacs を使うため)
   (when (require 'edit-server nil t)
     (setq edit-server-new-frame nil);新しいフレームで開かない
     (setq edit-server-url-major-mode-alist
@@ -365,6 +365,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (with-eval-after-load 'dired
     (require 'helm-dired-history)
     (define-key dired-mode-map "," 'helm-dired-history-view))
+  (with-eval-after-load "helm"
+    (require 'tex-setting))
+  (require 'my-setting)
   )
 
 (defun dotspacemacs/user-config ()
@@ -374,11 +377,14 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (with-eval-after-load "helm"
-    (require 'tex-setting))
-  (require 'my-setting)
   (require 'migemo)
+;; initialize migemo
+  (migemo-init)
+  (with-eval-after-load "helm"
+    (helm-migemo-mode 1))
+;; avy-migemo
   (require 'avy-migemo)
+  (avy-migemo-mode 1)
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
@@ -395,16 +401,10 @@ you should place your code here."
 ; always:確認無しで削除を行う
    '(dired-recursive-deletes 'top)
    '(cal-tex-diary t)
-;;   '(column-number-mode t)
    '(diary-list-include-blanks t)
-;;   '(display-time-24hr-format t)
-;;   '(display-time-mode t)
-;;   '(inhibit-startup-screen t)
-;;   '(line-number-mode t)
    '(make-backup-files nil)
    '(next-line-add-newlines nil)
    '(show-paren-mode t)
-;;   '(tool-bar-mode nil)
 ;; Emacs で全角スペース/タブ文字を可視化
 ;; http://weboo-returns.com/blog/emacs-shows-double-space-and-tab/
    '(whitespace-style '(face
@@ -419,7 +419,7 @@ you should place your code here."
                                    (tab-mark ?\t [?\xBB?\t])))
 ;; migemo
    '(migemo-command "cmigemo")
-   '(migemo-options '("-q" "--emacs" "-i" "\a"))
+   '(migemo-options '("-q" "--emacs"))
    '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict");; system-type 'gnu/linux
 ;;   '(migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict");; system-type 'darwin
 ;;   '(migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict");; system-type 'windows-nt
@@ -465,14 +465,6 @@ you should place your code here."
   (set-face-background 'whitespace-tab "DarkSlateGray")
   (set-face-foreground 'whitespace-trailing "CornflowerBlue")
   (set-face-background 'whitespace-trailing "RoyalBlue")
-;; initialize migemo
-  (migemo-init)
-;;
-  (with-eval-after-load "helm"
-    (helm-migemo-mode 1)
-    )
-;; avy-migemo
-   (avy-migemo-mode 1)
   (setq hl-line-face 'underline)
   (global-hl-line-mode)
   (fset 'evil-visual-update-x-selection 'ignore)
