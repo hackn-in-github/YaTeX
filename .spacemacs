@@ -356,12 +356,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq find-ls-option '("-exec ls -ldh {} +" . "-ldh"))
 ;  (setq find-ls-option '("-print0 | xargs -0 ls -Flhatd --time-style=long-iso" . "-Flhatd --time-style=long-iso"))
   (setq wdired-allow-to-change-permissions t)
-;; edit server 起動(Google Chrome 拡張の edit with emacs を使うため)
-  (when (require 'edit-server nil t)
-    (setq edit-server-new-frame nil);新しいフレームで開かない
-    (setq edit-server-url-major-mode-alist
-          '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)))
-    (edit-server-start))
   (with-eval-after-load 'dired
     (require 'helm-dired-history)
     (define-key dired-mode-map "," 'helm-dired-history-view))
@@ -385,6 +379,12 @@ you should place your code here."
 ;; avy-migemo
   (require 'avy-migemo)
   (avy-migemo-mode 1)
+;; edit server 起動(Google Chrome 拡張の edit with emacs を使うため)
+  (when (require 'edit-server nil t)
+    (setq edit-server-new-frame nil);新しいフレームで開かない
+    (setq edit-server-url-major-mode-alist
+          '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)))
+    (edit-server-start))
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
