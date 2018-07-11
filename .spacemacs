@@ -380,11 +380,11 @@ you should place your code here."
   (require 'avy-migemo)
   (avy-migemo-mode 1)
 ;; edit server 起動(Google Chrome 拡張の edit with emacs を使うため)
-  (when (require 'edit-server nil t)
-    (setq edit-server-new-frame nil);新しいフレームで開かない
-    (setq edit-server-url-major-mode-alist
-          '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)))
-    (edit-server-start))
+  (require 'edit-server)
+  (edit-server-start)
+  (setq edit-server-new-frame nil);新しいフレームで開かない
+  (setq edit-server-url-major-mode-alist
+        '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)))
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
