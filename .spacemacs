@@ -384,7 +384,9 @@ you should place your code here."
   (edit-server-start)
   (setq edit-server-new-frame nil);新しいフレームで開かない
   (setq edit-server-url-major-mode-alist
-        '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)))
+        '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)
+          ("ja\\.stackoverflow\\.com" . markdown-mode)
+          ("oku\\.edu\\.mie-u\\.ac\\.jp" . markdown-mode)))
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
