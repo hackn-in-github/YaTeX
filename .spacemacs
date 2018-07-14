@@ -387,7 +387,8 @@ you should place your code here."
         '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)
           ("ja\\.stackoverflow\\.com" . markdown-mode)
           ("oku\\.edu\\.mie-u\\.ac\\.jp" . markdown-mode)))
-  (require 'dired-details-s)
+  (with-eval-after-load "dired"
+    (require 'dired-details-s))
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
