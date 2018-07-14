@@ -519,7 +519,7 @@ you should place your code here."
              ("\C-c h c" . helm-calcul-expression)
              ("\C-c a D" . find-dired)
              :map dired-mode-map
-             ("\C-c a w" . wdired-change-to-wdired-mode)
+             ("w" . wdired-change-to-wdired-mode)
              )
   (spacemacs/declare-prefix "a D" "find-dired")
   (spacemacs/declare-prefix "a w" "change-wdired-mode")
