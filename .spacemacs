@@ -73,6 +73,7 @@ values."
                                       avy-migemo
                                       edit-server
                                       helm-dired-history
+                                      yatex
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -291,7 +292,8 @@ values."
    ;;   :size-limit-kb 1000)
    ;; (default nil)
    dotspacemacs-line-numbers '(:relative t
-                               :disabled-for-modes dired-mode
+                               :disabled-for-modes
+                               ;;dired-mode
                                ;;doc-view-mode
                                markdown-mode
                                org-mode
@@ -433,7 +435,8 @@ you should place your code here."
    )
 ;; ウィンドウの透け透け度 0-100 (0で透け透け)
 ;  (set-frame-parameter nil 'alpha 80)
-  (spacemacs/toggle-transparency)
+;  (spacemacs/toggle-transparency)
+  (spacemacs/enable-transparency)
 ;; japanese-holidays の設定等
   (with-eval-after-load "holidays"
     (require 'japanese-holidays)
@@ -594,7 +597,7 @@ you should place your code here."
  '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (auctex evil-ediff helm-dired-history edit-server yapfify xterm-color web-mode twittering-mode tagedit smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode live-py-mode imenu-list ibuffer-projectile hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit ghub with-editor eshell-z eshell-prompt-extras esh-help engine-mode emoji-cheat-sheet-plus emmet-mode cython-mode color-identifiers-mode avy-migemo migemo anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (yatex auctex evil-ediff helm-dired-history edit-server yapfify xterm-color web-mode twittering-mode tagedit smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode live-py-mode imenu-list ibuffer-projectile hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit ghub with-editor eshell-z eshell-prompt-extras esh-help engine-mode emoji-cheat-sheet-plus emmet-mode cython-mode color-identifiers-mode avy-migemo migemo anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(show-paren-mode t)
  '(whitespace-display-mappings (quote ((space-mark 12288 [9731]) (tab-mark 9 [187 9]))))
  '(whitespace-space-regexp "\\(　+\\)")
