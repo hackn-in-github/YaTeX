@@ -358,12 +358,15 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq find-ls-option '("-exec ls -ldh {} +" . "-ldh"))
 ;  (setq find-ls-option '("-print0 | xargs -0 ls -Flhatd --time-style=long-iso" . "-Flhatd --time-style=long-iso"))
   (setq wdired-allow-to-change-permissions t)
-  (with-eval-after-load 'dired
-    (require 'helm-dired-history)
-    (define-key dired-mode-map "," 'helm-dired-history-view))
+  (with-eval-after-load 'helm-dired-history
+;    (require 'helm-dired-history)
+     (define-key dired-mode-map "," 'helm-dired-history-view))
   (with-eval-after-load "helm"
     (require 'tex-setting))
   (require 'my-setting)
+  ;; MELPA-stableを追加
+  (add-to-list 'configuration-layer--elpa-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+;  (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t);cider パッケージだけstableを使う指定
   )
 
 (defun dotspacemacs/user-config ()
@@ -373,22 +376,45 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (require 'migemo)
-;; initialize migemo
-  (migemo-init)
+  (use-package migemo
+;    :defer t
+    :config
+    (migemo-init)
+    (setq
+     migemo-command "cmigemo"
+     migemo-options '("-q" "--emacs")
+     migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict";; system-type 'gnu/linux
+;;                  migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict";; system-type 'darwin
+;;                  migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict";; system-type 'windows-nt
+     migemo-user-dictionary nil
+     migemo-regex-dictionary nil
+     migemo-coding-system 'utf-8-unix))
   (with-eval-after-load "helm"
     (helm-migemo-mode 1))
 ;; avy-migemo
-  (require 'avy-migemo)
-  (avy-migemo-mode 1)
+  (use-package avy-migemo
+;    :defer t
+    :config
+    (avy-migemo-mode 1))
+;  (require 'avy-migemo)
+;  (avy-migemo-mode 1)
 ;; edit server 起動(Google Chrome 拡張の edit with emacs を使うため)
-  (require 'edit-server)
-  (edit-server-start)
-  (setq edit-server-new-frame nil);新しいフレームで開かない
-  (setq edit-server-url-major-mode-alist
-        '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)
-          ("ja\\.stackoverflow\\.com" . markdown-mode)
-          ("oku\\.edu\\.mie-u\\.ac\\.jp" . markdown-mode)))
+  (use-package edit-server
+;    :defer t
+    :config
+    (edit-server-start)
+    (setq edit-server-new-frame nil
+          edit-server-url-major-mode-alist
+          '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)
+            ("ja\\.stackoverflow\\.com" . markdown-mode)
+            ("oku\\.edu\\.mie-u\\.ac\\.jp" . markdown-mode))))
+;  (require 'edit-server)
+;  (edit-server-start)
+;  (setq edit-server-new-frame nil);新しいフレームで開かない
+;  (setq edit-server-url-major-mode-alist
+;        '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)
+;          ("ja\\.stackoverflow\\.com" . markdown-mode)
+;          ("oku\\.edu\\.mie-u\\.ac\\.jp" . markdown-mode)))
   (with-eval-after-load "dired"
     (require 'dired-details-s))
   (custom-set-variables
@@ -423,22 +449,15 @@ you should place your code here."
    '(whitespace-trailing-regexp "\\([\x20\x3000\t]+\\)$")
    '(whitespace-display-mappings '((space-mark ?\x3000 [?\x2603])
                                    (tab-mark ?\t [?\xBB?\t])))
-;; migemo
-   '(migemo-command "cmigemo")
-   '(migemo-options '("-q" "--emacs"))
-   '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict");; system-type 'gnu/linux
-;;   '(migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict");; system-type 'darwin
-;;   '(migemo-dictionary "c:/app/cmigemo-default-win64/dict/utf-8/migemo-dict");; system-type 'windows-nt
-   '(migemo-user-dictionary nil)
-   '(migemo-regex-dictionary nil)
-   '(migemo-coding-system 'utf-8-unix)
    )
 ;; ウィンドウの透け透け度 0-100 (0で透け透け)
 ;  (set-frame-parameter nil 'alpha 80)
 ;  (spacemacs/toggle-transparency)
   (spacemacs/enable-transparency)
 ;; japanese-holidays の設定等
-  (with-eval-after-load "holidays"
+  (use-package holidays
+;    :defer t
+    :config
     (require 'japanese-holidays)
     (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
           (append japanese-holidays holiday-local-holidays holiday-other-holidays)
@@ -476,15 +495,13 @@ you should place your code here."
   (global-hl-line-mode)
   (fset 'evil-visual-update-x-selection 'ignore)
 ;; latex in org mode
-  (require 'ox-latex)
-;; pdf process = lualatex
-  (setq org-latex-pdf-process '("lualatex %f"))
-;; default class = jsarticle
-  (setq org-latex-default-class "bxjsreport")
+  (use-package ox-latex
+;    :defer t
+    :config
 ;; org-latex-classes
-  (add-to-list 'org-latex-classes
-               '("bxjsreport"
-                 "\\documentclass[a4j,lualatex,ja=standard,magstyle=nomag*]{bxjsreport}\n
+    (add-to-list 'org-latex-classes
+                 '("bxjsreport"
+                   "\\documentclass[a4j,lualatex,ja=standard,magstyle=nomag*]{bxjsreport}\n
                 [NO-DEFAULT-PACKAGES]
                 %\\setpagelayout{margin=20mm}\n
                 \\setmainjfont[BoldFont=SourceHanSerifJP-Bold]{SourceHanSerifJP-Light}\n
@@ -492,21 +509,21 @@ you should place your code here."
                 \\setmonofont{SourceCodePro-Light}\n
                 \\usepackage{hyperref}\n
                  [PACKAGES] [EXTRA]"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
-                 ))
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 ;; org-export-latex-no-toc
-  (defun org-export-latex-no-toc (depth)
-    (when depth
-      (format "%% Org-mode is exporting headings to %s levels.\n"
-              depth)))
-  (setq org-export-latex-format-toc-function 'org-export-latex-no-toc)
-;;  (and
-;;   (require 'centered-cursor-mode)
-;;   (global-centered-cursor-mode +1))
+    (defun org-export-latex-no-toc (depth)
+      (when depth
+        (format "%% Org-mode is exporting headings to %s levels.\n"
+                depth)))
+    (setq org-export-latex-format-toc-function 'org-export-latex-no-toc
+;; pdf process = lualatex
+          org-latex-pdf-process '("lualatex %f")
+;; default class = jsarticle
+          org-latex-default-class "bxjsreport"))
   (setq magit-repository-directories '(("~/Downloads/Github/" . 1)))
 ;;  (define-key evil-motion-state-map (kbd "SPC h c") #'helm-calcul-expression)
 ;;  (define-key evil-insert-state-map (kbd "\C-c h c") #'helm-calcul-expression)
@@ -522,16 +539,17 @@ you should place your code here."
              :map evil-insert-state-map
              ("\C-c s o" . helm-occur)
              ("\C-c h c" . helm-calcul-expression)
-             ("\C-c a D" . find-dired)
-             :map dired-mode-map
-             ("w" . wdired-change-to-wdired-mode)
-             )
-  (spacemacs/declare-prefix "a D" "find-dired")
-  (spacemacs/declare-prefix "a w" "change-wdired-mode")
-  (which-key-add-major-mode-key-based-replacements
-    'dired-mode
-    "\C-c a" "applications"
-    "\C-c a w" "change-wdired-mode")
+             ("\C-c a D" . find-dired))
+  (with-eval-after-load "dired"
+    (progn
+      (bind-keys :map dired-mode-map
+                 ("w" . wdired-change-to-wdired-mode))
+      (spacemacs/declare-prefix "a D" "find-dired")
+      (spacemacs/declare-prefix "a w" "change-wdired-mode")
+      (which-key-add-major-mode-key-based-replacements
+        'dired-mode
+        "\C-c a" "applications"
+        "\C-c a w" "change-wdired-mode")))
 ; iedit で V で toggle visibility of lines with no occurrence を使えるようにする
   (fset 'iedit-toggle-unmatched-lines-visible 'iedit-show/hide-unmatched-lines)
 ; バグとして報告されている件だったので https://github.com/syl20bnr/spacemacs/issues/7999
@@ -588,16 +606,10 @@ you should place your code here."
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(make-backup-files nil)
- '(migemo-coding-system (quote utf-8-unix))
- '(migemo-command "cmigemo")
- '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
- '(migemo-options (quote ("-q" "--emacs")))
- '(migemo-regex-dictionary nil)
- '(migemo-user-dictionary nil)
  '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (yatex auctex evil-ediff helm-dired-history edit-server yapfify xterm-color web-mode twittering-mode tagedit smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode live-py-mode imenu-list ibuffer-projectile hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit ghub with-editor eshell-z eshell-prompt-extras esh-help engine-mode emoji-cheat-sheet-plus emmet-mode cython-mode color-identifiers-mode avy-migemo migemo anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (treepy graphql yatex auctex evil-ediff helm-dired-history edit-server yapfify xterm-color web-mode twittering-mode tagedit smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode live-py-mode imenu-list ibuffer-projectile hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit ghub with-editor eshell-z eshell-prompt-extras esh-help engine-mode emoji-cheat-sheet-plus emmet-mode cython-mode color-identifiers-mode avy-migemo migemo anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(show-paren-mode t)
  '(whitespace-display-mappings (quote ((space-mark 12288 [9731]) (tab-mark 9 [187 9]))))
  '(whitespace-space-regexp "\\(　+\\)")
