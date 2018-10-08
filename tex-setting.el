@@ -2,13 +2,13 @@
 (with-eval-after-load 'yatexhks
   (require 'for-emath-macro)
   (require 'for-original-macro))
-(setq auto-mode-alist
-      (append '(("\\.tex$" . yatex-mode)
-                ("\\.ltx$" . yatex-mode)
-                ("\\.cls$" . yatex-mode)
-                ("\\.sty$" . yatex-mode)
-                ("\\.clo$" . yatex-mode)
-                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
+;;(setq auto-mode-alist
+;;      (append '(("\\.tex$" . yatex-mode)
+;;                ("\\.ltx$" . yatex-mode)
+;;                ("\\.cls$" . yatex-mode)
+;;                ("\\.sty$" . yatex-mode)
+;;                ("\\.clo$" . yatex-mode)
+;;                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
 (setq	tex-command "/usr/local/bin/ptex2pdf -l -u"
         dvi2-command "/usr/bin/evince"
         tex-pdfview-command "evince"
@@ -711,6 +711,8 @@
 ;;(require 'use-package);;spacemacsではすでに読みこまれているらしい
 (bind-keys :map evil-motion-state-map
            ("SPC y a a p" . my-align-phantom)
+;;           ("SPC y d a" . dired-very-clean-tex)
+;;           ("SPC y d f" . dired-clean-tex)
            ("SPC y i f" . my-pgf-fpu-sci-format-insert)
            ("SPC y i h" . my-insert-half-paren)
            ("SPC y i p" . my-insert-parens)
@@ -741,6 +743,8 @@
            ("SPC y z t g" . my-tikz-transparency-group))
 (bind-keys :map evil-insert-state-map
            ("\C-c y a a p" . my-align-phantom)
+;;           ("\C-c y d a" . dired-very-clean-tex)
+;;           ("\C-c y d f" . dired-clean-tex)
            ("\C-c y i f" . my-pgf-fpu-sci-format-insert)
            ("\C-c y i h" . my-insert-halp-paren)
            ("\C-c y i p" . my-insert-parens)
@@ -806,6 +810,12 @@
   "\C-c y a a" "align環境"
   "SPC y a a p" "phantom"
   "\C-c y a a p" "phantom"
+;;  "SPC y d" "delete aux files"
+;;  "\C-c y d" "delete aux files"
+;;  "SPC y d a" "delete all files(toc aux log dvi)"
+;;  "\C-c y d a" "delete all files(toc aux log dvi)"
+;;  "SPC y d f" "deleat files(toc aux log)"
+;;  "\C-c y d f" "deleat files(toc aux log)"
   "SPC y i" "insert"
   "\C-c y i" "insert"
   "SPC y i f" "set PGF Floating Point Unit"

@@ -358,7 +358,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil unicode symbols are displayed in the mode line.
    ;; If you use Emacs as a daemon and wants unicode characters only in GUI set
    ;; the value to quoted `display-graphic-p'. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
@@ -443,7 +443,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%b@%m@%Z"
+   dotspacemacs-frame-title-format "buffer : %b [%m mode] top of %p"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -488,6 +488,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
               (normal-top-level-add-subdirs-to-load-path))))))
   (add-to-load-path "/private/local")
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (setq auto-mode-alist
+        (append '(("\\.tex$" . yatex-mode)
+                  ("\\.ltx$" . yatex-mode)
+                  ("\\.cls$" . yatex-mode)
+                  ("\\.sty$" . yatex-mode)
+                  ("\\.clo$" . yatex-mode)
+                  ("\\.bbl$" . yatex-mode)) auto-mode-alist))
 ;;  (add-to-load-path "/site-lisp")
 ;;; 日本語環境設定
   (set-language-environment 'utf-8)
@@ -498,6 +505,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (with-eval-after-load 'helm-dired-history
 ;    (require 'helm-dired-history)
      (define-key dired-mode-map "," 'helm-dired-history-view))
+  (with-eval-after-load "helm"
+    (require 'tex-setting))
 ;; MELPA-stableを追加
 ;  (add-to-list 'configuration-layer--elpa-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 ;  (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t);cider パッケージだけstableを使う指定
@@ -510,8 +519,6 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
   ;; dired -> dired-x
   (add-hook 'dired-load-hook (lambda () (load "dired-x")))
-  (with-eval-after-load "helm"
-    (require 'tex-setting))
   (require 'my-setting)
   )
 
