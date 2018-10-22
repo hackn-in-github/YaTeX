@@ -74,6 +74,7 @@ values."
                                       edit-server
                                       helm-dired-history
                                       yatex
+                                      japanese-holidays
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -609,7 +610,7 @@ you should place your code here."
  '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (treepy graphql yatex auctex evil-ediff helm-dired-history edit-server yapfify xterm-color web-mode twittering-mode tagedit smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode live-py-mode imenu-list ibuffer-projectile hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit ghub with-editor eshell-z eshell-prompt-extras esh-help engine-mode emoji-cheat-sheet-plus emmet-mode cython-mode color-identifiers-mode avy-migemo migemo anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (japanese-holidays treepy graphql yatex auctex evil-ediff helm-dired-history edit-server yapfify xterm-color web-mode twittering-mode tagedit smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode live-py-mode imenu-list ibuffer-projectile hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit ghub with-editor eshell-z eshell-prompt-extras esh-help engine-mode emoji-cheat-sheet-plus emmet-mode cython-mode color-identifiers-mode avy-migemo migemo anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(show-paren-mode t)
  '(whitespace-display-mappings (quote ((space-mark 12288 [9731]) (tab-mark 9 [187 9]))))
  '(whitespace-space-regexp "\\(　+\\)")
@@ -621,3 +622,49 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F")))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(cal-tex-diary t)
+ '(diary-list-include-blanks t)
+ '(dired-garbage-files-regexp
+   (concat "\\(_[de][0-9]+."
+           (regexp-opt
+            (quote
+             ("pdf" "xbb" "eps" "pl" "dta"))
+            t)
+           "\\|\\."
+           (regexp-opt
+            (quote
+             ("toc" "bak" "orig" "rej" "aux" "log" "out" "ans" "dvi" "gnuplot" "table" "texput.pdf" "texput.tex" "synctex.gz"))
+            t)
+           "\\)" "\\'"))
+ '(dired-recursive-deletes (quote top))
+ '(display-time-24hr-format t)
+ '(display-time-mode t)
+ '(make-backup-files nil)
+ '(next-line-add-newlines nil)
+ '(package-selected-packages
+   (quote
+    (zenburn-theme web-beautify ujelly-theme symon string-inflection spaceline-all-the-icons smyx-theme prettier-js planet-theme pippel pipenv password-generator overseer org-brain nameless monokai-theme material-theme magithub ghub+ apiwrap magit-svn importmagic epc ctable concurrent deferred impatient-mode simple-httpd helm-xref helm-purpose window-purpose helm-git-grep gitignore-templates git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter evil-org evil-lion evil-goggles evil-cleverparens paredit emojify editorconfig doom-modeline eldoc-eval shrink-path all-the-icons memoize diff-hl counsel-projectile counsel swiper ivy color-theme-sanityinc-tomorrow centered-cursor-mode browse-at-remote font-lock+ dotenv-mode treepy graphql yatex auctex evil-ediff helm-dired-history edit-server yapfify xterm-color web-mode twittering-mode tagedit smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls lua-mode live-py-mode imenu-list ibuffer-projectile hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-css-scss haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md evil-magit magit magit-popup git-commit ghub with-editor eshell-z eshell-prompt-extras esh-help engine-mode emoji-cheat-sheet-plus emmet-mode cython-mode color-identifiers-mode avy-migemo migemo anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+ '(show-paren-mode t)
+ '(whitespace-display-mappings (quote ((space-mark 12288 [9731]) (tab-mark 9 [187 9]))))
+ '(whitespace-space-regexp "\\(　+\\)")
+ '(whitespace-style (quote (face trailing tabs tab-mark spaces space-mark)))
+ '(whitespace-trailing-regexp "\\([ 　	]+\\)$"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F")))))
+)
