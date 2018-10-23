@@ -362,8 +362,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (with-eval-after-load 'helm-dired-history
 ;    (require 'helm-dired-history)
      (define-key dired-mode-map "," 'helm-dired-history-view))
-  (with-eval-after-load "helm"
-    (require 'tex-setting))
   (require 'my-setting)
   ;; MELPA-stableを追加
   (add-to-list 'configuration-layer--elpa-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
@@ -377,6 +375,11 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+;;  (with-eval-after-load "helm"
+;;    (require 'tex-setting))
+  (use-package helm
+    :config
+    (require 'tex-setting))
   (use-package migemo
 ;    :defer t
     :config

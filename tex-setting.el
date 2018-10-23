@@ -2,13 +2,13 @@
 (with-eval-after-load 'yatexhks
   (require 'for-emath-macro)
   (require 'for-original-macro))
-;;(setq auto-mode-alist
-;;      (append '(("\\.tex$" . yatex-mode)
-;;                ("\\.ltx$" . yatex-mode)
-;;                ("\\.cls$" . yatex-mode)
-;;                ("\\.sty$" . yatex-mode)
-;;                ("\\.clo$" . yatex-mode)
-;;                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
+(setq auto-mode-alist
+      (append '(("\\.tex$" . yatex-mode)
+                ("\\.ltx$" . yatex-mode)
+                ("\\.cls$" . yatex-mode)
+                ("\\.sty$" . yatex-mode)
+                ("\\.clo$" . yatex-mode)
+                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
 (setq	tex-command "/usr/local/bin/ptex2pdf -l -u"
         dvi2-command "/usr/bin/evince"
         tex-pdfview-command "evince"
