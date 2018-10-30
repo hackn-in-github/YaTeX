@@ -383,9 +383,9 @@ It should only modify the values of Spacemacs settings."
                                          :disabled-for-modes
                                          ;;dired-mode
                                          ;;doc-view-mode
-                                         ;;markdown-mode
-                                         ;;org-mode
-                                         ;;pdf-view-mode
+                                         markdown-mode
+                                         org-mode
+                                         pdf-view-mode
                                          ;;text-mode
                                          :size-limit-kb 1000)
 
@@ -480,6 +480,15 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+;  (setq-default display-line-numbers 'relative
+;                display-line-numbers-type 'visual
+;                display-line-numbers-current-absolute t
+;                display-line-numbers-width 4
+;                display-line-numbers-widen t)
+  (setq display-line-numbers-width 4)
+  (add-hook 'yatex-mode-hook #'display-line-numbers-mode)
+  ;;  (add-hook 'text-mode-hook #'display-line-numbers-mode)
+  ;;  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (defun add-to-load-path (&rest paths)
     (let (path)
       (dolist (path paths paths)
@@ -520,13 +529,6 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq-default display-line-numbers 'relative
-                display-line-numbers-type 'visual
-                display-line-numbers-current-absolute t
-                display-line-numbers-width 4
-                display-line-numbers-widen t)
-  (add-hook 'text-mode-hook #'display-line-numbers-mode)
-  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (use-package helm
     :config
     (require 'tex-setting))
