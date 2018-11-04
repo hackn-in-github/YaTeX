@@ -487,6 +487,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 ;                display-line-numbers-widen t)
   (setq display-line-numbers-width 4)
   (add-hook 'yatex-mode-hook #'display-line-numbers-mode)
+  (add-hook 'dired-mode-hook #'display-line-numbers-mode)
   ;;  (add-hook 'text-mode-hook #'display-line-numbers-mode)
   ;;  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (defun add-to-load-path (&rest paths)
