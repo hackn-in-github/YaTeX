@@ -29,8 +29,8 @@
       "\C-c a" "applications"
       "\C-c a w" "change-wdired-mode")))
 ; vim-surround の設定
-(evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
-(evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
+;(evil-define-key 'visual evil-surround-mode-map "s" #'evil-substitute)
+;(evil-define-key 'visual evil-surround-mode-map "S" #'evil-surround-region)
 ; TeX 関係の設定
 (bind-keys :map evil-motion-state-map
            ("SPC y a a p" . my-align-phantom)

@@ -52,7 +52,7 @@ This function should only modify configuration layer settings."
      imenu-list
      lua
      markdown
-     multiple-cursors
+     (multiple-cursors :variables multiple-cursors-backend 'evil-mc)
      neotree
      org
      python
