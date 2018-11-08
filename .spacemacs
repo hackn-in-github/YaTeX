@@ -530,6 +530,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (require 'my-keymap)
   (use-package helm
     :config
     (require 'tex-setting))
@@ -636,11 +637,6 @@ before packages are loaded."
     (add-hook 'diary-display-hook 'fancy-diary-display))
 ;; Turn off the tildes in the fringe
   (global-vi-tilde-fringe-mode -1)
-;; insert mode でのカーソル移動
-  (define-key evil-insert-state-map "\C-e" 'end-of-line)
-  (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
-  (define-key evil-insert-state-map "\C-n" 'next-line)
-  (define-key evil-insert-state-map "\C-p" 'previous-line)
 ;; whitespace
   (global-whitespace-mode 1)
   (set-face-foreground 'whitespace-space "LightSlateGray")
@@ -683,31 +679,6 @@ before packages are loaded."
 ;; default class = jsarticle
           org-latex-default-class "bxjsreport"))
   (setq magit-repository-directories '(("~/Downloads/Github/" . 1)))
-;;  (define-key evil-motion-state-map (kbd "SPC h c") #'helm-calcul-expression)
-;;  (define-key evil-insert-state-map (kbd "\C-c h c") #'helm-calcul-expression)
-;; http://emacs.rubikitch.com/bind-key/
-;;(require 'bind-key);;spacemacsではすでに読みこまれているらしい
-;;  (bind-key "SPC h c" 'helm-calcul-expression evil-motion-state-map)
-;;  (bind-key "C-c h c" 'helm-calcul-expression evil-insert-state-map)
-  (bind-keys :map evil-motion-state-map
-             ("SPC s o" . helm-occur)
-             ("SPC h c" . helm-calcul-expression)
-             ("SPC a D" . find-dired)
-             ("SPC a w" . wdired-change-to-wdired-mode)
-             :map evil-insert-state-map
-             ("\C-c s o" . helm-occur)
-             ("\C-c h c" . helm-calcul-expression)
-             ("\C-c a D" . find-dired))
-  (with-eval-after-load "dired"
-    (progn
-      (bind-keys :map dired-mode-map
-                 ("w" . wdired-change-to-wdired-mode))
-      (spacemacs/declare-prefix "a D" "find-dired")
-      (spacemacs/declare-prefix "a w" "change-wdired-mode")
-      (which-key-add-major-mode-key-based-replacements
-        'dired-mode
-        "\C-c a" "applications"
-        "\C-c a w" "change-wdired-mode")))
 ; iedit で V で toggle visibility of lines with no occurrence を使えるようにする
   (fset 'iedit-toggle-unmatched-lines-visible 'iedit-show/hide-unmatched-lines)
 ; バグとして報告されている件だったので https://github.com/syl20bnr/spacemacs/issues/7999
@@ -724,9 +695,6 @@ before packages are loaded."
           :name "ウィキペディア"
           :url "https://ja.wikipedia.org/w/index.php?search=%s")
         search-engine-alist)
-; vim-surround の設定
-  (evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
-  (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
 ; 全角かな設定
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
