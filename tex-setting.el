@@ -627,7 +627,8 @@
         :candidates `("enum" "eq" "chapter" "section" "subsection" "subsubsection")
         :migemo t
         :action (lambda (candidates)
-                  (progn (goto-char 0)
+                  (progn (setq case-fold-search nil);大文字小文字を区別する
+                         (goto-char 0)
                          (while (search-forward "\\label" nil t)
                            (replace-match "\\\\spacelabel"))
                          (goto-char 0)
