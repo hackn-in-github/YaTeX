@@ -84,6 +84,7 @@ This function should only modify configuration layer settings."
                                       helm-dired-history
                                       yatex
                                       japanese-holidays
+                                      xwidgete
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -530,6 +531,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+;; use-pacage :if 条件分岐 :command("hoge") hogeコマンドを使ったときに遅延起動する :bind(("key" . bind))
+;;            :mode("prifix" . mode) :init 初期化コードの設定 :defer tで遅延ロードの宣言 :desabled 設定の無効化
   (require 'my-keymap)
   (use-package helm
     :config
@@ -554,8 +557,6 @@ before packages are loaded."
 ;    :defer t
     :config
     (avy-migemo-mode 1))
-;  (require 'avy-migemo)
-;  (avy-migemo-mode 1)
 ;; edit server 起動(Google Chrome 拡張の edit with emacs を使うため)
   (use-package edit-server
 ;    :defer t
@@ -566,88 +567,41 @@ before packages are loaded."
           '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)
             ("ja\\.stackoverflow\\.com" . markdown-mode)
             ("oku\\.edu\\.mie-u\\.ac\\.jp" . markdown-mode))))
-;  (require 'edit-server)
-;  (edit-server-start)
-;  (setq edit-server-new-frame nil);新しいフレームで開かない
-;  (setq edit-server-url-major-mode-alist
-;        '(("kiririmode\\.hatenablog\\.jp" . markdown-mode)
-;          ("ja\\.stackoverflow\\.com" . markdown-mode)
-;          ("oku\\.edu\\.mie-u\\.ac\\.jp" . markdown-mode)))
   (use-package dired
     :bind (:map dired-mode-map
-                ("@" . revert-buffer)))
-  (custom-set-variables
-   '(dired-garbage-files-regexp
-     (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
-             (regexp-opt '("toc" "bak" "orig" "rej" "aux" "log" "out" "ans" "dvi" "nav" "snm"
-                           "gnuplot" "table" "texput.pdf" "texput.tex" "synctex.gz") t) "\\)"
-                           "\\'"))
-;;   '(dired-garbage-files-regexp
-;;     (concat (regexp-opt
-;;              '(".log" ".toc" ".dvi" ".bak" ".orig" ".rej" ".aux" ".out" ".synctex.gz"
-;;                ".ans" ".gnuplot" ".table" "texput.pdf" "texput.tex"))
-;;             "\\'"))
-; default は nil
-; top:トップレベルのディレクトリのみ確認しサブディレクトリは確認無しで削除する
-; always:確認無しで削除を行う
-   '(dired-recursive-deletes 'top)
-   '(cal-tex-diary t)
-   '(diary-list-include-blanks t)
-   '(make-backup-files nil)
-   '(next-line-add-newlines nil)
-   '(show-paren-mode t)
-;; Emacs で全角スペース/タブ文字を可視化
-;; http://weboo-returns.com/blog/emacs-shows-double-space-and-tab/
-   '(whitespace-style '(face
-                        trailing
-                        tabs
-                        tab-mark
-                        spaces
-                        space-mark))
-   '(whitespace-space-regexp "\\(\x3000+\\)")
-   '(whitespace-trailing-regexp "\\([\x20\x3000\t]+\\)$")
-   '(whitespace-display-mappings '((space-mark ?\x3000 [?\x2603])
-                                   (tab-mark ?\t [?\xBB?\t])))
-   )
-;; ウィンドウの透け透け度 0-100 (0で透け透け)
-;  (set-frame-parameter nil 'alpha 80)
-;  (spacemacs/toggle-transparency)
-  (spacemacs/enable-transparency)
+                ("@" . revert-buffer))
+    :config (setq dired-garbage-files-regexp
+                  (concat "\\(_[de][0-9]+\."
+                          (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
+                          (regexp-opt '("toc" "bak" "orig" "rej" "aux" "log" "out" "ans" "dvi" "nav" "snm"
+                                        "gnuplot" "table" "texput.pdf" "texput.tex" "synctex.gz") t) "\\)"
+                                        "\\'")
+                  dired-recursive-deletes 'top))
+   (use-package python
+     :config
+     (setq python-shell-interpreter "python3"))
 ;; japanese-holidays の設定等
-  (use-package holidays
+   (use-package holidays
 ;    :defer t
-    :config
-    (require 'japanese-holidays)
-    (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
-          (append japanese-holidays holiday-local-holidays holiday-other-holidays)
-          mark-holidays-in-calendar t ; 祝日をカレンダーに表示
+     :config
+     (require 'japanese-holidays)
+     (setq calendar-holidays ; 他の国の祝日も表示させたい場合は適当に調整
+           (append japanese-holidays holiday-local-holidays holiday-other-holidays)
+           mark-holidays-in-calendar t ; 祝日をカレンダーに表示
 ;; 土曜日・日曜日を祝日として表示する場合、以下の設定を追加します。
 ;; 変数はデフォルトで設定済み
-          japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
-          japanese-holiday-weekend-marker     ; 土曜日を水色で表示
-          '(holiday nil nil nil nil nil japanese-holiday-saturday))
-    (add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
-    (add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
+           japanese-holiday-weekend '(0 6)     ; 土日を祝日として表示
+           japanese-holiday-weekend-marker     ; 土曜日を水色で表示
+           '(holiday nil nil nil nil nil japanese-holiday-saturday))
+     (add-hook 'calendar-today-visible-hook 'japanese-holiday-mark-weekend)
+     (add-hook 'calendar-today-invisible-hook 'japanese-holiday-mark-weekend)
 ;; “きょう”をマークするには以下の設定を追加します。
-    (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
+     (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 ;; diaryの設定
-    (add-hook 'list-diary-entries-hook 'include-other-diary-files)
-    (add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
+     (add-hook 'list-diary-entries-hook 'include-other-diary-files)
+     (add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
 ;;装飾日誌表示
-    (add-hook 'diary-display-hook 'fancy-diary-display))
-;; Turn off the tildes in the fringe
-  (global-vi-tilde-fringe-mode -1)
-;; whitespace
-  (global-whitespace-mode 1)
-  (set-face-foreground 'whitespace-space "LightSlateGray")
-  (set-face-background 'whitespace-space "DarkSlateGray")
-  (set-face-foreground 'whitespace-tab "LightSlateGray")
-  (set-face-background 'whitespace-tab "DarkSlateGray")
-  (set-face-foreground 'whitespace-trailing "CornflowerBlue")
-  (set-face-background 'whitespace-trailing "RoyalBlue")
-  (setq hl-line-face 'underline)
-  (global-hl-line-mode)
-  (fset 'evil-visual-update-x-selection 'ignore)
+     (add-hook 'diary-display-hook 'fancy-diary-display))
 ;; latex in org mode
   (use-package ox-latex
 ;    :defer t
@@ -678,6 +632,40 @@ before packages are loaded."
           org-latex-pdf-process '("lualatex %f")
 ;; default class = jsarticle
           org-latex-default-class "bxjsreport"))
+  (custom-set-variables
+   '(cal-tex-diary t)
+   '(diary-list-include-blanks t)
+   '(make-backup-files nil)
+   '(next-line-add-newlines nil)
+   '(show-paren-mode t)
+;; Emacs で全角スペース/タブ文字を可視化
+;; http://weboo-returns.com/blog/emacs-shows-double-space-and-tab/
+   '(whitespace-style '(face
+                        trailing
+                        tabs
+                        tab-mark
+                        spaces
+                        space-mark))
+   '(whitespace-space-regexp "\\(\x3000+\\)")
+   '(whitespace-trailing-regexp "\\([\x20\x3000\t]+\\)$")
+   '(whitespace-display-mappings '((space-mark ?\x3000 [?\x2603])
+                                   (tab-mark ?\t [?\xBB?\t])))
+   )
+;; スケスケon
+  (spacemacs/enable-transparency)
+;; Turn off the tildes in the fringe
+  (global-vi-tilde-fringe-mode -1)
+;; whitespace
+  (global-whitespace-mode 1)
+  (set-face-foreground 'whitespace-space "LightSlateGray")
+  (set-face-background 'whitespace-space "DarkSlateGray")
+  (set-face-foreground 'whitespace-tab "LightSlateGray")
+  (set-face-background 'whitespace-tab "DarkSlateGray")
+  (set-face-foreground 'whitespace-trailing "CornflowerBlue")
+  (set-face-background 'whitespace-trailing "RoyalBlue")
+  (setq hl-line-face 'underline)
+  (global-hl-line-mode)
+  (fset 'evil-visual-update-x-selection 'ignore)
   (setq magit-repository-directories '(("~/Downloads/Github/" . 1)))
 ; iedit で V で toggle visibility of lines with no occurrence を使えるようにする
   (fset 'iedit-toggle-unmatched-lines-visible 'iedit-show/hide-unmatched-lines)
@@ -724,7 +712,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (zenburn-theme yatex yapfify xterm-color ws-butler winum web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen ujelly-theme twittering-mode toc-org tagedit symon string-inflection spaceline-all-the-icons spaceline powerline smyx-theme smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin planet-theme pippel pipenv pip-requirements persp-mode password-generator paradox spinner overseer orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode material-theme markdown-toc magithub markdown-mode ghub+ apiwrap magit-svn magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum live-py-mode link-hint japanese-holidays indent-guide importmagic epc ctable concurrent deferred impatient-mode simple-httpd ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose window-purpose imenu-list helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore request helm-git-grep helm-flx helm-dired-history helm-descbinds helm-css-scss helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-templates gitignore-mode github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache gh-md flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub treepy graphql with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emojify ht emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig edit-server dumb-jump doom-modeline eldoc-eval shrink-path all-the-icons memoize diff-hl define-word cython-mode counsel-projectile projectile counsel swiper ivy pkg-info epl column-enforce-mode color-theme-sanityinc-tomorrow color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote avy-migemo migemo auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
+    (xwidgete zenburn-theme yatex yapfify xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ujelly-theme twittering-mode toc-org tagedit symon string-inflection spaceline-all-the-icons smyx-theme smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin planet-theme pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode material-theme markdown-toc magithub magit-svn magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum live-py-mode link-hint japanese-holidays indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-dired-history helm-descbinds helm-css-scss helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig edit-server dumb-jump dotenv-mode doom-modeline diminish diff-hl define-word cython-mode counsel-projectile column-enforce-mode color-theme-sanityinc-tomorrow color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote avy-migemo auto-highlight-symbol auto-compile anaconda-mode aggressive-indent ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
