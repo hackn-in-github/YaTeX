@@ -52,7 +52,7 @@ This function should only modify configuration layer settings."
      imenu-list
      lua
      markdown
-     multiple-cursors
+     (multiple-cursors :variables multiple-cursors-backend 'evil-mc)
      neotree
      org
      python
@@ -84,6 +84,7 @@ This function should only modify configuration layer settings."
                                       helm-dired-history
                                       yatex
                                       japanese-holidays
+                                      xwidgete
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -530,6 +531,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+;; use-pacage :if 条件分岐 :command("hoge") hogeコマンドを使ったときに遅延起動する :bind(("key" . bind))
+;;            :mode("prifix" . mode) :init 初期化コードの設定 :defer tで遅延ロードの宣言 :desabled 設定の無効化
   (require 'my-keymap)
   (use-package helm
     :config
@@ -576,6 +579,9 @@ before packages are loaded."
   (use-package dired
     :bind (:map dired-mode-map
                 ("@" . revert-buffer)))
+   (use-package python
+     :config
+     (setq python-shell-interpreter "python3"))
   (custom-set-variables
    '(dired-garbage-files-regexp
      (concat "\\(_[de][0-9]+\." (regexp-opt '("pdf" "xbb" "eps" "pl" "dta") t) "\\|\\."
@@ -695,6 +701,10 @@ before packages are loaded."
           :name "ウィキペディア"
           :url "https://ja.wikipedia.org/w/index.php?search=%s")
         search-engine-alist)
+  (push '(weblio-ja
+          :name "weblio 英和辞典・和英辞典"
+          :url "https://ejje.weblio.jp/content/%s")
+        search-engine-alist)
 ; 全角かな設定
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
@@ -720,7 +730,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode magit zenburn-theme yatex yapfify xterm-color ws-butler winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ujelly-theme twittering-mode toc-org tagedit symon string-inflection spaceline-all-the-icons smyx-theme smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin planet-theme pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode material-theme markdown-toc magithub magit-svn magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum live-py-mode link-hint japanese-holidays indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-dired-history helm-descbinds helm-css-scss helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig edit-server dumb-jump dotenv-mode doom-modeline diminish diff-hl define-word cython-mode counsel-projectile column-enforce-mode color-theme-sanityinc-tomorrow color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote avy-migemo auto-highlight-symbol auto-compile anaconda-mode aggressive-indent ace-window ace-link ace-jump-helm-line))))
+    (xwidgete zenburn-theme yatex yapfify xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ujelly-theme twittering-mode toc-org tagedit symon string-inflection spaceline-all-the-icons smyx-theme smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin planet-theme pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode material-theme markdown-toc magithub magit-svn magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum live-py-mode link-hint japanese-holidays indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-dired-history helm-descbinds helm-css-scss helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig edit-server dumb-jump dotenv-mode doom-modeline diminish diff-hl define-word cython-mode counsel-projectile column-enforce-mode color-theme-sanityinc-tomorrow color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote avy-migemo auto-highlight-symbol auto-compile anaconda-mode aggressive-indent ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
