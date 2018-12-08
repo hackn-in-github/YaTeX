@@ -238,10 +238,11 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
-                               :weight normal
-                               :width normal)
+   dotspacemacs-default-font '("Source Han Code JP"
+                               :size 12
+                               :weight light
+                               :width normal
+                               :powerline-scale 1.1)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -482,16 +483,21 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-;  (setq-default display-line-numbers 'relative
-;                display-line-numbers-type 'visual
-;                display-line-numbers-current-absolute t
-;                display-line-numbers-width 4
-;                display-line-numbers-widen t)
-  (setq display-line-numbers-width 4)
+;;  (setq display-line-numbers 'relative
+;;        display-line-numbers-type 'visual
+;;        display-line-numbers-current-absolute t
+;;        display-line-numbers-width 4
+;;        display-line-numbers-widen t)
+;  (setq display-line-numbers-width 4)
+;  (unless (display-graphic-p)
+;    (setq linum-relative-format "%4s\u2502"))
+;  (setq-default linum-format "%4s\u2502 "
+;                linum-relative-format "%4s\u2502 ")
+;  (setq-default display-line-numbers-format "%4d \u2502")
   (add-hook 'yatex-mode-hook #'display-line-numbers-mode)
   (add-hook 'dired-mode-hook #'display-line-numbers-mode)
-  ;;  (add-hook 'text-mode-hook #'display-line-numbers-mode)
-  ;;  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (add-hook 'text-mode-hook #'display-line-numbers-mode)
+;;  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (defun add-to-load-path (&rest paths)
     (let (path)
       (dolist (path paths paths)
@@ -693,14 +699,6 @@ before packages are loaded."
           :name "weblio 英和辞典・和英辞典"
           :url "https://ejje.weblio.jp/content/%s")
         search-engine-alist)
-; 全角かな設定
-  (set-fontset-font (frame-parameter nil 'font)
-                    'japanese-jisx0208
-                    (font-spec :family "Source Han Sans JP"
-                               :size 13
-                               :weight `light
-                               :width `normal
-                               :powerline-scale 1.1))
 ;  (setq-default dotspacemacs-line-numbers 'relative)
   )
 
@@ -718,7 +716,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (jedi auto-complete jedi-core python-environment zenburn-theme yatex yapfify xwidgete xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ujelly-theme twittering-mode toc-org tagedit symon string-inflection spaceline-all-the-icons smyx-theme smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin planet-theme pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode material-theme markdown-toc magithub magit-svn magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum live-py-mode link-hint japanese-holidays indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-dired-history helm-descbinds helm-css-scss helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig edit-server dumb-jump dotenv-mode doom-modeline diminish diff-hl define-word cython-mode counsel-projectile column-enforce-mode color-theme-sanityinc-tomorrow color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote avy-migemo auto-highlight-symbol auto-compile anaconda-mode aggressive-indent ace-window ace-link ace-jump-helm-line))))
+    (zenburn-theme yatex yapfify xwidgete xterm-color web-mode web-beautify ujelly-theme twittering-mode tagedit smyx-theme smeargle slim-mode shell-pop scss-mode sass-mode rainbow-mode rainbow-identifiers pyvenv pytest pyenv-mode py-isort pug-mode prettier-js planet-theme pippel pipenv pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-brain multi-term monokai-theme mmm-mode material-theme markdown-toc magithub markdown-mode ghub+ apiwrap magit-svn magit-gitflow magit-gh-pulls lua-mode live-py-mode jedi auto-complete jedi-core python-environment japanese-holidays importmagic epc ctable concurrent deferred impatient-mode simple-httpd ibuffer-projectile htmlize helm-pydoc helm-org-rifle helm-gitignore helm-git-grep helm-dired-history helm-css-scss haml-mode gnuplot gitignore-templates gitignore-mode github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache gh-md evil-org evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help engine-mode emojify ht emoji-cheat-sheet-plus emmet-mode edit-server diff-hl cython-mode color-theme-sanityinc-tomorrow color-identifiers-mode browse-at-remote avy-migemo migemo anaconda-mode pythonic ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org symon string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file neotree nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish define-word counsel-projectile column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
