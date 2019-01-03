@@ -545,7 +545,8 @@ before packages are loaded."
 ;; http://blog.livedoor.jp/tek_nishi/archives/9653951.html
   (spaceline-define-segment buffer-encoding-abbrev
     "The line ending convention used in the buffer."
-    (let ((buf-coding (format "%s" buffer-file-coding-system)))
+    (let ((buf-coding (replace-regexp-in-string "japanese-shift-jis\\|shift_jis" "s-jis"
+                                                (format "%s" buffer-file-coding-system))))
       (list (replace-regexp-in-string "-with-signature\\|-unix\\|-dos\\|-mac" "" buf-coding)
             (concat (and (string-match "with-signature" buf-coding) "bom")
                     (and (string-match "unix"           buf-coding) "unix")
