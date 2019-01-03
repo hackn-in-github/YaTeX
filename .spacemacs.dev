@@ -545,13 +545,15 @@ before packages are loaded."
 ;; http://blog.livedoor.jp/tek_nishi/archives/9653951.html
   (spaceline-define-segment buffer-encoding-abbrev
     "The line ending convention used in the buffer."
-    (let ((buf-coding (replace-regexp-in-string "japanese-shift-jis\\|shift_jis" "s-jis"
-                                                (format "%s" buffer-file-coding-system))))
+    (let* ((buf-coding (replace-regexp-in-string "japanese-" "" (format "%s" buffer-file-coding-system)))
+           (buf-coding (replace-regexp-in-string "-japan" "-jp" (format "%s" buf-coding)))
+           (buf-coding (replace-regexp-in-string "shift-jis\\|shift_jis" "s-jis"
+                                                (format "%s" buf-coding))))
       (list (replace-regexp-in-string "-with-signature\\|-unix\\|-dos\\|-mac" "" buf-coding)
-            (concat (and (string-match "with-signature" buf-coding) "bom")
-                    (and (string-match "unix"           buf-coding) "unix")
-                    (and (string-match "dos"            buf-coding) "dos")
-                    (and (string-match "mac"            buf-coding) "mac")
+            (concat (and (string-match "with-signature" buf-coding) "BOM")
+                    (and (string-match "unix"           buf-coding) "UNIX")
+                    (and (string-match "dos"            buf-coding) "DOS")
+                    (and (string-match "mac"            buf-coding) "MAC")
                     )))
     :separator " ")
   (require 'my-keymap)
