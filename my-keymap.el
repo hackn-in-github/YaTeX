@@ -49,6 +49,7 @@
            ("SPC y t t v" . helm-tcolorbox-text-valign)
            ("SPC y T" . YaTeX-typeset-menu)
            ("SPC y x f" . my-tex-filename-replace)
+           ("SPC y x i" . InputTeX)
            ("SPC y x k" . helm-tex-kijutsu-insert-include)
            ("SPC y x m" . my-tex-mark-setting)
            ("SPC y z c" . helm-tikz-colors)
@@ -81,6 +82,7 @@
            ("\C-c y t t v" . helm-tcolorbox-text-valign)
            ("\C-c y T" . YaTeX-typeset-menu)
            ("\C-c y x f" . my-tex-filename-replace)
+           ("\C-c y x i" . InputTeX)
            ("\C-c y x k" . helm-tex-kijutsu-insert-include)
            ("\C-c y x m" . my-tex-mark-setting)
            ("\C-c y z c" . helm-tikz-colors)
@@ -181,6 +183,8 @@
   "\C-c y x" "TeXソース編集"
   "SPC y x f" "ファイル初期設定"
   "\C-c y x f" "ファイル初期設定"
+  "SPC y x i" "TeXソース入力準備"
+  "\C-c y x i" "TeXソース入力準備"
   "SPC y x k" "記述用設定"
   "\C-c y x k" "記述用設定"
   "SPC y x m" "マーク用設定"

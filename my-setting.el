@@ -564,4 +564,18 @@
           ("WMO" "World Meteorological Organization" "世界気象機関")
           ("WTO" "World Trade Organization" "世界貿易機関")
           ))
+;(fset 'InputTeX
+;      (lambda (&optional arg)
+;        "Keyboard macro."
+;        (interactive "p")
+;        (kmacro-exec-ring-item
+;         (quote ([32 119 47 32 50 32 119 45 49 50 32 119 46 125 113 32 102 114 111 114 103 32 116 111 100 111 return
+;                     32 102 114 111 114 103 32 115 112 97 99 101 return
+;                     32 102 114 98 117 110 110 121 97 32 111 114 103 return] 0 "%d")) arg)))
+(fset 'InputTeX
+      (lambda (&optional arg)
+        "Keyboard macro."
+        (interactive "p")
+        (kmacro-exec-ring-item
+         (quote ([32 119 47 32 50 32 119 45 49 50 32 119 46 125 113] 0 "%d")) arg)))
 (provide 'my-setting)
