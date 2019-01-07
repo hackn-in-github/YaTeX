@@ -564,18 +564,20 @@
           ("WMO" "World Meteorological Organization" "世界気象機関")
           ("WTO" "World Trade Organization" "世界貿易機関")
           ))
-;(fset 'InputTeX
-;      (lambda (&optional arg)
-;        "Keyboard macro."
-;        (interactive "p")
-;        (kmacro-exec-ring-item
-;         (quote ([32 119 47 32 50 32 119 45 49 50 32 119 46 125 113 32 102 114 111 114 103 32 116 111 100 111 return
-;                     32 102 114 111 114 103 32 115 112 97 99 101 return
-;                     32 102 114 98 117 110 110 121 97 32 111 114 103 return] 0 "%d")) arg)))
-(fset 'InputTeX
-      (lambda (&optional arg)
-        "Keyboard macro."
-        (interactive "p")
-        (kmacro-exec-ring-item
-         (quote ([32 119 47 32 50 32 119 45 49 50 32 119 46 125 113] 0 "%d")) arg)))
+(defun my-get-ready-for-TeX ()
+  (interactive)
+  (let ((tmpcnt 12)
+        (filelist '(~/Documents/org/todo.org
+                    ~/Documents/org/Spacemacs-Tips.org
+                    ~/Documents/TeX/入試/2017分野詳細.org)))
+    (progn
+      (delete-other-windows)
+      (split-window-right)
+      (winum-select-window-2)
+      (split-window-below)
+      (while filelist
+        (find-file (format "%s" (car filelist)))
+        (setq filelist (cdr filelist)))
+      (enlarge-window tmpcnt)
+      (winum-select-window-1))))
 (provide 'my-setting)
