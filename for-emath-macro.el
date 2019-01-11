@@ -47,7 +47,7 @@
 ;; mapcar の存在を知ってループさせずに済む
 (defun emath-select-key-value (key title lists)
   (let* ((guidelist (mapcar 'car lists));;lists内の各々のリストに対してcarを実行して新たなリストを作成
-	 (valuelist (mapcar '(lambda (x) (nth 1 x)) lists));;mapcarの第1引数が引数をとる関数のときの処理
+	 (valuelist (mapcar #'(lambda (x) (nth 1 x)) lists));;mapcarの第1引数が引数をとる関数のときの処理
 ;; この無名関数はリストの引数を1つとりその2番目の要素を返す
 ;; すなわち valuelist は lists の要素である各々のリストに対して2番目の要素を次々と取り出して並べたリスト
 	 (emnum (emath-get-number-from-list title guidelist)))
@@ -76,7 +76,7 @@
 ;; さらにmapcarとmapconcatをつかってwhileすら必要なくなった
 (defun emath-make-guide (num guides)
   (let* ((emnum num)
-	 (emlist (mapcar '(lambda (x) (prog1 (format "%s:%s " emnum x)
+	 (emlist (mapcar #'(lambda (x) (prog1 (format "%s:%s " emnum x)
 					(setq emnum (+ emnum 1)))) guides)))
     (mapconcat 'concat emlist "")))
 ;; whileを使ってループさせずに済む
