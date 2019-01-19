@@ -2,6 +2,8 @@
 (with-eval-after-load 'yatexhks
   (require 'for-emath-macro)
   (require 'for-original-macro))
+(with-eval-after-load 'yatex
+  (setq YaTeX-item-regexp (concat (regexp-quote "\\") "\\(sub\\|bib\\|eda\\|h\\)*item")))
 (setq auto-mode-alist
       (append '(("\\.tex$" . yatex-mode)
                 ("\\.ltx$" . yatex-mode)
@@ -24,7 +26,7 @@
         YaTeX-no-begend-shortcut t;;`[prefix] b ??' のショートカットを使わず、`[prefix] b' だけで補完入力に入る (`nil')
         YaTeX-fill-prefix ""
         makeindex-command "mendex -g -s mystyle.ist "
-        YaTeX-item-regexp "\\\\\\(eda\\|h\\)*item";;-->\\\(eda\|h\)*item
+;        YaTeX-item-regexp "\\\\\\(eda\\|h\\)*item";;-->\\\(eda\|h\)*item
 ;;itemの桁揃えの時に用いる、itemの正規表現 (`"\\\\(sub\\)*item"') <--嘘つきwww
         YaTeX-create-file-prefix-g t;;`\include'などで `prefix g'した時に、ジャンプ先が存在しないファイルであってもオープンする (`nil')
         YaTeX-fill-column 120;;反映される？
