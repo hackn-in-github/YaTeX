@@ -2,19 +2,20 @@
 (with-eval-after-load 'yatexhks
   (require 'for-emath-macro)
   (require 'for-original-macro))
-(with-eval-after-load 'yatex
-  (setq YaTeX-item-regexp (concat (regexp-quote "\\") "\\(sub\\|bib\\|eda\\|h\\)*item")))
+;(with-eval-after-load 'yatex
+;  (setq YaTeX-item-regexp (concat (regexp-quote "\\") "\\(sub\\|bib\\|eda\\|h\\)*item")))
 (setq auto-mode-alist
       (append '(("\\.tex$" . yatex-mode)
                 ("\\.ltx$" . yatex-mode)
                 ("\\.cls$" . yatex-mode)
                 ("\\.sty$" . yatex-mode)
                 ("\\.clo$" . yatex-mode)
-                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
-(setq	tex-command "/usr/local/bin/ptex2pdf -l -u"
-        dvi2-command "/usr/bin/evince"
-        tex-pdfview-command "evince"
-        YaTeX-dvi2-command-ext-alist '(("evince\\|okular\\|zathura\\|qpdfview\\|pdfopen\\|xdg-open\\|open\\|start" . ".pdf"))
+                ("\\.bbl$" . yatex-mode)) auto-mode-alist)
+      tex-command "/usr/local/bin/ptex2pdf -l -u"
+      dvi2-command "/usr/bin/evince"
+      tex-pdfview-command "evince"
+      YaTeX-dvi2-command-ext-alist
+      '(("evince\\|okular\\|zathura\\|qpdfview\\|pdfopen\\|xdg-open\\|open\\|start" . ".pdf"))
 ;;	dvi2-command "/usr/local/bin/xdvi"
 ;;	dvi2-command "c:/dviout/dviout -1 dvifilename \"# lineno *\""
 ;;	yatexhks.elで実装した
@@ -26,8 +27,6 @@
         YaTeX-no-begend-shortcut t;;`[prefix] b ??' のショートカットを使わず、`[prefix] b' だけで補完入力に入る (`nil')
         YaTeX-fill-prefix ""
         makeindex-command "mendex -g -s mystyle.ist "
-;        YaTeX-item-regexp "\\\\\\(eda\\|h\\)*item";;-->\\\(eda\|h\)*item
-;;itemの桁揃えの時に用いる、itemの正規表現 (`"\\\\(sub\\)*item"') <--嘘つきwww
         YaTeX-create-file-prefix-g t;;`\include'などで `prefix g'した時に、ジャンプ先が存在しないファイルであってもオープンする (`nil')
         YaTeX-fill-column 120;;反映される？
 ;;	YaTeX-ref-default-label-string (buffer-file-name)
@@ -36,30 +35,35 @@
         YaTeX-on-the-fly-preview-interval nil;[prefix] t e で即時プレビューを行わない
         YaTeX-japan t
 ;;        YaTeX-help-file $doc-directory/../../site-lisp/YATEXHLP.ja
-        )
-(fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
-(fset 'YaTeX-intelligent-newline-centerenum* 'YaTeX-intelligent-newline-itemize)
+        YaTeX-item-regexp (concat (regexp-quote "\\") "\\(sub\\|bib\\|eda\\|h\\)*item")
+        YaTeX-math-sign-alist-private '(("q" "Q" "(Q)")
+                                        ("z" "Z" "ZZ")
+                                        ("t" "text" "text")
+                                        ("qu" "quad" "__")
+                                        ("qq" "qquad" "____")
+                                        ("ls" "varlimsup" "___\nlim")
+                                        ("li" "varliminf" "lim\n---")
+                                        ("il" "varinjlim" "lim\n-->")
+                                        ("pl" "varprojlim" "lim\n<--")
+                                        ("st" "text{ s.t. }" "s.t.")
+                                        ("bigop" "bigoplus" "_\n(+)~")
+                                        ("bigot" "bigotimes" "_\n(x)\n ~")))
+;(fset 'YaTeX-intelligent-newline-centerenum 'YaTeX-intelligent-newline-itemize)
+;(fset 'YaTeX-intelligent-newline-centerenum* 'YaTeX-intelligent-newline-itemize)
+;(fset 'YaTeX-intelligent-newline-hlist 'YaTeX-intelligent-newline-itemize)
+(defun YaTeX-intelligent-newline-centerenum ()
+  "Insert '\\item '."
+  (insert "\\item ")
+  (YaTeX-indent-line))
+(defun YaTeX-intelligent-newline-centerenum* ()
+  "Insert '\\item '."
+  (insert "\\item ")
+  (YaTeX-indent-line))
 (defun YaTeX-intelligent-newline-hlist ()
   "Insert '\\hitem '."
   (insert "\\hitem ")
   (YaTeX-indent-line))
-;;  (fset 'YaTeX-intelligent-newline-hlist 'YaTeX-intelligent-newline-itemize)
-(setq
- YaTeX-math-sign-alist-private
- '(
-   ("q"         "Q"          "(Q)")
-   ("z"         "Z"          "ZZ")
-   ("t""text""text")
-   ("qu"        "quad"         "__")
-   ("qq"        "qquad"         "____")
-   ("ls"        "varlimsup"     "___\nlim")
-   ("li"        "varliminf"     "lim\n---")
-   ("il"        "varinjlim"     "lim\n-->")
-   ("pl"        "varprojlim"    "lim\n<--")
-   ("st"        "text{ s.t. }" "s.t.")
-   ("bigop"     "bigoplus"      "_\n(+)~")
-   ("bigot"     "bigotimes"     "_\n(x)\n ~")
-   ))
+(setq )
 (require 'dbus)
 (defun un-urlify (fname-or-url)
   "A trivial function that replaces a prefix of file:/// with just /."
@@ -614,14 +618,6 @@
                           :migemo t
                           :action #'insert)
                :buffer "*helm [tcolorbox] valign*")))
-;; YaTeX でソースファイルのセーブ時に「、」を「，」に「。」を「．」に置換する
-(defun replace-dot-comma ()
-  (let ((curpos (point)))
-    (goto-char (point-min))
-    (while (search-forward "。" nil t) (replace-match "．"))
-    (goto-char (point-min))
-    (while (search-forward "、" nil t) (replace-match "，"))
-    (goto-char curpos)))
 ;; \label および \ref をそれぞれ \spacelabel \spaceref に変換
 (defun my-label-ref-space-add ()
   (interactive)
@@ -707,6 +703,14 @@
                                                   ((string= candidates "lB") "\\left[")
                                                   ((string= candidates "rB") "\\left.")
                                                   (t ""))))))))
+;; YaTeX でソースファイルのセーブ時に「、」を「，」に「。」を「．」に置換する
+(defun replace-dot-comma ()
+  (let ((curpos (point)))
+    (goto-char (point-min))
+    (while (search-forward "。" nil t) (replace-match "．"))
+    (goto-char (point-min))
+    (while (search-forward "、" nil t) (replace-match "，"))
+    (goto-char curpos)))
 (add-hook 'yatex-mode-hook
           '(lambda ()
              (add-hook 'before-save-hook 'replace-dot-comma nil 'make-it-local)))
