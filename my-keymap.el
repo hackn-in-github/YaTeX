@@ -128,6 +128,17 @@
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t" "transparency")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t g" "gruop")
 (which-key-add-major-mode-key-based-replacements
+  'web-mode
+  "SPC y h" "html"
+  "\C-c y h" "html"
+  "SPC y h a" "attribute"
+  "\C-c y h a" "attribute"
+  "SPC y h a i" "insert"
+  "\C-c y h a i" "insert"
+  "SPC y h a i d" "datetime"
+  "\C-c y h a i d" "datetime"
+  )
+(which-key-add-major-mode-key-based-replacements
   'html-mode
   "SPC y h" "html"
   "\C-c y h" "html"
