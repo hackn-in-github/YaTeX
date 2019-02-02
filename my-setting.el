@@ -580,4 +580,8 @@
         (setq filelist (cdr filelist)))
       (enlarge-window tmpcnt)
       (winum-select-window-1))))
+;; ins、del タグ等の属性 datetime の設定補助
+(defun my-html-attribute-insert-datetime ()
+  (interactive)
+  (insert (format-time-string "datetime=\"%Y-%m-%dT%H:%M+09:00\"" (current-time))))
 (provide 'my-setting)

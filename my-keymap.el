@@ -36,6 +36,7 @@
            ("SPC y a a p" . my-align-phantom)
 ;;           ("SPC y d a" . dired-very-clean-tex)
 ;;           ("SPC y d f" . dired-clean-tex)
+           ("SPC y h a i d" . my-html-attribute-insert-datetime)
            ("SPC y i f" . my-pgf-fpu-sci-format-insert)
            ("SPC y i h" . my-insert-half-paren)
            ("SPC y i p" . my-insert-parens)
@@ -69,6 +70,7 @@
            ("\C-c y a a p" . my-align-phantom)
 ;;           ("\C-c y d a" . dired-very-clean-tex)
 ;;           ("\C-c y d f" . dired-clean-tex)
+           ("\C-c y h a i d" . my-html-attribute-insert-datetime)
            ("\C-c y i f" . my-pgf-fpu-sci-format-insert)
            ("\C-c y i h" . my-insert-halp-paren)
            ("\C-c y i p" . my-insert-parens)
@@ -125,6 +127,17 @@
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z n p" "polygon")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t" "transparency")
 ;;  (spacemacs/declare-prefix-for-mode 'yatex-mode "y z t g" "gruop")
+(which-key-add-major-mode-key-based-replacements
+  'html-mode
+  "SPC y h" "html"
+  "\C-c y h" "html"
+  "SPC y h a" "attribute"
+  "\C-c y h a" "attribute"
+  "SPC y h a i" "insert"
+  "\C-c y h a i" "insert"
+  "SPC y h a i d" "datetime"
+  "\C-c y h a i d" "datetime"
+  )
 (which-key-add-major-mode-key-based-replacements
   'yatex-mode
   "SPC y" "TeX用関数"
