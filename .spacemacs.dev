@@ -532,7 +532,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump."
-  (require 'yatex)
   )
 
 (defun dotspacemacs/user-config ()
@@ -549,7 +548,7 @@ before packages are loaded."
     "The line ending convention used in the buffer."
     (let* ((buf-coding (replace-regexp-in-string "japanese-iso-8bit" "euc"
                                                  (format "%s" buffer-file-coding-system)))
-           (buf-coding (replace-regexp-in-string "iso-2022-jp" "jis" (format "%s" buf-coding)))
+           (buf-coding (replace-regexp-in-string "iso-2022\\(-7bit\\|-jp\\)*" "jis" (format "%s" buf-coding)))
            (buf-coding (replace-regexp-in-string "japanese-\\|-2004\\|-hfs\\|-jisx0213\\|-3$" ""
                                                  (format "%s" buf-coding)))
            (buf-coding (replace-regexp-in-string "-japan" "-jp" (format "%s" buf-coding)))
