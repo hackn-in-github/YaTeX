@@ -80,6 +80,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       info
                                       dbus
+                                      emmet-mode
                                       migemo
                                       avy-migemo
                                       edit-server
@@ -88,7 +89,7 @@ This function should only modify configuration layer settings."
                                       jedi
                                       xwidgete
                                       yatex
-                                      zencoding-mode
+;                                      zencoding-mode
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -232,7 +233,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator alternate :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(spacemacs :separator alternate :separator-scale 1.1)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -669,8 +670,15 @@ before packages are loaded."
   (use-package jedi
     :init (add-hook 'python-mode-hook 'jedi:setup)
     :config (setq jedi:complete-on-dot t))
-  (use-package zencoding-mode
-    :init (add-hook 'sgml-mode-hook 'zencoding-mode))
+  (use-package emmet-mode
+    :init (add-hook 'sgml-mode-hook 'emmet-mode)
+    (add-hook 'css-mode-hook  'emmet-mode)
+    (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 1)))
+    :config
+    (setq emmet-move-cursor-between-quates t)
+    (define-key emmet-mode-keymap (kbd "C-c C-j") 'emmet-expand-line))
+;;  (use-package zencoding-mode
+;;    :init (add-hook 'sgml-mode-hook 'zencoding-mode))
   (use-package sgml-mode
     :init (setq auto-mode-alist (append '(("\\.html*$" . sgml-mode)) auto-mode-alist)))
   (custom-set-variables
