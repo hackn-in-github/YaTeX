@@ -708,7 +708,8 @@ before packages are loaded."
    '(display-time-mail-string "")
    '(hl-line-face 'underline)
    '(magit-repository-directories '(("~/Downloads/Github/" . 1)))
-   )
+   '(google-translate-default-source-language "en")
+   '(google-translate-default-target-language "ja"))
 ;; 時計on
   (display-time-mode 1)
 ;; スケスケon
